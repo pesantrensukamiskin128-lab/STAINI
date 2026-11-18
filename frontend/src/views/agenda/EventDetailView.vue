@@ -76,7 +76,7 @@ async function downloadPoster() {
     // Gradient background
     const grad = ctx.createLinearGradient(0, 0, W, H)
     grad.addColorStop(0, '#1e3a8a')
-    grad.addColorStop(0.5, '#1d4ed8')
+    grad.addColorStop(0.5, '#047857')
     grad.addColorStop(1, '#0f766e')
     ctx.fillStyle = grad
     ctx.fillRect(0, 0, W, H)
@@ -202,7 +202,7 @@ async function downloadPoster() {
 
     ctx.font = '19px Arial'
     ctx.fillStyle = 'rgba(255,255,255,0.9)'
-    ctx.fillText('① Buka Aplikasi ASC   ② Tap Scan QR   ③ Konfirmasi Hadir', W / 2, sY + 34)
+    ctx.fillText('① Buka Aplikasi NURIS   ② Tap Scan QR   ③ Konfirmasi Hadir', W / 2, sY + 34)
 
     ctx.fillStyle = '#fff'
     ctx.font = 'bold 20px Arial'
@@ -223,21 +223,21 @@ async function downloadPoster() {
           const iconSize = 28
           ctx.drawImage(appIcon, W / 2 - 150, H - 45, iconSize, iconSize)
           ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'left'
-          ctx.fillText('Al-Jawami Smart Campus', W / 2 - 115, H - 35)
+          ctx.fillText('NURIS', W / 2 - 115, H - 35)
           ctx.font = '11px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.7)'
-          ctx.fillText('Sistem Informasi Akademik Terpadu', W / 2 - 115, H - 20)
+          ctx.fillText('Nurul Iman Academic Integrated System', W / 2 - 115, H - 20)
           r()
         }
         appIcon.onerror = () => {
           ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'center'
-          ctx.fillText('Al-Jawami Smart Campus — Sistem Informasi Akademik Terpadu', W / 2, H - 28)
+          ctx.fillText('NURIS - Nurul Iman Academic Integrated System', W / 2, H - 28)
           r()
         }
         appIcon.src = '/icons/pwa-192x192.png'
       })
     } catch {
       ctx.fillStyle = '#fff'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'center'
-      ctx.fillText('Al-Jawami Smart Campus — Sistem Informasi Akademik Terpadu', W / 2, H - 28)
+      ctx.fillText('NURIS - Nurul Iman Academic Integrated System', W / 2, H - 28)
     }
 
     const link = document.createElement('a')
@@ -392,7 +392,7 @@ async function downloadAttendance(format: 'excel' | 'pdf') {
               {{ posterLoading ? '⏳ Membuat...' : '📥 Download Poster QR' }}
             </button>
             <div class="mt-4 space-y-2">
-              <div v-for="(step, i) in ['Buka Aplikasi ASC', 'Tap menu Scan QR', 'Arahkan kamera ke QR']" :key="i" class="flex items-start gap-2.5 text-xs text-gray-500">
+              <div v-for="(step, i) in ['Buka Aplikasi NURIS', 'Tap menu Scan QR', 'Arahkan kamera ke QR']" :key="i" class="flex items-start gap-2.5 text-xs text-gray-500">
                 <span class="w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">{{ i + 1 }}</span>
                 <span>{{ step }}</span>
               </div>

@@ -27,7 +27,7 @@ class TwoFactorController extends Controller
         $user->save();
 
         // Generate otpauth URL for QR code
-        $issuer = config('app.name', 'SIAKAD');
+        $issuer = config('app.name', 'NURIS');
         $otpauthUrl = "otpauth://totp/{$issuer}:{$user->email}?secret={$secret}&issuer={$issuer}&digits=6&period=30";
 
         return response()->json([

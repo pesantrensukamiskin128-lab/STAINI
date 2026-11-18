@@ -313,7 +313,7 @@ async function downloadImportTemplate() {
         <p class="mt-1 text-sm text-gray-500">Kelola koleksi, sirkulasi, pengadaan, dan layanan anggota dalam satu tempat.</p>
       </div>
       <div class="flex shrink-0 flex-wrap gap-2">
-        <a href="/repository" class="rounded-xl border border-blue-200 px-4 py-2.5 text-sm font-medium text-blue-700 transition hover:bg-blue-50">Repository ASC</a>
+        <a href="/repository" class="rounded-xl border border-blue-200 px-4 py-2.5 text-sm font-medium text-blue-700 transition hover:bg-blue-50">Repository NURIS</a>
         <RouterLink to="/perpustakaan" class="rounded-xl border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50">Buka Katalog</RouterLink>
       </div>
     </header>
@@ -389,7 +389,7 @@ async function downloadImportTemplate() {
         <form class="grid gap-2 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-4" @submit.prevent="createLoan">
           <h2 class="font-semibold sm:col-span-4">Catat Peminjaman</h2>
           <input v-model="checkoutSearch" class="rounded-lg border px-3 py-2 text-sm" placeholder="Cari anggota/buku" @input="loadCheckoutOptions" />
-          <select v-model="checkoutForm.user_id" required class="rounded-lg border px-3 py-2 text-sm"><option value="" disabled>Pilih anggota ASC</option><option v-for="user in checkoutUsers" :key="user.id" :value="String(user.id)">{{ user.name }} · {{ user.role_label }}</option></select>
+          <select v-model="checkoutForm.user_id" required class="rounded-lg border px-3 py-2 text-sm"><option value="" disabled>Pilih anggota NURIS</option><option v-for="user in checkoutUsers" :key="user.id" :value="String(user.id)">{{ user.name }} · {{ user.role_label }}</option></select>
           <select v-model="checkoutForm.book_id" required class="rounded-lg border px-3 py-2 text-sm"><option value="" disabled>Pilih buku</option><option v-for="book in checkoutBooks" :key="book.id" :value="String(book.id)">{{ book.title }} · tersedia {{ book.available_copies }}</option></select>
           <button class="rounded-lg bg-blue-700 px-3 py-2 text-sm text-white">Proses Pinjam</button>
         </form>
@@ -454,7 +454,7 @@ async function downloadImportTemplate() {
           <label class="text-sm">Tahun terbit<input v-model.number="bookForm.publish_year" type="number" min="1000" class="mt-1 w-full rounded-lg border p-2" /></label>
           <label class="text-sm">Bahasa<input v-model="bookForm.language" class="mt-1 w-full rounded-lg border p-2" /></label>
           <label class="text-sm">Kategori<input v-model="bookForm.category" class="mt-1 w-full rounded-lg border p-2" /></label>
-          <label class="text-sm">ID program studi ASC<input v-model="bookForm.study_program_id" type="number" min="1" class="mt-1 w-full rounded-lg border p-2" /></label>
+          <label class="text-sm">ID program studi NURIS<input v-model="bookForm.study_program_id" type="number" min="1" class="mt-1 w-full rounded-lg border p-2" /></label>
           <label class="text-sm">Klasifikasi<input v-model="bookForm.classification" class="mt-1 w-full rounded-lg border p-2" /></label>
           <label class="text-sm">Rak<input v-model="bookForm.shelf" class="mt-1 w-full rounded-lg border p-2" /></label>
           <label class="text-sm">Akses<select v-model="bookForm.access_type" class="mt-1 w-full rounded-lg border p-2"><option value="physical">Fisik</option><option value="digital">Digital</option><option value="both">Fisik dan digital</option></select></label>

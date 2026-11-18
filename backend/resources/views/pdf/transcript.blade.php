@@ -69,7 +69,7 @@
         <tr><td>Total SKS bernilai</td><td class="value">{{ $totalCredits }}</td></tr>
         <tr><td>Indeks Prestasi Kumulatif</td><td class="value">{{ number_format((float) $ipk, 2, ',', '.') }}</td></tr>
     </table>
-    <div class="note">Catatan: Mutu = SKS x bobot nilai. Dokumen ini menampilkan seluruh nilai yang tercatat pada ASC.</div>
+    <div class="note">Catatan: Mutu = SKS x bobot nilai. Dokumen ini menampilkan seluruh nilai yang tercatat pada NURIS.</div>
 
     <div class="signature-block">
         <div class="signature-dateline">Bandung, {{ $printedAt->locale('id')->translatedFormat('d F Y') }}</div>

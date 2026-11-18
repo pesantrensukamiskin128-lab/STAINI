@@ -243,7 +243,7 @@ function tb(active: boolean | undefined): string {
   font-style: italic;
   margin: 8px 0;
 }
-.rich-text-editor .tiptap a { color: #2563eb; text-decoration: underline; }
+.rich-text-editor .tiptap a { color: #059669; text-decoration: underline; }
 .rich-text-editor .tiptap img {
   max-width: 100%;
   height: auto;

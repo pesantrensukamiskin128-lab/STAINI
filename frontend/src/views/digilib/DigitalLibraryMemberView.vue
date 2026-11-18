@@ -89,7 +89,7 @@ function selectTab(tab: typeof memberTabs[number]['id']) {
         <p class="text-sm text-gray-500">Pantau peminjaman, reservasi, dan buku favorit Anda.</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <a href="/repository" class="rounded-lg border border-blue-200 px-3 py-2 text-sm text-blue-700">Repository ASC</a>
+        <a href="/repository" class="rounded-lg border border-blue-200 px-3 py-2 text-sm text-blue-700">Repository NURIS</a>
         <RouterLink to="/perpustakaan" class="rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700">Jelajahi Katalog</RouterLink>
       </div>
     </header>

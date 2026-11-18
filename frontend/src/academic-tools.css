@@ -138,7 +138,7 @@
 .asc-tools-toolbar select:focus,
 .asc-tools-dialog select:focus,
 .asc-tools-dialog textarea:focus {
-  outline: 2px solid #2563eb;
+  outline: 2px solid #059669;
   outline-offset: 1px;
 }
 
@@ -219,13 +219,13 @@
 }
 
 .asc-tools-button-primary {
-  border-color: #2563eb;
-  background: #2563eb;
+  border-color: #059669;
+  background: #059669;
   color: #fff;
 }
 
 .asc-tools-button-primary:hover {
-  background: #1d4ed8;
+  background: #047857;
 }
 
 .asc-tools-button-success {

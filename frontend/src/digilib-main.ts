@@ -62,6 +62,6 @@ app.mount('#app')
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw-asc-v3.js', { scope: '/' }).catch((error) => {
-    console.error('ASC service worker registration failed:', error)
+    console.error('NURIS service worker registration failed:', error)
   })
 }

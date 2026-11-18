@@ -60,7 +60,7 @@ class TranscriptExport implements FromArray, ShouldAutoSize, WithEvents, WithTit
         $rows[] = ['', '', '', 'Total SKS', $totalCredits];
         $rows[] = ['', '', '', 'Total Mutu', $totalQuality];
         $rows[] = ['', '', '', 'IPK berdasarkan nilai', "=IF(E{$summaryRow}>0,E".($summaryRow + 1)."/E{$summaryRow},0)"];
-        $rows[] = ['', '', '', 'IPK tercatat di ASC', $this->recordedIpk];
+        $rows[] = ['', '', '', 'IPK tercatat di NURIS', $this->recordedIpk];
         $rows[] = [null];
         $rows[] = ['Catatan: Mutu = SKS x Bobot. IPK berdasarkan nilai dihitung otomatis dari seluruh baris nilai yang diekspor.'];
 

@@ -95,7 +95,7 @@ const typeLabel: Record<string, string> = {
   <div class="space-y-6 max-w-4xl">
     <div>
       <h1 class="text-xl font-bold text-gray-900">Integrasi LMS</h1>
-      <p class="text-sm text-gray-500 mt-0.5">Sinkronisasi data akademik dari ASC ke Learning Management System</p>
+      <p class="text-sm text-gray-500 mt-0.5">Sinkronisasi data akademik dari NURIS ke Learning Management System</p>
     </div>
 
     <div v-if="loading" class="text-center py-12 text-gray-400">Memuat...</div>
@@ -133,7 +133,7 @@ const typeLabel: Record<string, string> = {
       <!-- Sync Actions -->
       <div v-if="currentConfig?.has_token" class="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
         <h2 class="text-sm font-semibold text-gray-800 uppercase tracking-wide">Sinkronisasi Data</h2>
-        <p class="text-xs text-gray-500">Push data dari ASC ke LMS. Data yang dikirim: pengguna (mahasiswa & dosen), mata kuliah, kelas semester aktif, dan KRS yang sudah disetujui.</p>
+        <p class="text-xs text-gray-500">Push data dari NURIS ke LMS. Data yang dikirim: pengguna (mahasiswa & dosen), mata kuliah, kelas semester aktif, dan KRS yang sudah disetujui.</p>
 
         <div class="flex flex-wrap gap-3">
           <button :disabled="syncing" class="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white text-sm font-medium rounded-lg" @click="handleSyncAll">

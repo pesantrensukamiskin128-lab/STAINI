@@ -16,7 +16,7 @@ const updateSW = registerSW({
     updateSW(true)
   },
   onOfflineReady() {
-    console.log('ASC siap digunakan offline')
+    console.log('NURIS siap digunakan offline')
   },
 })
 

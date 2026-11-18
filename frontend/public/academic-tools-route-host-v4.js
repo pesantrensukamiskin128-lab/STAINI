@@ -24,7 +24,7 @@
     tokenCache.promise = fetch(apiUrl, {
       headers: { Accept: 'application/json', Authorization: ['Bearer', token].join(' ') },
     }).then(async (response) => {
-      if (!response.ok) throw new Error(`Gagal memeriksa akses ASC (HTTP ${response.status}).`)
+      if (!response.ok) throw new Error(`Gagal memeriksa akses NURIS (HTTP ${response.status}).`)
       const user = await response.json()
       const roles = user.roles ?? user.user?.roles ?? []
       const positions = user.position_codes ?? user.user?.position_codes ?? []

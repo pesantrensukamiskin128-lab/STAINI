@@ -138,6 +138,6 @@
             @endif
         </tfoot>
     </table>
-    <p class="footer">Dicetak pada {{ now()->format('d/m/Y H:i') }} WIB | Sistem Informasi Akademik Al-Jawami</p>
+    <p class="footer">Dicetak pada {{ now()->format('d/m/Y H:i') }} WIB | NURIS - Nurul Iman Academic Integrated System</p>
 </body>
 </html>

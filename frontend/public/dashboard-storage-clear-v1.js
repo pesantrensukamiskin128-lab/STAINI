@@ -23,10 +23,10 @@
     button.id = buttonId
     button.type = 'button'
     button.textContent = 'Bersihkan cache & keluar'
-    button.setAttribute('aria-label', 'Bersihkan cache dan penyimpanan ASC, lalu keluar')
+    button.setAttribute('aria-label', 'Bersihkan cache dan penyimpanan NURIS, lalu keluar')
     button.style.cssText = 'display:inline-flex;align-items:center;gap:8px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;padding:8px 12px;color:#374151;font:500 14px system-ui;cursor:pointer'
     button.addEventListener('click', async () => {
-      if (clearing || !window.confirm('Hapus cache dan seluruh penyimpanan lokal ASC di browser ini, termasuk sesi login? Anda harus masuk kembali setelahnya.')) return
+      if (clearing || !window.confirm('Hapus cache dan seluruh penyimpanan lokal NURIS di browser ini, termasuk sesi login? Anda harus masuk kembali setelahnya.')) return
       clearing = true
       button.disabled = true
       button.textContent = 'Membersihkan...'
@@ -43,7 +43,7 @@
           })
           serverLogoutSucceeded = response.ok
         } catch (error) {
-          console.warn('Sesi server ASC tidak dapat dicabut; sesi browser tetap akan dihapus.', error)
+          console.warn('Sesi server NURIS tidak dapat dicabut; sesi browser tetap akan dihapus.', error)
         }
       }
 
@@ -67,7 +67,7 @@
             })))
         }
       } catch (error) {
-        console.error('Pembersihan penyimpanan ASC gagal.', error)
+        console.error('Pembersihan penyimpanan NURIS gagal.', error)
         window.alert(error instanceof Error
           ? `Pembersihan penyimpanan gagal: ${error.message}`
           : 'Pembersihan penyimpanan gagal.')
@@ -82,7 +82,7 @@
       if (token && !serverLogoutSucceeded) {
         window.alert('Penyimpanan browser sudah dibersihkan, tetapi sesi server tidak dapat dikonfirmasi untuk dicabut. Jika sesi masih aktif di perangkat lain, hubungi administrator.')
       } else {
-        window.alert('Cache dan penyimpanan ASC sudah dibersihkan. Silakan masuk kembali.')
+        window.alert('Cache dan penyimpanan NURIS sudah dibersihkan. Silakan masuk kembali.')
       }
       window.location.assign('/login')
     })

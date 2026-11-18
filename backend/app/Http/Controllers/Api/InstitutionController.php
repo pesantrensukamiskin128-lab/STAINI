@@ -46,7 +46,7 @@ class InstitutionController extends Controller
             return response()->json([
                 'id'                => null,
                 'name'              => 'Al-Jawami Smart Campus',
-                'short_name'        => 'ASC',
+                'short_name'        => 'NURIS',
                 'legal_entity_name' => null,
                 'logo_path'         => null,
                 'logo_url'          => null,

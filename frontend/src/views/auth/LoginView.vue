@@ -78,7 +78,7 @@ function categoryColor(cat: string): string {
             </div>
             <div>
               <h1 class="text-2xl font-bold text-white tracking-tight">Al-Jawami Smart Campus</h1>
-              <p class="text-blue-200 text-sm">{{ institution.institution?.name || 'Sistem Informasi Akademik Terpadu' }}</p>
+              <p class="text-blue-200 text-sm">{{ institution.institution?.name || 'NURIS - Nurul Iman Academic Integrated System' }}</p>
             </div>
           </div>
         </div>

@@ -109,7 +109,7 @@ async function openBook(book: Book) {
 
 function requireMember() {
   if (!auth.isAuthenticated) {
-    toast.warning('Masuk dengan akun ASC untuk menggunakan layanan perpustakaan.')
+    toast.warning('Masuk dengan akun NURIS untuk menggunakan layanan perpustakaan.')
     router.push('/login')
     return false
   }
@@ -154,7 +154,7 @@ async function downloadBook(book: Book) {
     link.click()
     URL.revokeObjectURL(url)
   } catch (error: any) {
-    toast.error(error?.response?.status === 401 ? 'Masuk dengan akun ASC untuk mengakses e-book.' : 'File e-book gagal diunduh.')
+    toast.error(error?.response?.status === 401 ? 'Masuk dengan akun NURIS untuk mengakses e-book.' : 'File e-book gagal diunduh.')
   }
 }
 
@@ -181,15 +181,15 @@ async function submitProcurement() {
       <div class="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4">
         <BookOpenIcon class="h-8 w-8 text-blue-700" />
         <div>
-          <p class="font-bold text-gray-900">Digital Library ASC</p>
+          <p class="font-bold text-gray-900">Digital Library NURIS</p>
           <p class="text-xs text-gray-500">Katalog dan layanan sirkulasi perpustakaan</p>
         </div>
         <div class="flex-1" />
-        <a href="/repository" class="text-sm font-medium text-gray-600">Repository ASC</a>
+        <a href="/repository" class="text-sm font-medium text-gray-600">Repository NURIS</a>
         <RouterLink v-if="auth.isAuthenticated" to="/perpustakaan/akun" class="text-sm font-medium text-blue-700">Layanan Saya</RouterLink>
         <RouterLink v-if="auth.hasPermission('digilib.books.manage')" to="/digilib/kelola" class="text-sm font-medium text-gray-600">Kelola</RouterLink>
         <a :href="auth.isAuthenticated ? (auth.hasPermission('digilib.books.manage') ? '/digilib/kelola' : '/dashboard') : '/login'" class="rounded-lg bg-blue-700 px-3 py-2 text-sm font-medium text-white">
-          {{ auth.isAuthenticated ? (auth.hasPermission('digilib.books.manage') ? 'Panel Pengelola' : 'Dashboard ASC') : 'Masuk' }}
+          {{ auth.isAuthenticated ? (auth.hasPermission('digilib.books.manage') ? 'Panel Pengelola' : 'Dashboard NURIS') : 'Masuk' }}
         </a>
       </div>
     </header>
@@ -198,7 +198,7 @@ async function submitProcurement() {
       <section class="rounded-3xl bg-gradient-to-r from-blue-950 to-blue-700 p-6 text-white sm:p-9">
         <span class="text-xs font-semibold uppercase tracking-widest text-blue-100">PERPUSTAKAAN DIGITAL</span>
         <h1 class="mt-2 text-3xl font-bold">Koleksi untuk belajar dan bertumbuh</h1>
-        <p class="mt-2 max-w-2xl text-sm text-blue-50">Cari koleksi fisik dan digital kampus, kelola reservasi, dan jelajahi karya ilmiah melalui Repository ASC.</p>
+        <p class="mt-2 max-w-2xl text-sm text-blue-50">Cari koleksi fisik dan digital kampus, kelola reservasi, dan jelajahi karya ilmiah melalui Repository NURIS.</p>
         <div class="mt-5 grid gap-2 sm:grid-cols-2">
           <label class="flex items-center gap-2 rounded-xl bg-white px-3 text-gray-500">
             <MagnifyingGlassIcon class="h-5 w-5" />
@@ -206,7 +206,7 @@ async function submitProcurement() {
           </label>
           <div class="flex flex-wrap gap-2">
             <button class="rounded-xl border border-white/30 px-4 py-2 text-sm hover:bg-white/10" @click="procurementOpen = true">Usulkan Buku</button>
-            <a href="/repository" class="rounded-xl border border-white/30 px-4 py-2 text-center text-sm hover:bg-white/10">Buka Repository ASC</a>
+            <a href="/repository" class="rounded-xl border border-white/30 px-4 py-2 text-center text-sm hover:bg-white/10">Buka Repository NURIS</a>
           </div>
         </div>
       </section>
@@ -250,7 +250,7 @@ async function submitProcurement() {
         <section>
           <div class="mb-3 flex items-center justify-between">
             <h2 class="font-semibold text-gray-900">Katalog buku <span class="text-sm font-normal text-gray-500">({{ total }})</span></h2>
-            <a href="/repository" class="text-sm font-medium text-blue-700">Repository karya ilmiah ASC →</a>
+            <a href="/repository" class="text-sm font-medium text-blue-700">Repository karya ilmiah NURIS →</a>
           </div>
           <div v-if="loading" class="rounded-xl bg-white py-14 text-center text-gray-500">Memuat katalog...</div>
           <div v-else-if="!books.length" class="rounded-xl bg-white py-14 text-center text-gray-500">Belum ada buku yang cocok dengan pencarian ini.</div>
@@ -318,7 +318,7 @@ async function submitProcurement() {
           </button>
           <button class="rounded-lg border border-gray-300 px-4 py-2 text-sm" @click="toggleFavorite(selected)">{{ selected.is_favorite ? '★ Tersimpan' : '☆ Simpan favorit' }}</button>
         </div>
-        <p class="mt-3 text-xs text-gray-500">Peminjaman fisik, pengembalian, perpanjangan, dan pembayaran denda dilayani pustakawan menggunakan akun ASC.</p>
+        <p class="mt-3 text-xs text-gray-500">Peminjaman fisik, pengembalian, perpanjangan, dan pembayaran denda dilayani pustakawan menggunakan akun NURIS.</p>
       </section>
     </div>
 

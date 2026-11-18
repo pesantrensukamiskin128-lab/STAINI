@@ -463,7 +463,7 @@
         patchDashboard()
       }
     } catch (error) {
-      console.error('[ASC] Gagal memperbarui tampilan status KRS.', error)
+      console.error('[NURIS] Gagal memperbarui tampilan status KRS.', error)
     }
     translateStaticText()
   }

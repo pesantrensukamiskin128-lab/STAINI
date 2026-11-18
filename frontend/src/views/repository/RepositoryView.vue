@@ -113,7 +113,7 @@ function truncate(text: string | undefined, max = 120) {
           <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-blue-100">
             <BookOpenIcon class="w-3.5 h-3.5" /> Pusat Karya Ilmiah
           </span>
-          <span class="text-xs text-blue-200">Akses publik · Terintegrasi SIAKAD</span>
+          <span class="text-xs text-blue-200">Akses publik · Terintegrasi NURIS</span>
         </div>
         <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">Repository Karya Ilmiah</h1>
         <p class="text-blue-100 text-sm sm:text-base max-w-2xl mb-6">Temukan penelitian, skripsi, pengabdian, dan karya dosen dalam satu ruang pengetahuan akademik.</p>

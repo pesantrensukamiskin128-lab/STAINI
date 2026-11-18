@@ -37,7 +37,7 @@ const isGraduated = computed(() => dashboardRole.value === 'MAHASISWA' && data.v
 
 async function clearAppStorage() {
   if (clearingAppStorage.value) return
-  if (!window.confirm('Hapus cache dan seluruh penyimpanan lokal ASC di browser ini, termasuk sesi login? Anda harus masuk kembali setelahnya.')) return
+  if (!window.confirm('Hapus cache dan seluruh penyimpanan lokal NURIS di browser ini, termasuk sesi login? Anda harus masuk kembali setelahnya.')) return
 
   clearingAppStorage.value = true
   try {
@@ -62,10 +62,10 @@ async function clearAppStorage() {
         })))
     }
 
-    toast.success('Cache dan penyimpanan lokal dibersihkan. Anda telah keluar; ASC sedang dimuat ulang.')
+    toast.success('Cache dan penyimpanan lokal dibersihkan. Anda telah keluar; NURIS sedang dimuat ulang.')
     window.setTimeout(() => window.location.reload(), 700)
   } catch (cause) {
-    console.error('Gagal membersihkan penyimpanan lokal ASC.', cause)
+    console.error('Gagal membersihkan penyimpanan lokal NURIS.', cause)
     toast.error(cause instanceof Error
       ? `Sebagian penyimpanan tidak dapat dibersihkan: ${cause.message}`
       : 'Sebagian penyimpanan tidak dapat dibersihkan.')
