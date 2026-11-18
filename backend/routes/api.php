@@ -1,0 +1,1315 @@
+<?php
+
+use App\Http\Controllers\Api\AcademicCalendarController;
+use App\Http\Controllers\Api\AcademicLeaveController;
+use App\Http\Controllers\Api\AcademicYearController;
+use App\Http\Controllers\Api\AlumniController;
+use App\Http\Controllers\Api\AssignmentTemplateController;
+use App\Http\Controllers\Api\AuditLogController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BuildingController;
+use App\Http\Controllers\Api\ClassController;
+use App\Http\Controllers\Api\ConcentrationController;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\CurriculumController;
+use App\Http\Controllers\Api\CurriculumObeController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\DispositionController;
+use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\ExamController;
+use App\Http\Controllers\Api\FacultyController;
+use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\FinanceController;
+use App\Http\Controllers\Api\GradeController;
+use App\Http\Controllers\Api\GraduationController;
+use App\Http\Controllers\Api\GuidanceController;
+use App\Http\Controllers\Api\HonorController;
+use App\Http\Controllers\Api\IncomingLetterController;
+use App\Http\Controllers\Api\InstitutionController;
+use App\Http\Controllers\Api\KrsController;
+use App\Http\Controllers\Api\LectureController;
+use App\Http\Controllers\Api\LecturerController;
+use App\Http\Controllers\Api\LecturerPositionController;
+use App\Http\Controllers\Api\LecturerWorkController;
+use App\Http\Controllers\Api\LetterRequestController;
+use App\Http\Controllers\Api\LetterTemplateController;
+use App\Http\Controllers\Api\LmsIntegrationController;
+use App\Http\Controllers\Api\MigrationController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OutgoingLetterController;
+use App\Http\Controllers\Api\MeetingMinutesController;
+use App\Http\Controllers\Api\PenelitianController;
+use App\Http\Controllers\Api\PmbExamTypeController;
+use App\Http\Controllers\Api\PmbPathController;
+use App\Http\Controllers\Api\PmbPeriodController;
+use App\Http\Controllers\Api\PmbPublicController;
+use App\Http\Controllers\Api\PmbRegistrantController;
+use App\Http\Controllers\Api\PracticalController;
+use App\Http\Controllers\Api\PushController;
+use App\Http\Controllers\Api\QuestionBankController;
+use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\RepositoryController;
+use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\RpkpsController;
+use App\Http\Controllers\Api\SemesterController;
+use App\Http\Controllers\Api\StaffController;
+use App\Http\Controllers\Api\StudentAdvisorController;
+use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\StudyProgramController;
+use App\Http\Controllers\Api\TemplateController;
+use App\Http\Controllers\Api\ThesisController;
+use App\Http\Controllers\Api\TransferCreditController;
+use App\Http\Controllers\Api\TwoFactorController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VerifyController;
+use App\Http\Middleware\LoginThrottle;
+use App\Models\OutgoingLetter;
+use App\Http\Controllers\Api\DigitalLibraryController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes - Al-Jawami Smart Campus (ASC)
+|--------------------------------------------------------------------------
+*/
+
+// Public
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login'])->middleware(LoginThrottle::class);
+});
+
+// =========================================================================
+// VERIFIKASI DOKUMEN (Public - tanpa login, bisa diakses siapapun via QR)
+// =========================================================================
+Route::prefix('verify')->group(function () {
+    Route::get('krs/{id}', [VerifyController::class, 'verifyKrs']);
+    Route::get('rpkps/{code}', [VerifyController::class, 'verifyRpkps']);
+    Route::get('academic-calendar/{id}', [VerifyController::class, 'verifyAcademicCalendar']);
+    Route::get('surat/{token}', [VerifyController::class, 'verifyOutgoingLetter']);
+    Route::get('khs/{token}', [VerifyController::class, 'verifyKhs']);
+    Route::get('transcript/{token}', [VerifyController::class, 'verifyTranscript']);
+    Route::get('event-attendance/{token}', [VerifyController::class, 'verifyEventAttendance']);
+    Route::get('notulen/{token}', [VerifyController::class, 'verifyMeetingMinutes']);
+    Route::get('pmb-card/{token}', [VerifyController::class, 'verifyPmbCard']);
+    Route::get('class-participants/{token}', [VerifyController::class, 'verifyClassParticipants']);
+    Route::get('class-journals/{token}', [VerifyController::class, 'verifyClassJournals']);
+    Route::get('honor-slip/{token}', [VerifyController::class, 'verifyHonorSlip']);
+});
+
+// 2FA verification (setelah login, sebelum full access)
+Route::middleware('auth:sanctum')->prefix('auth/2fa')->group(function () {
+    Route::post('verify', [TwoFactorController::class, 'verify']);
+});
+
+// =========================================================
+// MIGRATION ENDPOINT (SEMENTARA)
+// Nonaktif secara default dan hanya didaftarkan jika diaktifkan eksplisit.
+// =========================================================
+if (config('migration.enabled')) {
+    Route::prefix('migration')->group(function () {
+        Route::post('upload', [MigrationController::class, 'upload']);
+        Route::post('upload-chunk', [MigrationController::class, 'uploadChunk']);
+        Route::post('assemble-chunks', [MigrationController::class, 'assembleChunks']);
+        Route::post('download-from-url', [MigrationController::class, 'downloadFromUrl']);
+        Route::get('status', [MigrationController::class, 'status']);
+        Route::post('dry-run', [MigrationController::class, 'dryRun']);
+        Route::post('run', [MigrationController::class, 'run']);
+        Route::delete('cleanup', [MigrationController::class, 'cleanup']);
+    });
+}
+
+// Public institution info (untuk halaman login & header)
+Route::get('institution/public', [InstitutionController::class, 'public']);
+Route::get('institution/logo', [InstitutionController::class, 'logo']);
+
+// Public academic calendar & announcements (untuk halaman login)
+Route::get('public/academic-calendar', [AcademicCalendarController::class, 'publicCalendar']);
+
+// Public event attendance (presensi tamu via form)
+Route::get('events/token/{token}', [EventController::class, 'getByToken']);
+Route::post('events/token/{token}/attend-public', [EventController::class, 'attendPublic']);
+
+// =========================================================
+// REPOSITORY PUBLIK (tanpa login)
+// =========================================================
+Route::prefix('repository')->group(function () {
+    Route::get('/', [RepositoryController::class, 'index']);
+    Route::get('stats', [RepositoryController::class, 'stats']);
+    Route::get('penelitian/{id}', [RepositoryController::class, 'showPenelitian']);
+    Route::get('skripsi/{id}', [RepositoryController::class, 'showSkripsi']);
+    Route::get('karya-dosen/{id}', [RepositoryController::class, 'showKaryaDosen']);
+    Route::get('study-programs', [StudyProgramController::class, 'all']);
+    // Download butuh auth â€” di-handle di dalam controller
+    Route::get('download/{source}/{id}/{fileType}', [RepositoryController::class, 'download']);
+});
+
+// Digital Library public catalog and repository.
+Route::prefix('library')->group(function () {
+    Route::get('catalog', [DigitalLibraryController::class, 'catalog']);
+    Route::get('books/{book}', [DigitalLibraryController::class, 'showBook']);
+    Route::get('repository', [DigitalLibraryController::class, 'publicRepository']);
+    Route::get('repository/{item}/download', [DigitalLibraryController::class, 'downloadRepository']);
+    Route::get('announcements', [DigitalLibraryController::class, 'publicAnnouncements']);
+});
+Route::middleware(['auth:sanctum', 'permission:digilib.borrow'])->get(
+    'library/books/{book}/download', [DigitalLibraryController::class, 'downloadBook']
+);
+
+// Public PMB endpoints (tanpa login)
+Route::prefix('pmb')->group(function () {
+    Route::get('active-period', [PmbPublicController::class, 'activePeriod']);
+    Route::get('paths', [PmbPublicController::class, 'paths']);
+    Route::get('programs', [PmbPublicController::class, 'programs']);
+    Route::post('register', [PmbPublicController::class, 'register']);
+});
+
+// Protected
+Route::middleware(['auth:sanctum', 'graduated.restrict'])->group(function () {
+    Route::middleware('permission:digilib.borrow')->prefix('library/me')->group(function () {
+        Route::get('loans', [DigitalLibraryController::class, 'myLoans']);
+        Route::post('loans/{loan}/renew', [DigitalLibraryController::class, 'renewLoan']);
+        Route::get('reservations', [DigitalLibraryController::class, 'myReservations']);
+        Route::post('books/{book}/reservations', [DigitalLibraryController::class, 'reserve']);
+        Route::delete('reservations/{reservation}', [DigitalLibraryController::class, 'cancelReservation']);
+        Route::post('reservations/{reservation}/collect', [DigitalLibraryController::class, 'collectReservation']);
+        Route::get('favorites', [DigitalLibraryController::class, 'favorites']);
+        Route::post('books/{book}/favorite', [DigitalLibraryController::class, 'toggleFavorite']);
+        Route::post('procurement-requests', [DigitalLibraryController::class, 'submitProcurement']);
+        Route::get('repository-submissions', [DigitalLibraryController::class, 'myRepositoryItems']);
+        Route::post('repository-submissions', [DigitalLibraryController::class, 'submitRepositoryItem']);
+    });
+    Route::middleware('permission:digilib.books.manage')->prefix('library/manage')->group(function () {
+        Route::get('dashboard', [DigitalLibraryController::class, 'dashboard']);
+        Route::get('books', [DigitalLibraryController::class, 'books']);
+        Route::post('books', [DigitalLibraryController::class, 'storeBook']);
+        Route::put('books/{book}', [DigitalLibraryController::class, 'updateBook']);
+        Route::delete('books/{book}', [DigitalLibraryController::class, 'destroyBook']);
+        Route::post('books/{book}/files', [DigitalLibraryController::class, 'uploadBookFiles']);
+        Route::get('books/import-template', [DigitalLibraryController::class, 'importTemplate']);
+        Route::post('books/import', [DigitalLibraryController::class, 'importBooks']);
+    });
+    Route::middleware('permission:digilib.circulation.manage')->prefix('library/manage')->group(function () {
+        Route::get('loans', [DigitalLibraryController::class, 'allLoans']);
+        Route::post('loans', [DigitalLibraryController::class, 'checkout']);
+        Route::post('loans/{loan}/return', [DigitalLibraryController::class, 'returnLoan']);
+        Route::post('loans/{loan}/lost', [DigitalLibraryController::class, 'markLost']);
+        Route::post('loans/{loan}/fine-payment', [DigitalLibraryController::class, 'payFine']);
+        Route::get('reservations', [DigitalLibraryController::class, 'reservations']);
+        Route::post('reservations/{reservation}/collect', [DigitalLibraryController::class, 'collectReservation']);
+    });
+    Route::middleware('permission:digilib.repository.manage')->prefix('library/manage')->group(function () {
+        Route::get('repository', [DigitalLibraryController::class, 'manageRepository']);
+        Route::post('repository/{item}/review', [DigitalLibraryController::class, 'reviewRepository']);
+    });
+    Route::middleware('permission:digilib.procurement.manage')->prefix('library/manage')->group(function () {
+        Route::get('procurement-requests', [DigitalLibraryController::class, 'procurementRequests']);
+        Route::put('procurement-requests/{requestId}', [DigitalLibraryController::class, 'reviewProcurement']);
+    });
+    Route::middleware('permission:digilib.reports.view')->get('library/manage/reports', [DigitalLibraryController::class, 'reports']);
+    Route::middleware('permission:digilib.settings.manage')->prefix('library/manage')->group(function () {
+        Route::get('settings', [DigitalLibraryController::class, 'settings']);
+        Route::put('settings', [DigitalLibraryController::class, 'updateSettings']);
+        Route::get('announcements', [DigitalLibraryController::class, 'announcements']);
+        Route::post('announcements', [DigitalLibraryController::class, 'storeAnnouncement']);
+    });
+    Route::middleware('permission:digilib.visits.manage')->prefix('library/manage')->group(function () {
+        Route::get('visits', [DigitalLibraryController::class, 'visits']);
+        Route::post('visits', [DigitalLibraryController::class, 'recordVisit']);
+        Route::post('visits/{visitId}/checkout', [DigitalLibraryController::class, 'closeVisit']);
+    });
+
+
+
+    // Auth
+    Route::prefix('auth')->group(function () {
+        Route::get('me', [AuthController::class, 'me']);
+        Route::put('profile', [AuthController::class, 'updateProfile']);
+        Route::post('profile/photo', [AuthController::class, 'uploadProfilePhoto']);
+        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('logout-all', [AuthController::class, 'logoutAll']);
+        // 2FA management
+        Route::post('2fa/setup', [TwoFactorController::class, 'setup']);
+        Route::post('2fa/confirm', [TwoFactorController::class, 'confirm']);
+        Route::post('2fa/disable', [TwoFactorController::class, 'disable']);
+        Route::post('2fa/recovery-codes', [TwoFactorController::class, 'recoveryCodes']);
+    });
+
+    // Dashboard (role-aware)
+    Route::get('dashboard', [DashboardController::class, 'index']);
+
+    // --- Template download (semua role terautentikasi) ---
+    Route::get('templates/{type}', [TemplateController::class, 'download']);
+
+    // --- File Manager (upload/list/delete) ---
+    Route::post('files/upload', [FileController::class, 'upload']);
+    Route::get('files', [FileController::class, 'index']);
+    Route::delete('files/{file}', [FileController::class, 'destroy']);
+
+    // --- Dropdown / select endpoints (semua role) ---
+    Route::get('faculties/all', [FacultyController::class, 'all']);
+    Route::get('study-programs/all', [StudyProgramController::class, 'all']);
+    Route::get('concentrations/all', [ConcentrationController::class, 'all']);
+    Route::get('academic-years/all', [AcademicYearController::class, 'all']);
+    Route::get('lecturers/all', [LecturerController::class, 'all']);
+    Route::get('courses/all', [CourseController::class, 'all']);
+    Route::get('buildings/all', [BuildingController::class, 'all']);
+    Route::get('rooms/all', [RoomController::class, 'all']);
+    Route::get('classes/all', [ClassController::class, 'all']);
+
+    // Daftar user ringkas (untuk pilih penerima surat, disposisi, agenda)
+    Route::get('user-list', [UserController::class, 'list']);
+
+    // --- User Management ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->group(function () {
+        Route::post('users/bulk-delete', [UserController::class, 'bulkDelete']);
+        Route::get('users/export', [UserController::class, 'export']);
+        Route::apiResource('users', UserController::class);
+        Route::get('roles', [UserController::class, 'roles']);
+    });
+
+    // --- Institusi (SUPER_ADMIN only) ---
+    Route::middleware('role:SUPER_ADMIN')->group(function () {
+        Route::apiResource('institutions', InstitutionController::class);
+        Route::post('institutions/{institution}/logo', [InstitutionController::class, 'uploadLogo']);
+    });
+
+    // --- Master Data ---
+    // Data yang bisa diakses semua user terautentikasi (read-only)
+    Route::get('academic-calendars', [AcademicCalendarController::class, 'index']);
+    Route::get('academic-calendars/export', [AcademicCalendarController::class, 'export']);
+    Route::get('academic-calendars/pdf', [AcademicCalendarController::class, 'downloadPdf']);
+    Route::get('academic-calendars/{academic_calendar}', [AcademicCalendarController::class, 'show']);
+    Route::get('semesters', [SemesterController::class, 'index']);
+    Route::get('semesters/{semester}', [SemesterController::class, 'show']);
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->group(function () {
+        Route::apiResource('faculties', FacultyController::class);
+        Route::apiResource('study-programs', StudyProgramController::class);
+        Route::apiResource('concentrations', ConcentrationController::class);
+        Route::apiResource('academic-years', AcademicYearController::class);
+        Route::post('academic-years/{academicYear}/activate', [AcademicYearController::class, 'activate']);
+        Route::apiResource('semesters', SemesterController::class)->except(['index', 'show']);
+        Route::post('semesters/{semester}/activate', [SemesterController::class, 'activate']);
+        // CRUD kalender hanya admin
+        Route::post('academic-calendars', [AcademicCalendarController::class, 'store']);
+        Route::post('academic-calendars/import', [AcademicCalendarController::class, 'import']);
+        Route::put('academic-calendars/{academic_calendar}', [AcademicCalendarController::class, 'update']);
+        Route::delete('academic-calendars/{academic_calendar}', [AcademicCalendarController::class, 'destroy']);
+        // Upload kop surat
+        Route::post('institutions/{institution}/letterhead', [InstitutionController::class, 'uploadLetterhead']);
+        // Courses â€” export/import harus sebelum apiResource
+        Route::get('courses/export', [CourseController::class, 'export']);
+        Route::post('courses/import', [CourseController::class, 'import']);
+        Route::apiResource('courses', CourseController::class);
+        Route::apiResource('buildings', BuildingController::class);
+        Route::apiResource('rooms', RoomController::class);
+    });
+
+    // --- Tenaga Kependidikan ---
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_UMUM,WK2,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('lecturers/export', [LecturerController::class, 'export']);
+        Route::get('lecturers', [LecturerController::class, 'index']);
+        Route::get('lecturers/{lecturer}', [LecturerController::class, 'show']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,ADMIN_UMUM,WK2,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('students/export', [StudentController::class, 'export']);
+        Route::get('students', [StudentController::class, 'index']);
+        Route::get('students/advisor-options', [StudentController::class, 'advisorOptions']);
+        Route::get('students/{student}', [StudentController::class, 'show']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,ADMIN_UMUM,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('students/{student}/biodata', [StudentController::class, 'showBiodata']);
+        Route::put('students/{student}/biodata', [StudentController::class, 'updateBiodata']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,ADMIN_UMUM,KAPRODI,SEKPRODI')->patch(
+        'students/{student}/advisor',
+        [StudentController::class, 'updateAdvisor']
+    );
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,ADMIN_UMUM,KAPRODI')->group(function () {
+        Route::get('students/advisors/export', [StudentAdvisorController::class, 'export']);
+        Route::post('students/advisors/import', [StudentAdvisorController::class, 'import']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_UMUM,WK2')->group(function () {
+        Route::get('staff', [StaffController::class, 'index']);
+        Route::get('staff/{staff}', [StaffController::class, 'show']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_UMUM')->group(function () {
+        Route::get('staff/export', [StaffController::class, 'export']);
+        Route::post('staff/import', [StaffController::class, 'import']);
+        Route::post('staff/bulk-delete', [StaffController::class, 'bulkDelete']);
+        Route::post('staff', [StaffController::class, 'store']);
+        Route::put('staff/{staff}', [StaffController::class, 'update']);
+        Route::patch('staff/{staff}', [StaffController::class, 'update']);
+        Route::delete('staff/{staff}', [StaffController::class, 'destroy']);
+    });
+
+    // --- Dosen ---
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_UMUM')->group(function () {
+        Route::post('lecturers/import', [LecturerController::class, 'import']);
+        Route::post('lecturers/bulk-delete', [LecturerController::class, 'bulkDelete']);
+        Route::post('lecturers/{lecturer}/photo', [LecturerController::class, 'uploadPhoto']);
+        Route::post('lecturers', [LecturerController::class, 'store']);
+        Route::put('lecturers/{lecturer}', [LecturerController::class, 'update']);
+        Route::patch('lecturers/{lecturer}', [LecturerController::class, 'update']);
+        Route::delete('lecturers/{lecturer}', [LecturerController::class, 'destroy']);
+        // Jabatan struktural
+        Route::get('lecturer-positions/available', [LecturerPositionController::class, 'availablePositions']);
+        Route::get('lecturers/{lecturer}/positions', [LecturerPositionController::class, 'index']);
+        Route::post('lecturers/{lecturer}/positions', [LecturerPositionController::class, 'store']);
+        Route::put('lecturers/{lecturer}/positions/{position}', [LecturerPositionController::class, 'update']);
+        Route::delete('lecturers/{lecturer}/positions/{position}', [LecturerPositionController::class, 'destroy']);
+    });
+
+    // --- Mahasiswa ---
+    Route::middleware('role:MAHASISWA')->group(function () {
+        Route::get('students/me/profile', [StudentController::class, 'myProfile']);
+        Route::put('students/me/profile', [StudentController::class, 'updateMyProfile']);
+        Route::get('students/me/academic-history', [StudentController::class, 'myAcademicHistory']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_UMUM')->group(function () {
+        Route::post('students/import', [StudentController::class, 'import']);
+        Route::post('students/bulk-delete', [StudentController::class, 'bulkDelete']);
+        Route::post('students', [StudentController::class, 'store']);
+        Route::put('students/{student}', [StudentController::class, 'update']);
+        Route::patch('students/{student}', [StudentController::class, 'update']);
+        Route::delete('students/{student}', [StudentController::class, 'destroy']);
+    });
+
+    // --- KRS & Perwalian ---
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::get('classes/export', [ClassController::class, 'export']);
+        Route::get('classes/export-pdf', [ClassController::class, 'exportPdf']);
+        Route::post('classes/import', [ClassController::class, 'import']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KAPRODI,SEKPRODI')->get(
+        'krs/prodi-review',
+        [KrsController::class, 'prodiReviewIndex']
+    );
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,DOSEN_WALI,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('classes', [ClassController::class, 'index']);
+        Route::get('classes/{class}', [ClassController::class, 'show']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::post('classes', [ClassController::class, 'store']);
+        Route::put('classes/{class}', [ClassController::class, 'update']);
+        Route::put('classes/{class}/courses', [ClassController::class, 'syncCourses']);
+        Route::delete('classes/{class}', [ClassController::class, 'destroy']);
+        Route::post('classes/{class}/schedules', [ClassController::class, 'addSchedule']);
+        Route::put('classes/{class}/schedules/{schedule}', [ClassController::class, 'updateSchedule']);
+        Route::delete('classes/{class}/schedules/{schedule}', [ClassController::class, 'removeSchedule']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::get('krs/student-options', [KrsController::class, 'studentOptions']);
+        Route::get('krs/export', [KrsController::class, 'export']);
+        Route::post('krs/import', [KrsController::class, 'import']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,DOSEN_WALI,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('krs/eligibility', [KrsController::class, 'eligibility']);
+        Route::apiResource('krs', KrsController::class)->only(['index', 'show', 'store'])->parameters(['krs' => 'krs']);
+        Route::get('krs/{krs}/pdf', [KrsController::class, 'downloadPdf']);
+        Route::post('krs/{krs}/courses', [KrsController::class, 'addCourse']);
+        Route::delete('krs/{krs}/courses/{detail}', [KrsController::class, 'removeCourse']);
+        Route::post('krs/{krs}/submit', [KrsController::class, 'submit']);
+    });
+
+    // --- Perkuliahan (Dosen & Mahasiswa) ---
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,DOSEN_WALI,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        // Read â€” mahasiswa bisa lihat info kelas & jurnal
+        Route::get('lectures/{class}', [LectureController::class, 'show']);
+        Route::get('lectures/{class}/journals', [LectureController::class, 'journalList']);
+        Route::get('lectures/{class}/rps-plans', [LectureController::class, 'getFromRps']);
+        Route::get('lectures/{class}/members', [LectureController::class, 'memberList']);
+        Route::get('lectures/{class}/members/excel', [LectureController::class, 'memberExcel']);
+        Route::get('lectures/{class}/members/pdf', [LectureController::class, 'memberPdf']);
+            Route::get('lectures/{class}/journals/excel', [LectureController::class, 'journalExcel']);
+            Route::get('lectures/{class}/journals/pdf', [LectureController::class, 'journalPdf']);
+        Route::get('lectures/journals/{journal}/attendances', [LectureController::class, 'attendanceList']);
+        Route::post('lectures/journals/{journal}/attendance/check-in', [LectureController::class, 'checkInAttendance']);
+        Route::get('lectures/{class}/materials', [LectureController::class, 'materialList']);
+        Route::get('lectures/{class}/assignments', [LectureController::class, 'assignmentList']);
+        Route::get('lectures/{class}/announcements', [LectureController::class, 'announcementList']);
+        Route::get('lectures/{class}/discussions', [LectureController::class, 'discussionList']);
+        Route::get('lectures/{class}/discussions/{discussion}', [LectureController::class, 'discussionShow']);
+        Route::post('lectures/{class}/discussions', [LectureController::class, 'storeDiscussion']);
+        Route::post('lectures/{class}/discussions/{discussion}/replies', [LectureController::class, 'storeDiscussionReply']);
+        Route::delete('lectures/{class}/discussions/{discussion}', [LectureController::class, 'destroyDiscussion']);
+        Route::delete('lectures/{class}/discussions/{discussion}/replies/{reply}', [LectureController::class, 'destroyDiscussionReply']);
+        // Mahasiswa submit tugas
+        Route::post('assignments/{assignment}/submit', [LectureController::class, 'submitAssignment']);
+    });
+
+    // Write â€” hanya dosen pengampu kelas (atau admin)
+    Route::middleware(['effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1', 'class.lecturer'])->group(function () {
+        Route::post('lectures/{class}/journals', [LectureController::class, 'storeJournal']);
+        Route::post('lectures/journals/{journal}/attendances', [LectureController::class, 'saveAttendance']);
+        Route::post('lectures/journals/{journal}/attendance-session', [LectureController::class, 'openAttendanceSession']);
+        Route::post('lectures/journals/{journal}/attendance-session/close', [LectureController::class, 'closeAttendanceSession']);
+        Route::post('lectures/{class}/materials', [LectureController::class, 'storeMaterial']);
+        Route::post('lectures/{class}/assignments', [LectureController::class, 'storeAssignment']);
+        Route::get('lectures/{class}/sub-cpmks', [LectureController::class, 'classSubCpmks']);
+        Route::get('lectures/{class}/gradebook', [LectureController::class, 'gradebook']);
+        Route::put('lectures/{class}/gradebook/weights', [LectureController::class, 'updateGradebookWeights']);
+        Route::get('lectures/{class}/assignments/{assignment}/submissions', [LectureController::class, 'assignmentSubmissions']);
+        Route::post('assignments/submissions/{submission}/grade', [LectureController::class, 'gradeSubmission']);
+        Route::post('lectures/{class}/announcements', [LectureController::class, 'storeAnnouncement']);
+        Route::patch('lectures/{class}/discussions/{discussion}/moderation', [LectureController::class, 'moderateDiscussion']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::get('assignment-templates', [AssignmentTemplateController::class, 'index']);
+        Route::post('assignment-templates', [AssignmentTemplateController::class, 'store']);
+        Route::delete('assignment-templates/{assignmentTemplate}', [AssignmentTemplateController::class, 'destroy']);
+    });
+
+    // Delete routes (tidak butuh class param, tapi harus DOSEN)
+    Route::middleware(['effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1', 'class.lecturer'])->group(function () {
+        Route::delete('lectures/journals/{journal}', [LectureController::class, 'destroyJournal']);
+        Route::put('lectures/journals/{journal}', [LectureController::class, 'updateJournal']);
+        Route::delete('lectures/materials/{material}', [LectureController::class, 'destroyMaterial']);
+        Route::put('lectures/materials/{material}', [LectureController::class, 'updateMaterial']);
+        Route::delete('lectures/assignments/{assignment}', [LectureController::class, 'destroyAssignment']);
+        Route::put('lectures/assignments/{assignment}', [LectureController::class, 'updateAssignment']);
+        Route::delete('lectures/announcements/{announcement}', [LectureController::class, 'destroyAnnouncement']);
+        Route::put('lectures/announcements/{announcement}', [LectureController::class, 'updateAnnouncement']);
+    });
+
+    // --- Ujian ---
+    // Read: dosen & mahasiswa bisa lihat daftar & detail ujian
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        Route::get('exams', [ExamController::class, 'index']);
+        Route::get('exams/{exam}', [ExamController::class, 'show']);
+    });
+
+    // Write: hanya dosen & admin
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('exams', [ExamController::class, 'store']);
+        Route::put('exams/{exam}', [ExamController::class, 'update']);
+        Route::delete('exams/{exam}', [ExamController::class, 'destroy']);
+        Route::post('exams/{exam}/questions', [ExamController::class, 'storeQuestion']);
+        Route::put('exams/{exam}/questions/{question}', [ExamController::class, 'updateQuestion']);
+        Route::delete('exams/{exam}/questions/{question}', [ExamController::class, 'destroyQuestion']);
+        // Hasil ujian
+        Route::get('exams/{exam}/results', [ExamController::class, 'results']);
+        Route::get('exams/{exam}/results/{student}', [ExamController::class, 'studentResult']);
+        Route::post('exams/{exam}/results/{student}/grade', [ExamController::class, 'gradeAnswer']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        Route::post('exams/{exam}/start', [ExamController::class, 'startExam']);
+        Route::get('exams/{exam}/eligibility', [ExamController::class, 'eligibility']);
+        Route::post('exams/{exam}/submit-answers', [ExamController::class, 'submitAnswer']);
+        Route::post('exams/{exam}/tab-switch', [ExamController::class, 'logTabSwitch']);
+        Route::get('exams/{exam}/my-result', [ExamController::class, 'myResult']);
+    });
+
+    // --- Bank Soal ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::get('question-banks', [QuestionBankController::class, 'index']);
+        Route::post('question-banks', [QuestionBankController::class, 'store']);
+        Route::get('question-banks/{questionBank}', [QuestionBankController::class, 'show']);
+        Route::put('question-banks/{questionBank}', [QuestionBankController::class, 'update']);
+        Route::delete('question-banks/{questionBank}', [QuestionBankController::class, 'destroy']);
+        Route::post('question-banks/{questionBank}/items', [QuestionBankController::class, 'storeItem']);
+        Route::put('question-banks/{questionBank}/items/{item}', [QuestionBankController::class, 'updateItem']);
+        Route::delete('question-banks/{questionBank}/items/{item}', [QuestionBankController::class, 'destroyItem']);
+        Route::post('question-banks/{questionBank}/import-to-exam', [QuestionBankController::class, 'importToExam']);
+        Route::post('question-banks/{questionBank}/import-excel', [QuestionBankController::class, 'importFromExcel']);
+        Route::get('question-banks/{questionBank}/template', [QuestionBankController::class, 'downloadTemplate']);
+    });
+
+    // --- Notifikasi ---
+    Route::get('notifications', [NotificationController::class, 'index']);
+    Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount']);
+    Route::post('notifications/{notification}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::delete('notifications/{notification}', [NotificationController::class, 'destroy']);
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->group(function () {
+        Route::post('notifications/send', [NotificationController::class, 'send']);
+    });
+
+    // --- Push Notification ---
+    Route::get('push/vapid-key', [PushController::class, 'vapidKey']);
+    Route::post('push/subscribe', [PushController::class, 'subscribe']);
+    Route::post('push/unsubscribe', [PushController::class, 'unsubscribe']);
+
+    // --- Penilaian ---
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('grades', [GradeController::class, 'index']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('grades', [GradeController::class, 'store']);
+        Route::post('grades/batch', [GradeController::class, 'batchStore']);
+        Route::post('grades/import', [GradeController::class, 'importGrades']);
+        Route::post('grades/import-class', [GradeController::class, 'importClassGrades']);
+        Route::get('grades/template-class', [GradeController::class, 'downloadClassTemplate']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('grades/schema', [GradeController::class, 'schema']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,MAHASISWA,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('grades/khs', [GradeController::class, 'khs']);
+        Route::get('grades/transcript', [GradeController::class, 'transcript']);
+        Route::get('grades/khs/pdf', [GradeController::class, 'khsPdf']);
+        Route::get('grades/transcript/pdf', [GradeController::class, 'transcriptPdf']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('grades/transcript/excel', [GradeController::class, 'transcriptExcel']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('krs/{krs}/approve', [KrsController::class, 'approve']);
+        Route::post('krs/{krs}/reject', [KrsController::class, 'reject']);
+        Route::delete('krs/{krs}', [KrsController::class, 'destroy']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KAPRODI,SEKPRODI')->group(function () {
+        Route::post('krs/{krs}/approve-kaprodi', [KrsController::class, 'approveByKaprodi']);
+        Route::post('krs/{krs}/reject-kaprodi', [KrsController::class, 'rejectByKaprodi']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::post('krs/{krs}/sign-kaprodi', [KrsController::class, 'signByKaprodi']);
+    });
+
+    // --- Kurikulum OBE ---
+    // Dosen hanya membutuhkan data kurikulum untuk memilih saat membuat RPS.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI')->get(
+        'curriculums/template-excel',
+        [CurriculumObeController::class, 'templateCurriculum']
+    );
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('curriculums', [CurriculumController::class, 'index']);
+        Route::get('curriculums/{curriculum}', [CurriculumController::class, 'show']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI')->group(function () {
+        Route::apiResource('curriculums', CurriculumController::class)->except(['index', 'show']);
+        Route::post('curriculums/{curriculum}/courses', [CurriculumController::class, 'syncCourses']);
+        Route::post('curriculums/{curriculum}/learning-outcomes', [CurriculumController::class, 'storeLearningOutcome']);
+        Route::put('curriculums/{curriculum}/learning-outcomes/{lo}', [CurriculumController::class, 'updateLearningOutcome']);
+        Route::delete('curriculums/{curriculum}/learning-outcomes/{lo}', [CurriculumController::class, 'destroyLearningOutcome']);
+        Route::get('curriculums/{curriculum}/export-excel', [CurriculumObeController::class, 'exportCurriculum']);
+        Route::post('curriculums/{curriculum}/import-excel', [CurriculumObeController::class, 'importCurriculum']);
+
+        // OBE: Profil Lulusan
+        Route::get('curriculums/{curriculum}/graduate-profiles', [CurriculumObeController::class, 'graduateProfiles']);
+        Route::post('curriculums/{curriculum}/graduate-profiles', [CurriculumObeController::class, 'storeGraduateProfile']);
+        Route::put('curriculums/{curriculum}/graduate-profiles/{profile}', [CurriculumObeController::class, 'updateGraduateProfile']);
+        Route::delete('curriculums/{curriculum}/graduate-profiles/{profile}', [CurriculumObeController::class, 'destroyGraduateProfile']);
+
+        // OBE: Matriks CPLâ€“MK
+        Route::get('curriculums/{curriculum}/cpl-course-matrix', [CurriculumObeController::class, 'cplCourseMatrix']);
+        Route::post('curriculums/{curriculum}/cpl-course-mapping', [CurriculumObeController::class, 'updateCplCourseMapping']);
+
+        // OBE: CPMK
+        Route::get('curriculums/{curriculum}/courses/{courseId}/cpmks', [CurriculumObeController::class, 'courseLearningOutcomes']);
+        Route::post('curriculums/{curriculum}/cpmks', [CurriculumObeController::class, 'storeCpmk']);
+        Route::get('curriculums/{curriculum}/courses/{courseId}/cpmk-cpl-matrix', [CurriculumObeController::class, 'cpmkCplMatrix']);
+    });
+
+    // --- RPKPS / RPS Digital ---
+    // Route statis harus didaftarkan sebelum rpkps/{rpkp} agar tidak dianggap model ID.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::get('rpkps/statistics', [RpkpsController::class, 'statistics']);
+        Route::get('rpkps/my-courses', [RpkpsController::class, 'myAssignedCourses']);
+        Route::get('rpkps/reusable', [RpkpsController::class, 'reusable']);
+    });
+
+    // Static route must precede rpkps/{rpkp} model binding.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::get('rpkps/template-excel', [RpkpsController::class, 'templateExcel']);
+    });
+
+    // Mahasiswa bisa lihat & download RPS yang sudah disetujui/dikunci
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,WK1,WR1,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('rpkps', [RpkpsController::class, 'index']);
+        Route::get('rpkps/{rpkp}', [RpkpsController::class, 'show']);
+        Route::get('rpkps/{rpkp}/pdf', [RpkpsController::class, 'downloadPdf']);
+    });
+
+    // Dosen & admin: kelola RPS
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('rpkps', [RpkpsController::class, 'store']);
+        Route::put('rpkps/{rpkp}', [RpkpsController::class, 'update']);
+        Route::delete('rpkps/{rpkp}', [RpkpsController::class, 'destroy']);
+        Route::post('rpkps/{rpkp}/cpls', [RpkpsController::class, 'syncCpls']);
+        Route::post('rpkps/{rpkp}/cpmks', [RpkpsController::class, 'storeCpmk']);
+        Route::put('rpkps/{rpkp}/cpmks/{cpmk}', [RpkpsController::class, 'updateCpmk']);
+        Route::delete('rpkps/{rpkp}/cpmks/{cpmk}', [RpkpsController::class, 'destroyCpmk']);
+        Route::post('rpkps/{rpkp}/weekly-plans', [RpkpsController::class, 'saveWeeklyPlans']);
+        Route::post('rpkps/{rpkp}/assessments', [RpkpsController::class, 'saveAssessments']);
+        Route::post('rpkps/{rpkp}/evaluation-tools', [RpkpsController::class, 'saveEvaluationTools']);
+        Route::post('rpkps/{rpkp}/references', [RpkpsController::class, 'saveReferences']);
+        Route::get('rpkps/{rpkp}/export-excel', [RpkpsController::class, 'exportExcel']);
+        Route::post('rpkps/{rpkp}/import-excel', [RpkpsController::class, 'importExcel']);
+        Route::post('rpkps/{rpkp}/submit', [RpkpsController::class, 'submit']);
+        Route::post('rpkps/{rpkp}/duplicate', [RpkpsController::class, 'duplicate']);
+    });
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,KAPRODI,SEKPRODI,WADEK1')->group(function () {
+        Route::post('rpkps/{rpkp}/approve', [RpkpsController::class, 'approve']);
+        Route::post('rpkps/{rpkp}/revise', [RpkpsController::class, 'revise']);
+        Route::post('rpkps/{rpkp}/lock', [RpkpsController::class, 'lock']);
+    });
+
+    // =========================================================================
+    // PMB - PENERIMAAN MAHASISWA BARU
+    // =========================================================================
+
+    // --- Self-service calon mahasiswa (semua user terautentikasi) ---
+    Route::prefix('pmb/my')->group(function () {
+        Route::get('registration', [PmbPublicController::class, 'myRegistration']);
+        Route::post('form', [PmbPublicController::class, 'saveForm']);
+        Route::post('photo', [PmbPublicController::class, 'uploadPhoto']);
+        Route::post('submit', [PmbPublicController::class, 'submit']);
+        Route::post('payment', [PmbPublicController::class, 'confirmPayment']);
+        Route::get('result', [PmbPublicController::class, 'result']);
+        Route::get('card-pdf', [PmbPublicController::class, 'downloadCard']);
+    });
+
+    // --- Admin PMB: pengaturan ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_PMB')->group(function () {
+        Route::apiResource('pmb-periods', PmbPeriodController::class);
+        Route::get('pmb-periods-all', [PmbPeriodController::class, 'all']);
+        Route::apiResource('pmb-paths', PmbPathController::class);
+        Route::apiResource('pmb-exam-types', PmbExamTypeController::class);
+    });
+
+    // --- Admin PMB: manajemen pendaftar & seleksi ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_PMB|ADMIN_AKADEMIK')->group(function () {
+        Route::get('pmb-registrants', [PmbRegistrantController::class, 'index']);
+        Route::get('pmb-registrants/statistics', [PmbRegistrantController::class, 'statistics']);
+        Route::get('pmb-registrants/{pmbRegistrant}', [PmbRegistrantController::class, 'show']);
+        Route::delete('pmb-registrants/{pmbRegistrant}', [PmbRegistrantController::class, 'destroy']);
+        Route::post('pmb-registrants/{pmbRegistrant}/verify', [PmbRegistrantController::class, 'verify']);
+        Route::post('pmb-registrants/{pmbRegistrant}/set-selection', [PmbRegistrantController::class, 'setSelectionStatus']);
+        Route::post('pmb-registrants/{pmbRegistrant}/scores', [PmbRegistrantController::class, 'inputScore']);
+        Route::post('pmb-registrants/{pmbRegistrant}/calculate', [PmbRegistrantController::class, 'calculateResult']);
+        Route::post('pmb-registrants/{pmbRegistrant}/final-status', [PmbRegistrantController::class, 'setFinalStatus']);
+        Route::post('pmb-registrants/{pmbRegistrant}/re-registration', [PmbRegistrantController::class, 'processReRegistration']);
+    });
+
+    // =========================================================================
+    // KEUANGAN MAHASISWA
+    // =========================================================================
+
+    // --- Admin Keuangan ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_KEUANGAN|ADMIN_AKADEMIK')->group(function () {
+        // Jenis Tagihan
+        Route::get('finance/fee-types', [FinanceController::class, 'feeTypes']);
+        Route::post('finance/fee-types', [FinanceController::class, 'storeFeeType']);
+        Route::put('finance/fee-types/{feeType}', [FinanceController::class, 'updateFeeType']);
+        Route::delete('finance/fee-types/{feeType}', [FinanceController::class, 'destroyFeeType']);
+        // Struktur Biaya
+        Route::get('finance/fee-structures', [FinanceController::class, 'feeStructures']);
+        Route::post('finance/fee-structures', [FinanceController::class, 'storeFeeStructure']);
+        Route::put('finance/fee-structures/{feeStructure}', [FinanceController::class, 'updateFeeStructure']);
+        Route::delete('finance/fee-structures/{feeStructure}', [FinanceController::class, 'destroyFeeStructure']);
+        // Tagihan
+        Route::get('finance/invoices', [FinanceController::class, 'invoices']);
+        Route::get('finance/invoices/export', [FinanceController::class, 'exportInvoices']);
+        Route::get('finance/invoices/import-template', [FinanceController::class, 'invoiceImportTemplate']);
+        Route::post('finance/invoices/import', [FinanceController::class, 'importInvoices']);
+        Route::get('finance/invoices/{invoice}', [FinanceController::class, 'showInvoice']);
+        Route::post('finance/invoices', [FinanceController::class, 'storeInvoice']);
+        Route::put('finance/invoices/{invoice}', [FinanceController::class, 'updateInvoice']);
+        Route::post('finance/invoices/generate-batch', [FinanceController::class, 'generateBatch']);
+        Route::post('finance/invoices/{invoice}/cancel', [FinanceController::class, 'cancelInvoice']);
+        Route::post('finance/invoices/{invoice}/waive', [FinanceController::class, 'waiveInvoice']);
+        Route::delete('finance/invoices/{invoice}', [FinanceController::class, 'destroyInvoice']);
+        // Pembayaran
+        Route::get('finance/payments', [FinanceController::class, 'payments']);
+        Route::get('finance/payments/export', [FinanceController::class, 'exportPayments']);
+        Route::get('finance/payments/import-template', [FinanceController::class, 'paymentImportTemplate']);
+        Route::post('finance/payments/import', [FinanceController::class, 'importPayments']);
+        Route::post('finance/payments', [FinanceController::class, 'storePayment']);
+        Route::put('finance/payments/{payment}', [FinanceController::class, 'updatePayment']);
+        Route::delete('finance/payments/{payment}', [FinanceController::class, 'destroyPayment']);
+        Route::post('finance/payments/{payment}/verify', [FinanceController::class, 'verifyPayment']);
+        // Beasiswa
+        Route::get('finance/scholarships', [FinanceController::class, 'scholarships']);
+        Route::post('finance/scholarships', [FinanceController::class, 'storeScholarship']);
+        Route::put('finance/scholarships/{scholarship}', [FinanceController::class, 'updateScholarship']);
+        Route::delete('finance/scholarships/{scholarship}', [FinanceController::class, 'destroyScholarship']);
+        Route::get('finance/student-scholarships', [FinanceController::class, 'studentScholarships']);
+        Route::post('finance/student-scholarships', [FinanceController::class, 'assignScholarship']);
+        Route::post('finance/student-scholarships/{studentScholarship}/revoke', [FinanceController::class, 'revokeScholarship']);
+        // Dashboard & Reports
+        Route::get('finance/dashboard', [FinanceController::class, 'dashboard']);
+    });
+
+    // Honor dosen dan tenaga kependidikan. Data honor tidak masuk ke tagihan mahasiswa.
+    Route::middleware('role:SUPER_ADMIN|ADMIN_KEUANGAN')->prefix('finance/honor')->group(function () {
+        Route::get('journal-reviews', [HonorController::class, 'lectureJournalReviews']);
+        Route::patch('journal-reviews/{journal}', [HonorController::class, 'reviewLectureJournal']);
+        Route::get('rates', [HonorController::class, 'rates']);
+        Route::post('rates', [HonorController::class, 'storeRate']);
+        Route::patch('rates/{rate}', [HonorController::class, 'updateRate']);
+        Route::put('rates/{rate}', [HonorController::class, 'updateRate']);
+        Route::delete('rates/{rate}', [HonorController::class, 'destroyRate']);
+        Route::get('activities', [HonorController::class, 'activities']);
+        Route::post('activities', [HonorController::class, 'storeActivity']);
+        Route::put('activities/{activity}', [HonorController::class, 'updateActivity']);
+        Route::delete('activities/{activity}', [HonorController::class, 'destroyActivity']);
+        Route::post('activities/{activity}/verify', [HonorController::class, 'verifyActivity']);
+        Route::get('payrolls', [HonorController::class, 'payrolls']);
+        Route::post('payrolls', [HonorController::class, 'storePayroll']);
+        Route::put('payrolls/{payroll}', [HonorController::class, 'updatePayroll']);
+        Route::delete('payrolls/{payroll}', [HonorController::class, 'destroyPayroll']);
+        Route::post('payrolls/{payroll}/deductions', [HonorController::class, 'storePayrollDeduction']);
+        Route::delete('payrolls/{payroll}/deductions/{deduction}', [HonorController::class, 'destroyPayrollDeduction']);
+        Route::get('payrolls/{payroll}', [HonorController::class, 'showPayroll']);
+        Route::get('payrolls/{payroll}/pdf', [HonorController::class, 'payrollPdf']);
+        Route::post('payrolls/{payroll}/calculate', [HonorController::class, 'calculatePayroll']);
+        Route::post('payrolls/{payroll}/approve', [HonorController::class, 'approvePayroll']);
+        Route::post('payrolls/{payroll}/paid', [HonorController::class, 'markPayrollPaid']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_KEUANGAN|DOSEN|ADMIN_UMUM|ADMIN_AKADEMIK|ADMIN_PMB|ADMIN_DIGILIB')->prefix('finance/honor')->group(function () {
+        Route::get('my-payrolls', [HonorController::class, 'myPayrolls']);
+        Route::get('my-payrolls/{payroll}/pdf', [HonorController::class, 'myPayrollPdf']);
+    });
+
+    // Laporan keuangan mahasiswa: admin dan Waket II.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_KEUANGAN,ADMIN_AKADEMIK,WK2,WR2')->group(function () {
+        Route::get('finance/student-report', [FinanceController::class, 'studentReport']);
+        Route::get('finance/student-report/pdf', [FinanceController::class, 'studentReportPdf']);
+        Route::get('finance/student-report/excel', [FinanceController::class, 'studentReportExcel']);
+    });
+
+    // Rekap KRS per semester (termasuk jenis kelas): admin akademik dan pimpinan.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,WK1,WR1,WK2,WR2,KETUA,REKTOR,DEKAN,WADEK1,KAPRODI,SEKPRODI,KETUA_LPM,SEKRETARIS_LPM')->group(function () {
+        Route::get('reports/krs-recap', [\App\Http\Controllers\Api\KrsRecapController::class, 'index']);
+        Route::get('reports/krs-recap/excel', [\App\Http\Controllers\Api\KrsRecapController::class, 'excel']);
+    });
+
+    // Dosen wali dan pimpinan prodi dapat melihat ringkasan keuangan sesuai scope.
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_KEUANGAN,ADMIN_AKADEMIK,DOSEN,KAPRODI,SEKPRODI')->group(function () {
+        Route::get('finance/students/{student}/summary', [FinanceController::class, 'studentFinance']);
+        Route::get('finance/students/{student}/summary/pdf', [FinanceController::class, 'studentFinancePdf']);
+    });
+
+    // --- Mahasiswa: lihat tagihan & summary ---
+    Route::middleware('role:SUPER_ADMIN|ADMIN_KEUANGAN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        Route::get('finance/my-invoices', [FinanceController::class, 'invoices']);
+        Route::get('finance/my-payments', [FinanceController::class, 'payments']);
+        Route::get('finance/my-summary', [FinanceController::class, 'studentSummary']);
+        Route::get('finance/check-payment', [FinanceController::class, 'checkPaymentStatus']);
+        Route::post('finance/my-payment', [FinanceController::class, 'studentPayment']);
+    });
+
+    // =========================================================================
+    // BIMBINGAN AKADEMIK
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        // Sesi bimbingan
+        Route::get('guidance/sessions', [GuidanceController::class, 'sessions']);
+        Route::get('guidance/sessions/{session}', [GuidanceController::class, 'showSession']);
+        Route::post('guidance/sessions/request', [GuidanceController::class, 'requestSession']);
+        Route::post('guidance/sessions', [GuidanceController::class, 'createSession']);
+        Route::put('guidance/sessions/{session}/status', [GuidanceController::class, 'updateSessionStatus']);
+        Route::post('guidance/sessions/{session}/notes', [GuidanceController::class, 'addNote']);
+        // Catatan akademik
+        Route::get('guidance/academic-notes', [GuidanceController::class, 'academicNotes']);
+        Route::post('guidance/academic-notes', [GuidanceController::class, 'storeAcademicNote']);
+        Route::delete('guidance/academic-notes/{note}', [GuidanceController::class, 'destroyAcademicNote']);
+        // Peringatan akademik
+        Route::get('guidance/warnings', [GuidanceController::class, 'warnings']);
+        Route::post('guidance/warnings', [GuidanceController::class, 'storeWarning']);
+        Route::post('guidance/warnings/{warning}/resolve', [GuidanceController::class, 'resolveWarning']);
+        // Dashboard dosen wali
+        Route::get('guidance/advisor-dashboard', [GuidanceController::class, 'advisorDashboard']);
+        Route::get('guidance/my-students', [GuidanceController::class, 'myStudents']);
+    });
+
+    // =========================================================================
+    // CUTI AKADEMIK
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        Route::get('academic-leaves', [AcademicLeaveController::class, 'index']);
+        Route::get('academic-leaves/history', [AcademicLeaveController::class, 'history']);
+        Route::get('academic-leaves/{academicLeave}', [AcademicLeaveController::class, 'show']);
+        Route::post('academic-leaves', [AcademicLeaveController::class, 'store']);
+        Route::post('academic-leaves/{academicLeave}/document', [AcademicLeaveController::class, 'uploadDocument']);
+        Route::post('academic-leaves/{academicLeave}/approve', [AcademicLeaveController::class, 'approve']);
+        Route::post('academic-leaves/{academicLeave}/activate', [AcademicLeaveController::class, 'activate']);
+        Route::post('academic-leaves/{academicLeave}/cancel', [AcademicLeaveController::class, 'cancel']);
+    });
+
+    // =========================================================================
+    // TRANSFER NILAI (MAHASISWA PINDAHAN)
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        // Dashboard & list
+        Route::get('transfer-credits/dashboard', [TransferCreditController::class, 'dashboard']);
+        Route::get('transfer-credits/template-source-courses', [TransferCreditController::class, 'templateSourceCourses']);
+        Route::get('transfer-credits', [TransferCreditController::class, 'index']);
+        Route::get('transfer-credits/{application}', [TransferCreditController::class, 'show']);
+        Route::post('transfer-credits', [TransferCreditController::class, 'store']);
+        Route::post('transfer-credits/{application}/submit', [TransferCreditController::class, 'submit']);
+        // Mata kuliah asal
+        Route::post('transfer-credits/{application}/source-courses', [TransferCreditController::class, 'addSourceCourse']);
+        Route::post('transfer-credits/{application}/source-courses/import', [TransferCreditController::class, 'importSourceCourses']);
+        Route::delete('transfer-credits/{application}/source-courses/{course}', [TransferCreditController::class, 'removeSourceCourse']);
+        // Konversi / Pemetaan
+        Route::post('transfer-credits/{application}/conversions', [TransferCreditController::class, 'mapConversion']);
+        Route::delete('transfer-credits/{application}/conversions/{conversion}', [TransferCreditController::class, 'removeConversion']);
+        // Dokumen
+        Route::post('transfer-credits/{application}/documents', [TransferCreditController::class, 'addDocument']);
+        Route::post('transfer-credits/documents/{document}/verify', [TransferCreditController::class, 'verifyDocument']);
+        // Evaluasi
+        Route::post('transfer-credits/{application}/evaluate', [TransferCreditController::class, 'evaluate']);
+        // Approval
+        Route::post('transfer-credits/{application}/approve', [TransferCreditController::class, 'approve']);
+        // Finalisasi
+        Route::post('transfer-credits/{application}/finalize', [TransferCreditController::class, 'finalize']);
+        // Institusi asal
+        Route::get('transfer-credits-institutions', [TransferCreditController::class, 'institutions']);
+        Route::post('transfer-credits-institutions', [TransferCreditController::class, 'storeInstitution']);
+    });
+
+    // =========================================================================
+    // PRAKTIKUM / KKN / PPL / MAGANG / PKL
+    // =========================================================================
+
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::post('practical-programs', [PracticalController::class, 'storeProgram']);
+        Route::put('practical-programs/{program}', [PracticalController::class, 'updateProgram']);
+        Route::delete('practical-programs/{program}', [PracticalController::class, 'destroyProgram']);
+        // Locations
+        Route::post('practical-programs/{program}/locations', [PracticalController::class, 'storeLocation']);
+        Route::put('practical-programs/{program}/locations/{location}', [PracticalController::class, 'updateLocation']);
+        Route::delete('practical-programs/{program}/locations/{location}', [PracticalController::class, 'destroyLocation']);
+        // Groups
+        Route::post('practical-programs/{program}/groups', [PracticalController::class, 'storeGroup']);
+        Route::put('practical-programs/{program}/groups/{group}', [PracticalController::class, 'updateGroup']);
+        Route::delete('practical-programs/{program}/groups/{group}', [PracticalController::class, 'destroyGroup']);
+        // Participants
+        Route::get('practical-programs/{program}/participants', [PracticalController::class, 'participants']);
+        Route::post('practical-programs/{program}/participants', [PracticalController::class, 'registerParticipant']);
+        Route::put('practical-participants/{participant}', [PracticalController::class, 'updateParticipant']);
+        Route::delete('practical-participants/{participant}', [PracticalController::class, 'removeParticipant']);
+        // Assessments (create/update/delete - dosen only)
+        Route::post('practical-participants/{participant}/assessments', [PracticalController::class, 'storeAssessment']);
+        Route::put('practical-assessments/{assessment}', [PracticalController::class, 'updateAssessment']);
+        Route::delete('practical-assessments/{assessment}', [PracticalController::class, 'destroyAssessment']);
+        // Logbook approval
+        Route::post('practical-logbooks/{logbook}/review', [PracticalController::class, 'approveLogbook']);
+        // Attendance approval
+        Route::post('practical-attendances/{attendance}/review', [PracticalController::class, 'reviewAttendance']);
+        // Reports
+        Route::post('practical-reports/{report}/review', [PracticalController::class, 'reviewReport']);
+    });
+
+    // Mahasiswa: logbook, presensi, laporan
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::get('practical-programs', [PracticalController::class, 'programs']);
+        Route::get('practical-programs/{program}', [PracticalController::class, 'showProgram']);
+        Route::get('practical-my-programs', [PracticalController::class, 'myPrograms']);
+        Route::post('practical-programs/{program}/self-register', [PracticalController::class, 'selfRegister']);
+        Route::get('practical-participants/{participant}', [PracticalController::class, 'showParticipant']);
+        Route::get('practical-participants/{participant}/logbooks', [PracticalController::class, 'logbooks']);
+        Route::post('practical-participants/{participant}/logbooks', [PracticalController::class, 'storeLogbook']);
+        Route::put('practical-logbooks/{logbook}', [PracticalController::class, 'updateLogbook']);
+        Route::post('practical-logbooks/{logbook}/resubmit', [PracticalController::class, 'resubmitLogbook']);
+        Route::get('practical-participants/{participant}/attendances', [PracticalController::class, 'attendances']);
+        Route::post('practical-participants/{participant}/attendances', [PracticalController::class, 'storeAttendance']);
+        Route::get('practical-participants/{participant}/assessments', [PracticalController::class, 'assessments']);
+        Route::get('practical-participants/{participant}/reports', [PracticalController::class, 'reports']);
+        Route::post('practical-participants/{participant}/reports', [PracticalController::class, 'storeReport']);
+    });
+
+    // =========================================================================
+    // SKRIPSI / TUGAS AKHIR
+    // =========================================================================
+
+    // =========================================================================
+    // SKRIPSI / TUGAS AKHIR
+    // =========================================================================
+
+    // Baca: semua role bisa lihat
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,MAHASISWA,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::get('theses/dashboard', [ThesisController::class, 'dashboard']);
+        Route::get('theses', [ThesisController::class, 'index']);
+        Route::get('theses/{thesis}', [ThesisController::class, 'show']);
+    });
+
+    // Mahasiswa: buat draft, edit draft, submit, upload revisi, upload final
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        Route::post('theses', [ThesisController::class, 'store']);
+        Route::put('theses/{thesis}/draft', [ThesisController::class, 'updateDraft']);
+        Route::post('theses/{thesis}/submit', [ThesisController::class, 'submitToKaprodi']);
+        Route::post('theses/{thesis}/resubmit', [ThesisController::class, 'resubmit']);
+        Route::post('theses/{thesis}/revision-link', [ThesisController::class, 'uploadRevisionLink']);
+        Route::post('theses/{thesis}/upload-final', [ThesisController::class, 'uploadFinal']);
+    });
+
+    // Kaprodi & Dosen Wali: review judul
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('theses/{thesis}/review-title', [ThesisController::class, 'reviewTitle']);
+    });
+
+    // Kaprodi & Admin: kelola seminar, pembimbing, sidang
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('theses/{thesis}/schedule-seminar', [ThesisController::class, 'scheduleSeminar']);
+        Route::post('theses/{thesis}/seminar-result', [ThesisController::class, 'recordSeminarResult']);
+        Route::post('theses/{thesis}/assign-supervisors', [ThesisController::class, 'assignSupervisors']);
+        Route::post('theses/{thesis}/schedule-defense', [ThesisController::class, 'scheduleDefense']);
+        Route::post('theses/{thesis}/ready-defense', [ThesisController::class, 'declareReadyForDefense']);
+        // Tambah/hapus penguji individual
+        Route::post('theses/{thesis}/examiners', [ThesisController::class, 'addExaminer']);
+        Route::delete('theses/{thesis}/examiners/{examiner}', [ThesisController::class, 'removeExaminer']);
+        // Hapus pembimbing
+        Route::delete('theses/{thesis}/supervisors/{supervisor}', [ThesisController::class, 'removeSupervisor']);
+        // Update judul
+        Route::post('theses/{thesis}/title', [ThesisController::class, 'updateTitle']);
+        // Hasil sidang & nilai
+        Route::post('thesis-defenses/{defense}/result', [ThesisController::class, 'updateDefenseResult']);
+        Route::post('thesis-defenses/{defense}/scores', [ThesisController::class, 'storeDefenseScore']);
+    });
+
+    // LP2M: publikasi skripsi ke repository
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::post('theses/{thesis}/publish', [ThesisController::class, 'publish']);
+    });
+
+    // Penguji: input nilai seminar & review revisi
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('theses/{thesis}/seminar-score', [ThesisController::class, 'inputSeminarScore']);
+        Route::post('theses/{thesis}/review-revision', [ThesisController::class, 'reviewRevision']);
+        // Bimbingan (dosen catat)
+        Route::post('theses/{thesis}/guidances', [ThesisController::class, 'storeGuidance']);
+    });
+
+    // =========================================================================
+    // WISUDA
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->delete(
+        'graduation/registrations/{registration}',
+        [GraduationController::class, 'destroyRegistration']
+    );
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->group(function () {
+        Route::post('graduation/periods', [GraduationController::class, 'storePeriod']);
+        Route::put('graduation/periods/{period}', [GraduationController::class, 'updatePeriod']);
+        Route::delete('graduation/periods/{period}', [GraduationController::class, 'destroyPeriod']);
+        Route::post('graduation/registrations/{registration}/status', [GraduationController::class, 'updateRegistrationStatus']);
+        Route::post('graduation/registrations/{registration}/predicate', [GraduationController::class, 'setPredicate']);
+        Route::post('graduation/verifications/{verification}', [GraduationController::class, 'verify']);
+        Route::post('graduation/registrations/{registration}/auto-verify-finance', [GraduationController::class, 'autoVerifyFinance']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN|MAHASISWA')->group(function () {
+        // Periode
+        Route::get('graduation/periods', [GraduationController::class, 'periods']);
+        // Pendaftaran
+        Route::get('graduation/registrations', [GraduationController::class, 'registrations']);
+        Route::get('graduation/registrations/{registration}', [GraduationController::class, 'showRegistration']);
+        Route::post('graduation/register', [GraduationController::class, 'register']);
+        Route::get('graduation/my-profile', [GraduationController::class, 'myProfile']);
+        // Dashboard
+        Route::get('graduation/dashboard', [GraduationController::class, 'dashboard']);
+    });
+
+    // =========================================================================
+    // ALUMNI
+    // =========================================================================
+
+    Route::middleware('role:MAHASISWA')->prefix('my-alumni')->group(function () {
+        Route::get('/', [AlumniController::class, 'myProfile']);
+        Route::put('/', [AlumniController::class, 'updateMyProfile']);
+        Route::post('tracer-study', [AlumniController::class, 'storeMyTracerStudy']);
+        Route::post('employments', [AlumniController::class, 'storeMyEmployment']);
+        Route::delete('employments/{employment}', [AlumniController::class, 'destroyMyEmployment']);
+        Route::post('further-studies', [AlumniController::class, 'storeMyFurtherStudy']);
+        Route::delete('further-studies/{study}', [AlumniController::class, 'destroyMyFurtherStudy']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::get('alumni/dashboard', [AlumniController::class, 'dashboard']);
+        Route::get('alumni/export', [AlumniController::class, 'export']);
+        Route::get('alumni', [AlumniController::class, 'index']);
+        Route::get('alumni/{alumni}', [AlumniController::class, 'show']);
+        Route::post('alumni', [AlumniController::class, 'store']);
+        Route::put('alumni/{alumni}', [AlumniController::class, 'update']);
+        Route::delete('alumni/{alumni}', [AlumniController::class, 'destroy']);
+        // Employment
+        Route::post('alumni/{alumni}/employments', [AlumniController::class, 'storeEmployment']);
+        Route::delete('alumni/{alumni}/employments/{employment}', [AlumniController::class, 'destroyEmployment']);
+        // Further Study
+        Route::post('alumni/{alumni}/further-studies', [AlumniController::class, 'storeFurtherStudy']);
+        Route::delete('alumni/{alumni}/further-studies/{study}', [AlumniController::class, 'destroyFurtherStudy']);
+        // Tracer Study
+        Route::get('tracer-studies', [AlumniController::class, 'tracerStudies']);
+        Route::post('alumni/{alumni}/tracer-study', [AlumniController::class, 'storeTracerStudy']);
+    });
+
+    // =========================================================================
+    // LAPORAN & STATISTIK
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->prefix('reports')->group(function () {
+        Route::get('summary', [ReportController::class, 'summary']);
+        Route::get('students', [ReportController::class, 'students']);
+        Route::get('academic', [ReportController::class, 'academic']);
+        Route::get('finance', [ReportController::class, 'finance']);
+        Route::get('human-resources', [ReportController::class, 'humanResources']);
+    });
+
+    // =========================================================================
+    // AUDIT LOG
+    // =========================================================================
+
+    Route::middleware('role:SUPER_ADMIN')->prefix('audit-logs')->group(function () {
+        Route::get('/', [AuditLogController::class, 'index']);
+        Route::get('/actions', [AuditLogController::class, 'actions']);
+        Route::get('/model-types', [AuditLogController::class, 'modelTypes']);
+        Route::get('/{auditLog}', [AuditLogController::class, 'show']);
+    });
+
+    // =========================================================================
+    // KARYA DOSEN
+    // =========================================================================
+
+    // Dosen: kelola karya miliknya sendiri
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,DOSEN,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::get('lecturer-works/stats', [LecturerWorkController::class, 'stats']);
+        Route::get('lecturer-works/authors/search', [LecturerWorkController::class, 'searchAuthors']);
+        Route::get('lecturer-works', [LecturerWorkController::class, 'index']);
+        Route::get('lecturer-works/export-excel', [LecturerWorkController::class, 'exportExcel']);
+        Route::get('lecturer-works/template-excel', [LecturerWorkController::class, 'templateExcel']);
+        Route::get('lecturer-works/{lecturerWork}', [LecturerWorkController::class, 'show']);
+    });
+
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('lecturer-works/import-excel', [LecturerWorkController::class, 'importExcel']);
+        Route::post('lecturer-works', [LecturerWorkController::class, 'store']);
+        Route::post('lecturer-works/{lecturerWork}', [LecturerWorkController::class, 'update']); // POST karena ada file upload
+        Route::delete('lecturer-works/{lecturerWork}', [LecturerWorkController::class, 'destroy']);
+        Route::post('lecturer-works/{lecturerWork}/submit', [LecturerWorkController::class, 'submit']);
+    });
+
+    // Admin/LP2M: verifikasi & publikasi
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::post('lecturer-works/{lecturerWork}/verify', [LecturerWorkController::class, 'verify']);
+        Route::post('lecturer-works/{lecturerWork}/publish', [LecturerWorkController::class, 'publish']);
+    });
+
+    // =========================================================================
+    // HIBAH PENELITIAN & PENGABDIAN KEPADA MASYARAKAT
+    // =========================================================================
+
+    // Periode hibah (LP2M/Admin kelola, semua bisa baca)
+    Route::get('penelitian-periods', [PenelitianController::class, 'periods']);
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::post('penelitian-periods', [PenelitianController::class, 'storePeriod']);
+        Route::put('penelitian-periods/{period}', [PenelitianController::class, 'updatePeriod']);
+        Route::delete('penelitian-periods/{period}', [PenelitianController::class, 'destroyPeriod']);
+    });
+
+    // Repository publik (semua terautentikasi bisa lihat)
+    Route::get('penelitian-repository', [PenelitianController::class, 'repository']);
+
+    // Read: semua role yang relevan
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KETUA_LP2M,SEKRETARIS_LP2M,DOSEN,KEUANGAN')->group(function () {
+        Route::get('penelitian/stats', [PenelitianController::class, 'stats']);
+        Route::get('penelitian', [PenelitianController::class, 'index']);
+        Route::get('penelitian/{penelitian}', [PenelitianController::class, 'show']);
+    });
+
+    // Dosen: buat, edit, hapus draft; submit; upload laporan
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('penelitian', [PenelitianController::class, 'store']);
+        Route::put('penelitian/{penelitian}', [PenelitianController::class, 'update']);
+        Route::delete('penelitian/{penelitian}', [PenelitianController::class, 'destroy']);
+        Route::post('penelitian/{penelitian}/submit-kaprodi', [PenelitianController::class, 'submitToKaprodi']);
+        Route::post('penelitian/{penelitian}/upload-revisi-proposal', [PenelitianController::class, 'uploadRevisiProposal']);
+        Route::post('penelitian/{penelitian}/upload-laporan-kemajuan', [PenelitianController::class, 'uploadLaporanKemajuan']);
+        Route::post('penelitian/{penelitian}/upload-revisi-kemajuan', [PenelitianController::class, 'uploadRevisiKemajuan']);
+        Route::post('penelitian/{penelitian}/upload-laporan-akhir', [PenelitianController::class, 'uploadLaporanAkhir']);
+        Route::post('penelitian/{penelitian}/upload-laporan-final', [PenelitianController::class, 'uploadLaporanFinal']);
+        Route::post('penelitian/{penelitian}/upload-lpj', [PenelitianController::class, 'uploadLpj']);
+        Route::post('penelitian/{penelitian}/upload-revisi-lpj', [PenelitianController::class, 'uploadRevisiLpj']);
+        // Reviewer (dosen yang ditugaskan): submit review & review monev
+        Route::post('penelitian/{penelitian}/submit-review', [PenelitianController::class, 'submitReview']);
+    });
+
+    // Ka.Prodi: review proposal
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|DOSEN')->group(function () {
+        Route::post('penelitian/{penelitian}/review-kaprodi', [PenelitianController::class, 'reviewKaprodi']);
+    });
+
+    // LP2M: seleksi, kontrak, monev, seminar, LPJ, publikasi
+    Route::middleware('effective_access:SUPER_ADMIN,ADMIN_AKADEMIK,KETUA_LP2M,SEKRETARIS_LP2M')->group(function () {
+        Route::post('penelitian/{penelitian}/assign-reviewers', [PenelitianController::class, 'assignReviewers']);
+        Route::post('penelitian/{penelitian}/assign-monev-reviewer', [PenelitianController::class, 'assignMonevReviewer']);
+        Route::post('penelitian/{penelitian}/seleksi-result', [PenelitianController::class, 'setSeleksiResult']);
+        Route::post('penelitian/{penelitian}/save-kontrak', [PenelitianController::class, 'saveKontrak']);
+        Route::post('penelitian/{penelitian}/monev-result', [PenelitianController::class, 'setMonevResult']);
+        Route::post('penelitian/{penelitian}/seminar-date', [PenelitianController::class, 'setSeminarDate']);
+        Route::post('penelitian/{penelitian}/seminar-result', [PenelitianController::class, 'setSeminarResult']);
+        Route::post('penelitian/{penelitian}/review-lpj', [PenelitianController::class, 'reviewLpj']);
+        Route::post('penelitian/{penelitian}/publish', [PenelitianController::class, 'publish']);
+    });
+
+    // Keuangan: alokasi & cairkan dana
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK|KEUANGAN')->group(function () {
+        Route::post('penelitian/{penelitian}/allocate-funding', [PenelitianController::class, 'allocateFunding']);
+        Route::post('penelitian/{penelitian}/disburse-funding/{stage}', [PenelitianController::class, 'disburseFunding']);
+    });
+
+    // =========================================================================
+    // PERSURATAN (Surat Keluar, Surat Masuk, Disposisi)
+    // =========================================================================
+
+    // Surat Keluar
+    Route::prefix('outgoing-letters')->group(function () {
+        Route::get('/', [OutgoingLetterController::class, 'index']);
+        Route::get('letter-types', [OutgoingLetterController::class, 'letterTypes']);
+        Route::get('signers', [OutgoingLetterController::class, 'signers']);
+        Route::post('/', [OutgoingLetterController::class, 'store']);
+        Route::get('{outgoingLetter}', [OutgoingLetterController::class, 'show']);
+        Route::put('{outgoingLetter}', [OutgoingLetterController::class, 'update']);
+        Route::delete('{outgoingLetter}', [OutgoingLetterController::class, 'destroy']);
+        Route::post('{outgoingLetter}/send', [OutgoingLetterController::class, 'send']);
+        Route::post('{outgoingLetter}/review', [OutgoingLetterController::class, 'review']);
+        Route::post('{outgoingLetter}/sign', [OutgoingLetterController::class, 'sign']);
+        Route::post('{outgoingLetter}/distribute', [OutgoingLetterController::class, 'distribute']);
+        Route::post('{outgoingLetter}/documents', [OutgoingLetterController::class, 'uploadDocuments']);
+        Route::delete('{outgoingLetter}/documents', [OutgoingLetterController::class, 'removeDocument']);
+        Route::get('{outgoingLetter}/pdf', [OutgoingLetterController::class, 'downloadPdf']);
+        Route::get('{outgoingLetter}/preview-pdf', [OutgoingLetterController::class, 'previewPdf']);
+    });
+
+    // Template Surat
+    Route::prefix('letter-templates')->group(function () {
+        Route::get('/', [LetterTemplateController::class, 'index']);
+        Route::post('/', [LetterTemplateController::class, 'store']);
+        Route::get('{letterTemplate}', [LetterTemplateController::class, 'show']);
+        Route::put('{letterTemplate}', [LetterTemplateController::class, 'update']);
+        Route::delete('{letterTemplate}', [LetterTemplateController::class, 'destroy']);
+    });
+
+    // Surat Masuk
+    Route::prefix('incoming-letters')->group(function () {
+        Route::get('/', [IncomingLetterController::class, 'index']);
+        Route::post('/', [IncomingLetterController::class, 'store']);
+        Route::get('{incomingLetter}', [IncomingLetterController::class, 'show']);
+        Route::delete('{incomingLetter}', [IncomingLetterController::class, 'destroy']);
+        Route::post('{incomingLetter}/disposition', [IncomingLetterController::class, 'createDisposition']);
+    });
+
+    // Disposisi (penerima)
+    Route::prefix('dispositions')->group(function () {
+        Route::get('/', [DispositionController::class, 'index']);
+        Route::post('{disposition}/read', [DispositionController::class, 'markRead']);
+        Route::post('{disposition}/respond', [DispositionController::class, 'respond']);
+    });
+
+    // =========================================================================
+    // AGENDA KEGIATAN & PRESENSI
+    // =========================================================================
+    Route::prefix('events')->group(function () {
+        Route::get('/', [EventController::class, 'index']);
+        Route::get('my-attendance', [EventController::class, 'myAttendance']);
+        Route::post('/', [EventController::class, 'store']);
+        Route::get('{event}', [EventController::class, 'show']);
+        Route::put('{event}', [EventController::class, 'update']);
+        Route::delete('{event}', [EventController::class, 'destroy']);
+        Route::post('{event}/toggle-open', [EventController::class, 'toggleOpen']);
+        Route::get('{event}/qr-code', [EventController::class, 'qrCode']);
+        Route::get('{event}/export-excel', [EventController::class, 'exportExcel']);
+        Route::get('{event}/export-pdf', [EventController::class, 'exportPdf']);
+        // Presensi via app (user login)
+        Route::post('attend/{token}', [EventController::class, 'attend']);
+    });
+
+    Route::prefix('meeting-minutes')->group(function () {
+        Route::get('/', [MeetingMinutesController::class, 'index']);
+        Route::get('signers', [MeetingMinutesController::class, 'signers']);
+        Route::get('notulis', [MeetingMinutesController::class, 'notulis']);
+        Route::post('/', [MeetingMinutesController::class, 'store']);
+        Route::get('{meetingMinute}', [MeetingMinutesController::class, 'show']);
+        Route::put('{meetingMinute}', [MeetingMinutesController::class, 'update']);
+        Route::delete('{meetingMinute}', [MeetingMinutesController::class, 'destroy']);
+        Route::post('{meetingMinute}/send', [MeetingMinutesController::class, 'send']);
+        Route::post('{meetingMinute}/review', [MeetingMinutesController::class, 'review']);
+        Route::post('{meetingMinute}/sign', [MeetingMinutesController::class, 'sign']);
+        Route::post('{meetingMinute}/share', [MeetingMinutesController::class, 'share']);
+        Route::get('{meetingMinute}/pdf', [MeetingMinutesController::class, 'downloadPdf']);
+        Route::get('{meetingMinute}/preview-pdf', [MeetingMinutesController::class, 'previewPdf']);
+    });
+
+    // =========================================================================
+    // PENGAJUAN SURAT (Mahasiswa & Dosen)
+    // =========================================================================
+    Route::prefix('letter-requests')->group(function () {
+        Route::get('/', [LetterRequestController::class, 'index']);
+        Route::post('/', [LetterRequestController::class, 'store']);
+        Route::put('{letterRequest}', [LetterRequestController::class, 'update']);
+        Route::delete('{letterRequest}', [LetterRequestController::class, 'destroy']);
+        Route::post('{letterRequest}/process', [LetterRequestController::class, 'process']);
+    });
+
+    // Surat masuk untuk user (surat keluar yang dikirim ke mereka)
+    Route::get('my-incoming-letters', function (Request $request) {
+        $userId = auth()->id();
+        $data = OutgoingLetter::with(['letterType', 'creator'])
+            ->where('status', 'TERKIRIM')
+            ->whereHas('internalRecipients', fn ($q) => $q->where('user_id', $userId))
+            ->orderByDesc('sent_at')
+            ->paginate($request->per_page ?? 15);
+
+        return response()->json($data);
+    });
+
+    // Surat yang perlu ditandatangani/diperiksa oleh user saat ini
+    Route::get('my-pending-letters', function () {
+        $userId = auth()->id();
+        $data = OutgoingLetter::with(['letterType', 'creator'])
+            ->where(function ($q) use ($userId) {
+                $q->where(fn ($q2) => $q2->where('reviewer_id', $userId)->where('status', 'MENUNGGU_PEMERIKSA'))
+                    ->orWhere(fn ($q2) => $q2->where('signer_id', $userId)->where('status', 'MENUNGGU_PENANDATANGAN'));
+            })
+            ->orderByDesc('created_at')
+            ->get();
+
+        return response()->json($data);
+    });
+
+    // Study programs list (untuk filter distribusi)
+    Route::get('study-programs/all', [StudyProgramController::class, 'all']);
+
+    // =========================================================================
+    // INTEGRASI LMS
+    // =========================================================================
+    Route::middleware('role:SUPER_ADMIN|ADMIN_AKADEMIK')->prefix('lms')->group(function () {
+        Route::get('config', [LmsIntegrationController::class, 'config']);
+        Route::post('config', [LmsIntegrationController::class, 'saveConfig']);
+        Route::post('test-connection', [LmsIntegrationController::class, 'testConnection']);
+        Route::post('sync-all', [LmsIntegrationController::class, 'syncAll']);
+        Route::post('sync/{type}', [LmsIntegrationController::class, 'syncType']);
+        Route::get('logs', [LmsIntegrationController::class, 'logs']);
+    });
+});

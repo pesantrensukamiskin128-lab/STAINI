@@ -1,0 +1,17 @@
+# Data referensi, dump, dan hasil pemeriksaan hanya boleh tersimpan lokal.
+_referensi/
+output/
+outputs/
+tmp/
+migrate-siakad.ps1
+split-and-upload.ps1
+*.sql
+*.sql.gz
+*.xlsx
+*.xls
+
+frontend-dist-rumahweb-*.zip
+backend-rumahweb-*.zip
+
+# local build outputs
+frontend/dist-*/

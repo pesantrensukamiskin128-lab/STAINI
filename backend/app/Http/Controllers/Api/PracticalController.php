@@ -1,0 +1,615 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\PracticalAssessment;
+use App\Models\PracticalAttendance;
+use App\Models\PracticalGroup;
+use App\Models\PracticalLocation;
+use App\Models\PracticalLogbook;
+use App\Models\PracticalParticipant;
+use App\Models\PracticalProgram;
+use App\Services\AcademicActivityFinanceService;
+use App\Models\PracticalReport;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class PracticalController extends Controller
+{
+    public function __construct(private readonly AcademicActivityFinanceService $activityFinance) {}
+    // === PROGRAMS ===
+    public function programs(Request $request): JsonResponse
+    {
+        $user = auth()->user();
+        $query = PracticalProgram::with(['semester', 'studyProgram', 'coordinator'])
+            ->withCount('participants')
+            ->when($request->program_type, fn($q) => $q->where('program_type', $request->program_type))
+            ->when($request->semester_id, fn($q) => $q->where('semester_id', $request->semester_id))
+            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"));
+
+        // Dosen biasa (hanya kkn.view, tanpa kkn.create): hanya lihat program yang terkait
+        if ($user->hasRole('DOSEN') && !$user->can('kkn.create')) {
+            $lecturer = \App\Models\Lecturer::where('user_id', $user->id)->first();
+            if ($lecturer) {
+                $query->where(function ($q) use ($lecturer) {
+                    $q->where('coordinator_id', $lecturer->id)
+                      ->orWhereHas('participants', fn($sub) => $sub->where('supervisor_id', $lecturer->id)->orWhere('supervisor2_id', $lecturer->id))
+                      ->orWhereHas('groups', fn($sub) => $sub->where('supervisor_id', $lecturer->id)->orWhere('supervisor2_id', $lecturer->id))
+                      ->orWhereHas('locations', fn($sub) => $sub->where('supervisor_id', $lecturer->id)->orWhere('supervisor2_id', $lecturer->id));
+                });
+            }
+        }
+
+        $data = $query->orderByDesc('created_at')->paginate($request->per_page ?? 15);
+        return response()->json($data);
+    }
+
+    public function showProgram(PracticalProgram $program): JsonResponse
+    {
+        $program->load(['semester', 'studyProgram', 'coordinator', 'locations.supervisor', 'locations.supervisor2', 'groups.supervisor', 'groups.supervisor2', 'groups.location', 'groups.leader.student']);
+
+        // Dosen biasa: filter kelompok & lokasi yang menjadi bimbingannya saja
+        $user = auth()->user();
+        if ($user->hasRole('DOSEN') && !$user->can('kkn.create')) {
+            $lecturer = \App\Models\Lecturer::where('user_id', $user->id)->first();
+            if ($lecturer) {
+                $program->setRelation('groups', $program->groups->filter(function ($g) use ($lecturer) {
+                    return $g->supervisor_id == $lecturer->id || $g->supervisor2_id == $lecturer->id;
+                })->values());
+                $program->setRelation('locations', $program->locations->filter(function ($l) use ($lecturer) {
+                    return $l->supervisor_id == $lecturer->id || $l->supervisor2_id == $lecturer->id;
+                })->values());
+            }
+        }
+
+        return response()->json($program);
+    }
+
+    public function storeProgram(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'name'               => 'required|string|max:255',
+            'program_type'       => 'required|in:KKN,PPL,MAGANG,PRAKTIKUM,PKL',
+            'semester_id'        => 'required|exists:semesters,id',
+            'study_program_id'   => 'nullable|exists:study_programs,id',
+            'description'        => 'nullable|string',
+            'registration_start' => 'nullable|date',
+            'registration_end'   => 'nullable|date',
+            'start_date'         => 'nullable|date',
+            'end_date'           => 'nullable|date',
+            'min_credits'        => 'nullable|integer|min:0',
+            'credit_value'       => 'nullable|integer|min:0',
+            'coordinator_id'     => 'nullable|exists:lecturers,id',
+            'is_active'          => 'boolean',
+        ]);
+        $program = PracticalProgram::create($validated);
+        return response()->json(['message' => 'Program berhasil dibuat.', 'data' => $program], 201);
+    }
+
+    public function updateProgram(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $validated = $request->validate([
+            'name'               => 'sometimes|string|max:255',
+            'description'        => 'nullable|string',
+            'registration_start' => 'nullable|date',
+            'registration_end'   => 'nullable|date',
+            'start_date'         => 'nullable|date',
+            'end_date'           => 'nullable|date',
+            'min_credits'        => 'nullable|integer|min:0',
+            'credit_value'       => 'nullable|integer|min:0',
+            'coordinator_id'     => 'nullable|exists:lecturers,id',
+            'is_active'          => 'boolean',
+        ]);
+        $program->update($validated);
+        return response()->json(['message' => 'Program berhasil diupdate.', 'data' => $program->fresh()]);
+    }
+
+    public function destroyProgram(PracticalProgram $program): JsonResponse
+    {
+        if ($program->participants()->count() > 0) return response()->json(['message' => 'Program sudah memiliki peserta.'], 422);
+        $program->locations()->delete(); $program->groups()->delete(); $program->delete();
+        return response()->json(['message' => 'Program berhasil dihapus.']);
+    }
+
+    // === LOCATIONS ===
+    public function storeLocation(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255', 'address' => 'nullable|string', 'city' => 'nullable|string|max:100',
+            'contact_person' => 'nullable|string', 'contact_phone' => 'nullable|string|max:20',
+            'capacity' => 'nullable|integer', 'supervisor_id' => 'nullable|exists:lecturers,id',
+            'supervisor2_id' => 'nullable|exists:lecturers,id',
+        ]);
+        $loc = $program->locations()->create($validated);
+        return response()->json(['message' => 'Lokasi berhasil ditambahkan.', 'data' => $loc], 201);
+    }
+
+    public function destroyLocation(PracticalProgram $program, PracticalLocation $location): JsonResponse
+    {
+        $location->delete();
+        return response()->json(['message' => 'Lokasi berhasil dihapus.']);
+    }
+
+    public function updateLocation(Request $request, PracticalProgram $program, PracticalLocation $location): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255', 'address' => 'nullable|string', 'city' => 'nullable|string|max:100',
+            'contact_person' => 'nullable|string', 'contact_phone' => 'nullable|string|max:20',
+            'capacity' => 'nullable|integer', 'supervisor_id' => 'nullable|exists:lecturers,id',
+            'supervisor2_id' => 'nullable|exists:lecturers,id',
+        ]);
+        $location->update($validated);
+        return response()->json(['message' => 'Lokasi berhasil diupdate.', 'data' => $location->fresh()->load(['supervisor', 'supervisor2'])]);
+    }
+
+    // === GROUPS ===
+    public function storeGroup(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100', 'location_id' => 'nullable|exists:practical_locations,id',
+            'supervisor_id' => 'nullable|exists:lecturers,id', 'supervisor2_id' => 'nullable|exists:lecturers,id',
+            'leader_id' => 'nullable|exists:practical_participants,id',
+            'notes' => 'nullable|string',
+        ]);
+        $group = $program->groups()->create($validated);
+        return response()->json(['message' => 'Kelompok berhasil dibuat.', 'data' => $group->load(['location', 'supervisor', 'supervisor2', 'leader.student'])], 201);
+    }
+
+    public function destroyGroup(PracticalProgram $program, PracticalGroup $group): JsonResponse
+    {
+        $group->participants()->update(['group_id' => null]);
+        $group->delete();
+        return response()->json(['message' => 'Kelompok berhasil dihapus.']);
+    }
+
+    public function updateGroup(Request $request, PracticalProgram $program, PracticalGroup $group): JsonResponse
+    {
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:100', 'location_id' => 'nullable|exists:practical_locations,id',
+            'supervisor_id' => 'nullable|exists:lecturers,id', 'supervisor2_id' => 'nullable|exists:lecturers,id',
+            'leader_id' => 'nullable|exists:practical_participants,id',
+            'notes' => 'nullable|string',
+        ]);
+        $group->update($validated);
+        return response()->json(['message' => 'Kelompok berhasil diupdate.', 'data' => $group->fresh()->load(['location', 'supervisor', 'supervisor2', 'leader.student'])]);
+    }
+
+    // === PARTICIPANTS ===
+    public function participants(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $user = auth()->user();
+        $query = $program->participants()->with(['student.studyProgram', 'group', 'location', 'supervisor', 'supervisor2'])
+            ->withCount(['logbooks', 'attendances', 'assessments'])
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
+            ->when($request->search, function ($q) use ($request) {
+                $q->whereHas('student', fn($sub) => $sub->where('name', 'like', "%{$request->search}%")
+                    ->orWhere('nim', 'like', "%{$request->search}%"));
+            });
+
+        // Dosen biasa: hanya lihat peserta yang menjadi bimbingannya
+        if ($user->hasRole('DOSEN') && !$user->can('kkn.create')) {
+            $lecturer = \App\Models\Lecturer::where('user_id', $user->id)->first();
+            if ($lecturer) {
+                $query->where(function ($q) use ($lecturer) {
+                    $q->where('supervisor_id', $lecturer->id)
+                      ->orWhere('supervisor2_id', $lecturer->id)
+                      ->orWhereHas('group', fn($sub) => $sub->where('supervisor_id', $lecturer->id)->orWhere('supervisor2_id', $lecturer->id));
+                });
+            }
+        }
+
+        $data = $query->paginate($request->per_page ?? 20);
+        return response()->json($data);
+    }
+
+    public function registerParticipant(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $validated = $request->validate([
+            'student_id'    => 'required|exists:students,id',
+            'group_id'      => 'nullable|exists:practical_groups,id',
+            'location_id'   => 'nullable|exists:practical_locations,id',
+            'supervisor_id' => 'nullable|exists:lecturers,id',
+            'supervisor2_id' => 'nullable|exists:lecturers,id',
+        ]);
+        if ($program->participants()->where('student_id', $validated['student_id'])->exists()) {
+            return response()->json(['message' => 'Mahasiswa sudah terdaftar.'], 422);
+        }
+        $student = \App\Models\Student::findOrFail($validated['student_id']);
+        $this->activityFinance->assertSppPaidThrough(
+            $student,
+            $program->semester,
+            $program->start_date?->startOfDay() ?? now()
+        );
+        $p = $program->participants()->create(array_merge($validated, ['status' => 'TERDAFTAR']));
+
+        // Notifikasi ke mahasiswa
+        if ($p->student?->user_id) {
+            \App\Models\AppNotification::send(
+                $p->student->user_id,
+                'Terdaftar di Program ' . $program->program_type,
+                "Anda telah didaftarkan ke program \"{$program->name}\".",
+                'info', '/praktikum'
+            );
+        }
+
+        return response()->json(['message' => 'Peserta berhasil didaftarkan.', 'data' => $p->load('student')], 201);
+    }
+
+    /** Mahasiswa daftar sendiri ke program */
+    public function selfRegister(Request $request, PracticalProgram $program): JsonResponse
+    {
+        $user    = auth()->user();
+        $student = $user->student;
+
+        if (!$student) {
+            return response()->json(['message' => 'Akun bukan mahasiswa.'], 403);
+        }
+        if (!$program->is_active) {
+            return response()->json(['message' => 'Program ini tidak aktif.'], 422);
+        }
+        // Cek periode pendaftaran
+        $now = now()->toDateString();
+        if ($program->registration_start && $now < $program->registration_start) {
+            return response()->json(['message' => 'Pendaftaran belum dibuka.'], 422);
+        }
+        if ($program->registration_end && $now > $program->registration_end) {
+            return response()->json(['message' => 'Pendaftaran sudah ditutup.'], 422);
+        }
+        if ($program->participants()->where('student_id', $student->id)->exists()) {
+            return response()->json(['message' => 'Anda sudah terdaftar di program ini.'], 422);
+        }
+        $this->activityFinance->assertSppPaidThrough(
+            $student,
+            $program->semester,
+            $program->start_date?->startOfDay() ?? now()
+        );
+
+        $p = $program->participants()->create(['student_id' => $student->id, 'status' => 'TERDAFTAR']);
+        $program->loadMissing('coordinator');
+        if ($program->coordinator?->user_id) {
+            \App\Models\AppNotification::send($program->coordinator->user_id, 'Pendaftaran Praktik Baru',
+                "{$student->name} mendaftar ke program \"{$program->name}\".", 'info', '/praktikum');
+        }
+        return response()->json(['message' => 'Berhasil mendaftar ke program.', 'data' => $p], 201);
+    }
+
+    /** Mahasiswa lihat program yang sudah diikuti */
+    public function myPrograms(Request $request): JsonResponse
+    {
+        $student = auth()->user()->student;
+        if (!$student) return response()->json([]);
+
+        $data = \App\Models\PracticalParticipant::where('student_id', $student->id)
+            ->with(['program.semester', 'group', 'location', 'supervisor', 'supervisor2'])
+            ->withCount(['logbooks', 'attendances'])
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(function ($p) {
+                $p->logbooks_revision = $p->logbooks()->where('status', 'REVISION')->count();
+                $p->logbooks_approved = $p->logbooks()->where('status', 'APPROVED')->count();
+                return $p;
+            });
+
+        return response()->json($data);
+    }
+
+    public function updateParticipant(Request $request, PracticalParticipant $participant): JsonResponse
+    {
+        $validated = $request->validate([
+            'group_id' => 'nullable|exists:practical_groups,id', 'location_id' => 'nullable|exists:practical_locations,id',
+            'supervisor_id' => 'nullable|exists:lecturers,id', 'supervisor2_id' => 'nullable|exists:lecturers,id',
+            'status' => 'nullable|in:TERDAFTAR,AKTIF,SELESAI,MENGUNDURKAN_DIRI,GAGAL',
+        ]);
+        $participant->update($validated);
+        $participant->loadMissing('student', 'program', 'supervisor', 'supervisor2');
+        if ($participant->student?->user_id && (array_key_exists('group_id', $validated)
+            || array_key_exists('location_id', $validated) || array_key_exists('supervisor_id', $validated)
+            || array_key_exists('supervisor2_id', $validated))) {
+            \App\Models\AppNotification::send($participant->student->user_id, 'Data Peserta Diperbarui',
+                "Data keikutsertaan Anda pada program \"{$participant->program?->name}\" telah diperbarui.", 'info', '/praktikum');
+        }
+        return response()->json(['message' => 'Peserta berhasil diupdate.', 'data' => $participant->fresh()]);
+    }
+
+    public function removeParticipant(PracticalParticipant $participant): JsonResponse
+    {
+        $participant->logbooks()->delete(); $participant->attendances()->delete();
+        $participant->assessments()->delete(); $participant->reports()->delete();
+        $participant->delete();
+        return response()->json(['message' => 'Peserta berhasil dihapus.']);
+    }
+
+    public function showParticipant(PracticalParticipant $participant): JsonResponse
+    {
+        return response()->json($participant->load([
+            'student.studyProgram',
+            'program',
+            'group',
+            'location',
+            'supervisor',
+            'supervisor2',
+        ]));
+    }
+
+    // === LOGBOOK ===
+    public function logbooks(PracticalParticipant $participant): JsonResponse
+    {
+        return response()->json($participant->logbooks()->orderByDesc('activity_date')->get());
+    }
+
+    public function storeLogbook(Request $request, PracticalParticipant $participant): JsonResponse
+    {
+        $validated = $request->validate([
+            'activity_date' => 'required|date', 'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i', 'activity' => 'required|string',
+            'result' => 'nullable|string', 'notes' => 'nullable|string',
+            'attachment_url' => 'nullable|url|max:500',
+        ]);
+        $log = $participant->logbooks()->create(array_merge($validated, ['status' => 'SUBMITTED']));
+        $participant->loadMissing('student', 'program', 'supervisor', 'group.supervisor');
+        $supervisorUserId = $participant->supervisor?->user_id ?? $participant->group?->supervisor?->user_id;
+        if ($supervisorUserId) {
+            \App\Models\AppNotification::send($supervisorUserId, 'Logbook Baru',
+                "{$participant->student?->name} mengumpulkan logbook pada program \"{$participant->program?->name}\".",
+                'info', '/praktikum');
+        }
+        return response()->json(['message' => 'Logbook berhasil ditambahkan.', 'data' => $log], 201);
+    }
+
+    public function updateLogbook(Request $request, PracticalLogbook $logbook): JsonResponse
+    {
+        $validated = $request->validate([
+            'activity_date' => 'sometimes|date', 'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i', 'activity' => 'sometimes|string',
+            'result' => 'nullable|string', 'attachment_url' => 'nullable|url|max:500',
+        ]);
+        $logbook->update($validated);
+        return response()->json(['message' => 'Logbook berhasil diupdate.', 'data' => $logbook->fresh()]);
+    }
+
+    public function approveLogbook(Request $request, PracticalLogbook $logbook): JsonResponse
+    {
+        $request->validate(['action' => 'required|in:approve,revision', 'notes' => 'nullable|string']);
+        $logbook->update([
+            'status' => $request->action === 'approve' ? 'APPROVED' : 'REVISION',
+            'approved_by' => auth()->id(), 'notes' => $request->notes ?? $logbook->notes,
+        ]);
+
+        // Notifikasi ke mahasiswa
+        $student = $logbook->participant?->student;
+        if ($student?->user_id) {
+            $programName = $logbook->participant?->program?->name ?? 'KKN/Praktikum';
+            if ($request->action === 'approve') {
+                \App\Models\AppNotification::send($student->user_id, 'Logbook Disetujui ✓',
+                    "Logbook tanggal {$logbook->activity_date?->format('d/m/Y')} pada program \"{$programName}\" telah disetujui.",
+                    'success', '/praktikum');
+            } else {
+                \App\Models\AppNotification::send($student->user_id, 'Logbook Perlu Revisi',
+                    "Logbook tanggal {$logbook->activity_date?->format('d/m/Y')} pada program \"{$programName}\" diminta revisi." . ($request->notes ? " Catatan: {$request->notes}" : ''),
+                    'warning', '/praktikum');
+            }
+        }
+
+        return response()->json(['message' => 'Logbook berhasil diproses.']);
+    }
+
+    /** Mahasiswa submit ulang logbook yang berstatus REVISION */
+    public function resubmitLogbook(PracticalLogbook $logbook): JsonResponse
+    {
+        if ($logbook->status !== 'REVISION') {
+            return response()->json(['message' => 'Logbook ini tidak dalam status revisi.'], 422);
+        }
+        $logbook->update(['status' => 'SUBMITTED']);
+
+        // Notifikasi ke dosen pembimbing
+        $participant = $logbook->participant;
+        $supervisorUserId = $participant?->supervisor?->user_id ?? $participant?->group?->supervisor?->user_id;
+        if ($supervisorUserId) {
+            $studentName = $participant?->student?->name ?? 'Mahasiswa';
+            $programName = $participant?->program?->name ?? 'KKN/Praktikum';
+            \App\Models\AppNotification::send($supervisorUserId, 'Logbook Disubmit Ulang',
+                "{$studentName} telah memperbaiki dan mengumpulkan ulang logbook pada program \"{$programName}\".",
+                'info', '/praktikum/' . ($participant?->program_id ?? ''));
+        }
+
+        return response()->json(['message' => 'Logbook berhasil disubmit ulang.']);
+    }
+
+    // === ATTENDANCE ===
+    public function attendances(PracticalParticipant $participant): JsonResponse
+    {
+        return response()->json($participant->attendances()->orderByDesc('attendance_date')->get());
+    }
+
+    public function storeAttendance(Request $request, PracticalParticipant $participant): JsonResponse
+    {
+        $validated = $request->validate([
+            'attendance_date' => 'required|date', 'status' => 'required|in:HADIR,IZIN,SAKIT,ALPHA', 'notes' => 'nullable|string',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'proof_url' => 'nullable|url|max:500',
+        ]);
+        $att = PracticalAttendance::updateOrCreate(
+            ['participant_id' => $participant->id, 'attendance_date' => $validated['attendance_date']],
+            array_merge($validated, ['approval_status' => 'MENUNGGU'])
+        );
+        $participant->loadMissing('student', 'program', 'supervisor', 'group.supervisor');
+        $supervisorUserId = $participant->supervisor?->user_id ?? $participant->group?->supervisor?->user_id;
+        if ($supervisorUserId) {
+            \App\Models\AppNotification::send($supervisorUserId, 'Presensi Praktik Baru',
+                "{$participant->student?->name} mengirim presensi pada program \"{$participant->program?->name}\".",
+                'info', '/praktikum');
+        }
+        return response()->json(['message' => 'Presensi berhasil dicatat.', 'data' => $att]);
+    }
+
+    /** Dosen: terima atau tolak presensi */
+    public function reviewAttendance(Request $request, PracticalAttendance $attendance): JsonResponse
+    {
+        $request->validate([
+            'action' => 'required|in:approve,reject',
+            'rejection_note' => 'nullable|string',
+        ]);
+
+        if ($request->action === 'approve') {
+            $attendance->update([
+                'approval_status' => 'DITERIMA',
+                'rejection_note' => null,
+                'approved_by' => auth()->id(),
+                'approved_at' => now(),
+            ]);
+            // Notif ke mahasiswa
+            $student = $attendance->participant?->student;
+            if ($student?->user_id) {
+                $programName = $attendance->participant?->program?->name ?? 'KKN/Praktikum';
+                \App\Models\AppNotification::send($student->user_id, 'Presensi Diterima ✓',
+                    "Presensi tanggal {$attendance->attendance_date?->format('d/m/Y')} pada program \"{$programName}\" telah diterima.",
+                    'success', '/praktikum');
+            }
+            return response()->json(['message' => 'Presensi diterima.']);
+        } else {
+            $attendance->update([
+                'approval_status' => 'DITOLAK',
+                'rejection_note' => $request->rejection_note,
+                'approved_by' => auth()->id(),
+                'approved_at' => now(),
+            ]);
+            // Notif ke mahasiswa
+            $student = $attendance->participant?->student;
+            if ($student?->user_id) {
+                $programName = $attendance->participant?->program?->name ?? 'KKN/Praktikum';
+                \App\Models\AppNotification::send($student->user_id, 'Presensi Ditolak',
+                    "Presensi tanggal {$attendance->attendance_date?->format('d/m/Y')} pada program \"{$programName}\" ditolak." . ($request->rejection_note ? " Alasan: {$request->rejection_note}" : ''),
+                    'error', '/praktikum');
+            }
+            return response()->json(['message' => 'Presensi ditolak.']);
+        }
+    }
+
+    // === ASSESSMENTS ===
+    public function assessments(PracticalParticipant $participant): JsonResponse
+    {
+        return response()->json($participant->assessments()->get());
+    }
+
+    public function storeAssessment(Request $request, PracticalParticipant $participant): JsonResponse
+    {
+        $validated = $request->validate([
+            'component' => 'required|string|max:100', 'score' => 'required|numeric|min:0|max:100',
+            'weight' => 'nullable|numeric|min:0', 'notes' => 'nullable|string',
+        ]);
+        $a = $participant->assessments()->create(array_merge($validated, ['assessed_by' => auth()->id()]));
+        $participant->loadMissing('student', 'program');
+        if ($participant->student?->user_id) {
+            \App\Models\AppNotification::send($participant->student->user_id, 'Penilaian Praktik Diperbarui',
+                "Penilaian Anda pada program \"{$participant->program?->name}\" telah diperbarui.", 'info', '/praktikum');
+        }
+        return response()->json(['message' => 'Nilai berhasil disimpan.', 'data' => $a], 201);
+    }
+
+    public function updateAssessment(Request $request, PracticalAssessment $assessment): JsonResponse
+    {
+        $validated = $request->validate([
+            'component' => 'sometimes|string|max:100', 'score' => 'sometimes|numeric|min:0|max:100',
+            'weight' => 'nullable|numeric|min:0', 'notes' => 'nullable|string',
+        ]);
+        $assessment->update(array_merge($validated, ['assessed_by' => auth()->id()]));
+        $assessment->loadMissing('participant.student', 'participant.program');
+        if ($assessment->participant?->student?->user_id) {
+            \App\Models\AppNotification::send(
+                $assessment->participant->student->user_id,
+                'Penilaian Praktik Diperbarui',
+                "Penilaian Anda pada program \"{$assessment->participant->program?->name}\" telah diperbarui.",
+                'info',
+                '/praktikum'
+            );
+        }
+        return response()->json(['message' => 'Nilai berhasil diupdate.', 'data' => $assessment->fresh()]);
+    }
+
+    public function destroyAssessment(PracticalAssessment $assessment): JsonResponse
+    {
+        $assessment->delete();
+        return response()->json(['message' => 'Komponen nilai berhasil dihapus.']);
+    }
+
+    // === REPORTS ===
+    public function storeReport(Request $request, PracticalParticipant $participant): JsonResponse
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255', 'abstract' => 'nullable|string',
+            'file_url' => 'nullable|string|max:500',
+            'report_type' => 'required|in:INDIVIDU,KELOMPOK',
+        ]);
+
+        // Jika laporan kelompok, pastikan peserta ini adalah ketua kelompok
+        if ($validated['report_type'] === 'KELOMPOK') {
+            $group = $participant->group;
+            if (!$group || $group->leader_id !== $participant->id) {
+                return response()->json(['message' => 'Hanya ketua kelompok yang dapat membuat laporan kelompok.'], 403);
+            }
+            $validated['group_id'] = $group->id;
+        }
+
+        $r = $participant->reports()->create(array_merge($validated, ['status' => 'SUBMITTED', 'submitted_at' => now()]));
+
+        // Notifikasi ke dosen pembimbing bahwa ada laporan baru
+        $supervisorUserId = $participant?->supervisor?->user_id ?? $participant?->group?->supervisor?->user_id;
+        if ($supervisorUserId) {
+            $studentName = $participant?->student?->name ?? 'Mahasiswa';
+            $programName = $participant?->program?->name ?? 'KKN/Praktikum';
+            $type = $validated['report_type'] === 'KELOMPOK' ? 'Laporan Kelompok' : 'Laporan Individu';
+            \App\Models\AppNotification::send($supervisorUserId, "{$type} Baru",
+                "{$studentName} mengumpulkan {$type} pada program \"{$programName}\": \"{$validated['title']}\".",
+                'info', '/praktikum');
+        }
+
+        return response()->json(['message' => 'Laporan berhasil disubmit.', 'data' => $r], 201);
+    }
+
+    /** Ambil daftar laporan peserta (termasuk laporan kelompok) */
+    public function reports(PracticalParticipant $participant): JsonResponse
+    {
+        // Laporan individu milik peserta + laporan kelompok (jika ada group)
+        $query = PracticalReport::where(function ($q) use ($participant) {
+            $q->where('participant_id', $participant->id);
+            if ($participant->group_id) {
+                $q->orWhere(function ($sub) use ($participant) {
+                    $sub->where('group_id', $participant->group_id)
+                        ->where('report_type', 'KELOMPOK');
+                });
+            }
+        })->with('participant.student')->orderByDesc('submitted_at');
+
+        return response()->json($query->get());
+    }
+
+    public function reviewReport(Request $request, PracticalReport $report): JsonResponse
+    {
+        $request->validate(['action' => 'required|in:approve,revision', 'notes' => 'nullable|string']);
+        $report->update([
+            'status' => $request->action === 'approve' ? 'APPROVED' : 'REVISION',
+            'reviewer_notes' => $request->notes, 'reviewed_by' => auth()->id(),
+            'approved_at' => $request->action === 'approve' ? now() : null,
+        ]);
+
+        // Notifikasi ke mahasiswa pemilik laporan
+        $student = $report->participant?->student;
+        if ($student?->user_id) {
+            $programName = $report->participant?->program?->name ?? 'KKN/Praktikum';
+            $type = ($report->report_type === 'KELOMPOK') ? 'Laporan Kelompok' : 'Laporan Individu';
+            if ($request->action === 'approve') {
+                \App\Models\AppNotification::send($student->user_id, "{$type} Disetujui ✓",
+                    "{$type} \"{$report->title}\" pada program \"{$programName}\" telah disetujui.",
+                    'success', '/praktikum');
+            } else {
+                \App\Models\AppNotification::send($student->user_id, "{$type} Perlu Revisi",
+                    "{$type} \"{$report->title}\" pada program \"{$programName}\" diminta revisi." . ($request->notes ? " Catatan: {$request->notes}" : ''),
+                    'warning', '/praktikum');
+            }
+        }
+
+        return response()->json(['message' => 'Laporan berhasil diproses.']);
+    }
+}

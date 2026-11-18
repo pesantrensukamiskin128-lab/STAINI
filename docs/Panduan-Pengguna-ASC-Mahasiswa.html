@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panduan Pengguna ASC untuk Mahasiswa</title>
+  <style>
+    :root {
+      --navy: #12304a;
+      --blue: #1769aa;
+      --cyan: #28a6b8;
+      --ink: #1f2937;
+      --muted: #65758b;
+      --line: #dce5ed;
+      --pale: #f2f7fb;
+      --green: #18794e;
+      --amber: #9a5b00;
+      --red: #a33a3a;
+    }
+    * { box-sizing: border-box; }
+    @page { size: A4; margin: 0 0 10mm; }
+    @page:first { margin: 0; }
+    @page {
+      @bottom-left {
+        content: "AL-JAWAMI SMART CAMPUS  •  PANDUAN MAHASISWA";
+        color: #718096;
+        font: 7pt Arial, sans-serif;
+      }
+      @bottom-right {
+        content: "Halaman " counter(page);
+        color: #718096;
+        font: 7pt Arial, sans-serif;
+      }
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--ink);
+      background: #e8eef3;
+      font-family: Arial, "Segoe UI", sans-serif;
+      font-size: 10pt;
+      line-height: 1.42;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      margin: 8mm auto;
+      padding: 16mm 18mm 17mm;
+      overflow: hidden;
+      background: #fff;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .page-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 3mm;
+      margin-bottom: 7mm;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 8pt;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .page-head strong { color: var(--blue); }
+    .eyebrow {
+      margin: 0 0 2mm;
+      color: var(--blue);
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin-bottom: 3mm;
+      color: var(--navy);
+      font-size: 23pt;
+      line-height: 1.12;
+    }
+    h2 {
+      margin: 6mm 0 2mm;
+      color: var(--navy);
+      font-size: 12pt;
+      line-height: 1.2;
+    }
+    h3 {
+      margin: 0 0 1.5mm;
+      color: var(--navy);
+      font-size: 9.5pt;
+    }
+    p { margin-bottom: 2.2mm; }
+    ul, ol { margin: 1mm 0 3mm; padding-left: 5mm; }
+    li { margin: 0 0 1.4mm; padding-left: .5mm; }
+    .lead { color: var(--muted); font-size: 11pt; }
+    .small { color: var(--muted); font-size: 8.5pt; }
+    .rule { height: 1px; margin: 4mm 0; background: var(--line); }
+    .callout {
+      margin: 3mm 0;
+      padding: 3mm 4mm;
+      border-left: 3px solid var(--cyan);
+      border-radius: 2mm;
+      background: var(--pale);
+    }
+    .callout strong { color: var(--navy); }
+    .callout.warn { border-left-color: #e0a12b; background: #fff8e9; }
+    .callout.good { border-left-color: #2c9a67; background: #eef9f3; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+    .card {
+      padding: 3mm 3.5mm;
+      border: 1px solid var(--line);
+      border-radius: 2mm;
+      background: #fff;
+    }
+    .card p:last-child, .callout p:last-child { margin-bottom: 0; }
+    .step {
+      display: grid;
+      grid-template-columns: 7mm 1fr;
+      gap: 2mm;
+      margin: 2mm 0;
+    }
+    .step-no {
+      display: flex;
+      width: 6mm;
+      height: 6mm;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 8pt;
+      font-weight: 700;
+    }
+    .step p { margin: .4mm 0 0; }
+    .tag {
+      display: inline-block;
+      margin: 0 1mm 1mm 0;
+      padding: .7mm 2mm;
+      border-radius: 8mm;
+      color: #15527f;
+      background: #e8f3fb;
+      font-size: 8pt;
+      font-weight: 700;
+    }
+    .toc-title { margin: 0 0 2mm; font-size: 26pt; }
+    .toc-intro { margin-bottom: 6mm; color: var(--muted); }
+    .toc-list { margin: 0; padding: 0; list-style: none; }
+    .toc-list li {
+      display: grid;
+      grid-template-columns: 1fr 12mm;
+      gap: 4mm;
+      align-items: baseline;
+      margin: 0;
+      padding: 2.2mm 1mm;
+      border-bottom: 1px dotted #bdcad6;
+    }
+    .toc-list a { color: var(--ink); text-decoration: none; }
+    .toc-list .page-ref { color: var(--blue); font-weight: 700; text-align: right; }
+    .toc-group {
+      margin: 4mm 0 1mm;
+      color: var(--blue);
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      background: linear-gradient(145deg, #10283f 0%, #174d77 59%, #188c9c 100%);
+    }
+    .cover::before, .cover::after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 50%;
+    }
+    .cover::before { top: -42mm; right: -37mm; width: 135mm; height: 135mm; }
+    .cover::after { top: -21mm; right: -16mm; width: 92mm; height: 92mm; }
+    .cover > * { position: relative; z-index: 1; }
+    .cover-mark {
+      display: inline-flex;
+      width: 17mm;
+      height: 17mm;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 4mm;
+      background: rgba(255,255,255,.1);
+      font-size: 17pt;
+      font-weight: 700;
+    }
+    .cover .eyebrow { margin-top: 6mm; color: #9de6e8; }
+    .cover h1 {
+      max-width: 150mm;
+      margin: 0;
+      color: #fff;
+      font-size: 37pt;
+      line-height: 1.05;
+    }
+    .cover .subtitle {
+      max-width: 132mm;
+      margin: 6mm 0 0;
+      color: #e0f2f5;
+      font-size: 16pt;
+      line-height: 1.3;
+    }
+    .cover-band {
+      max-width: 124mm;
+      padding: 5mm;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 3mm;
+      background: rgba(4,22,39,.2);
+    }
+    .cover-band strong { display: block; margin-bottom: 1mm; color: #a6edef; }
+    .cover-meta { color: #d8e8ef; font-size: 9pt; }
+    .chapter-no {
+      display: inline-flex;
+      align-items: center;
+      gap: 2mm;
+      margin: 1mm 0 2mm;
+      color: var(--cyan);
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .chapter-no::before {
+      width: 8mm;
+      height: 1px;
+      background: var(--cyan);
+      content: "";
+    }
+    .two-col { columns: 2; column-gap: 8mm; }
+    .two-col > div { break-inside: avoid; }
+    .status {
+      display: inline-block;
+      margin-right: 1mm;
+      padding: .5mm 1.8mm;
+      border-radius: 1mm;
+      font-size: 8pt;
+      font-weight: 700;
+    }
+    .blue { color: #145986; background: #e8f3fb; }
+    .green { color: var(--green); background: #e9f7ef; }
+    .amber { color: var(--amber); background: #fff4d9; }
+    .red { color: var(--red); background: #fcecec; }
+    .url {
+      display: inline-block;
+      padding: 1.5mm 3mm;
+      border-radius: 2mm;
+      color: var(--navy);
+      background: #edf5fa;
+      font-family: Consolas, monospace;
+      font-size: 9pt;
+      overflow-wrap: anywhere;
+    }
+    .endnote {
+      margin-top: 5mm;
+      padding-top: 3mm;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 8pt;
+    }
+    @media screen {
+      .page { box-shadow: 0 2mm 7mm rgba(15, 35, 55, .12); }
+    }
+    @media print {
+      html, body { background: #fff; }
+      .page { height: 287mm; margin: 0; box-shadow: none; }
+      .page.cover { height: 297mm; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover" id="cover">
+    <div>
+      <div class="cover-mark">ASC</div>
+      <p class="eyebrow">Al-Jawami Smart Campus</p>
+    </div>
+    <div>
+      <h1>Panduan<br>Pengguna</h1>
+      <p class="subtitle">Untuk Mahasiswa</p>
+      <div class="rule" style="width:32mm;background:rgba(255,255,255,.55);margin:8mm 0"></div>
+      <p style="max-width:130mm;color:#e8f3f6;font-size:12pt">
+        Panduan praktis mengakses layanan akademik dan kemahasiswaan melalui web atau aplikasi PWA.
+      </p>
+    </div>
+    <div>
+      <div class="cover-band">
+        <strong>Mulai dari sini</strong>
+        Akses · instal aplikasi · gunakan modul mahasiswa
+      </div>
+      <p class="cover-meta" style="margin:7mm 0 0">
+        asc.aljawami.ac.id<br>
+        Edisi 1.0 · Oktober 2026
+      </p>
+    </div>
+  </section>
+
+  <section class="page" id="daftar-isi">
+    <div class="page-head"><strong>ASC · Panduan Mahasiswa</strong><span>Panduan penggunaan</span></div>
+    <p class="eyebrow">Navigasi dokumen</p>
+    <h1 class="toc-title">Daftar Isi</h1>
+    <p class="toc-intro">Pilih bab sesuai kebutuhan. Nomor halaman tercetak di bagian bawah setiap halaman.</p>
+    <p class="toc-group">Mulai menggunakan ASC</p>
+    <ol class="toc-list">
+      <li><a href="#bab-1">1. Akses, login, dan instalasi aplikasi</a><span class="page-ref">3</span></li>
+      <li><a href="#bab-2">2. Dashboard dan navigasi</a><span class="page-ref">4</span></li>
+    </ol>
+    <p class="toc-group">Akademik dan kemahasiswaan</p>
+    <ol class="toc-list">
+      <li><a href="#bab-3">3. KRS Saya</a><span class="page-ref">5</span></li>
+      <li><a href="#bab-4">4. Kelas Saya dan RPS Mata Kuliah</a><span class="page-ref">6</span></li>
+      <li><a href="#bab-5">5. Riwayat akademik, KHS, dan transkrip</a><span class="page-ref">7</span></li>
+      <li><a href="#bab-6">6. Praktikum/KKN, skripsi, cuti, dan wisuda</a><span class="page-ref">8</span></li>
+      <li><a href="#bab-7">7. Bimbingan akademik</a><span class="page-ref">9</span></li>
+    </ol>
+    <p class="toc-group">Layanan dan informasi</p>
+    <ol class="toc-list">
+      <li><a href="#bab-8">8. Keuangan Saya</a><span class="page-ref">10</span></li>
+      <li><a href="#bab-9">9. Digital Library</a><span class="page-ref">11</span></li>
+      <li><a href="#bab-10">10. Repository ASC</a><span class="page-ref">12</span></li>
+      <li><a href="#bab-11">11. Kalender akademik dan Scan QR</a><span class="page-ref">13</span></li>
+      <li><a href="#bab-12">12. Persuratan dan notifikasi</a><span class="page-ref">14</span></li>
+      <li><a href="#bab-13">13. Profil, keamanan, dan bantuan</a><span class="page-ref">15</span></li>
+    </ol>
+    <div class="callout" style="margin-top:8mm">
+      <strong>Catatan cakupan</strong>
+      <p>Panduan ini khusus akun mahasiswa. Menu dan tindakan tertentu dapat berbeda sesuai status akademik, hak akses akun, periode aktif, atau kebijakan kampus.</p>
+    </div>
+  </section>
+
+  <section class="page" id="bab-1">
+    <div class="page-head"><strong>Mulai menggunakan ASC</strong><span>Bab 1</span></div>
+    <p class="chapter-no">01 · Akses dan instalasi</p>
+    <h1>Akses, login, dan instalasi aplikasi</h1>
+    <p class="lead">ASC dapat dibuka lewat browser tanpa instalasi. Jika ingin akses seperti aplikasi, tambahkan PWA ke perangkat.</p>
+    <h2>A. Buka dan masuk ke ASC</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <span class="url">https://asc.aljawami.ac.id</span> menggunakan browser yang diperbarui dan koneksi internet.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Di halaman masuk, ketik email, username, NIM, atau NIDN sesuai akun kampus, lalu masukkan kata sandi.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih <strong>Masuk</strong>. Setelah berhasil, halaman Dashboard akan terbuka. Pastikan nama akun yang tampil adalah akun Anda.</p></div>
+    <div class="callout warn"><strong>Lupa atau tidak dapat masuk?</strong><p>Periksa kembali identitas login dan Caps Lock. Jika kata sandi tidak diketahui atau akun terkunci, hubungi petugas akademik/administrator kampus melalui kanal resmi; jangan mengirim kata sandi kepada siapa pun.</p></div>
+    <h2>B. Pasang sebagai aplikasi PWA</h2>
+    <div class="grid-2">
+      <div class="card"><h3>Komputer · Chrome / Edge</h3><p>Buka situs ASC. Pilih ikon <strong>Install</strong> pada bilah alamat, jika tersedia. Alternatifnya buka menu browser → <strong>Install app</strong> atau <strong>Apps → Install this site as an app</strong>. Konfirmasi pemasangan.</p></div>
+      <div class="card"><h3>Android · Chrome</h3><p>Buka situs ASC di Chrome. Ketuk menu <strong>⋮</strong>, pilih <strong>Install app</strong> atau <strong>Add to Home screen</strong>, lalu ikuti konfirmasi. Ikon ASC akan muncul di layar aplikasi.</p></div>
+      <div class="card"><h3>iPhone / iPad · Safari</h3><p>Buka situs ASC di Safari. Ketuk <strong>Share</strong> (ikon kotak-panah), gulir menu, pilih <strong>Add to Home Screen</strong>, lalu ketuk <strong>Add</strong>.</p></div>
+      <div class="card"><h3>Setelah pemasangan</h3><p>Buka ikon ASC dari layar utama/desktop dan masuk dengan akun kampus. Pembaruan isi data dan sebagian fitur memerlukan koneksi internet.</p></div>
+    </div>
+    <div class="callout good"><strong>Gunakan HTTPS</strong><p>Alamat resmi dimulai dengan <code>https://</code>. Izin kamera untuk Scan QR hanya dapat diberikan jika browser mengakses situs melalui koneksi aman.</p></div>
+  </section>
+
+  <section class="page" id="bab-2">
+    <div class="page-head"><strong>Mulai menggunakan ASC</strong><span>Bab 2</span></div>
+    <p class="chapter-no">02 · Mengenal aplikasi</p>
+    <h1>Dashboard dan navigasi</h1>
+    <p class="lead">Dashboard mahasiswa merangkum status perkuliahan dan menyediakan jalan pintas ke layanan yang sering digunakan.</p>
+    <h2>Elemen yang biasanya terlihat</h2>
+    <div class="grid-2">
+      <div class="card"><h3>Ringkasan mahasiswa</h3><p>Identitas dan informasi akademik singkat, seperti status KRS/SKS dan ringkasan tagihan jika tersedia.</p></div>
+      <div class="card"><h3>Menu cepat</h3><p>Pintasan ke KRS Saya, KHS, Kelas Saya, Keuangan, Persuratan, dan Digital Library. Nama pintasan dapat menyesuaikan versi aplikasi.</p></div>
+      <div class="card"><h3>Aktivitas terbaru</h3><p>Informasi yang berkaitan dengan agenda, surat masuk, kalender akademik, dan aktivitas perkuliahan yang relevan dengan akun.</p></div>
+      <div class="card"><h3>Navigasi utama</h3><p>Menu samping (desktop) atau tombol menu (ponsel) memuat layanan Akademik, Keuangan Saya, Digital Library, Persuratan, dan Scan QR.</p></div>
+    </div>
+    <h2>Cara berpindah menu</h2>
+    <div class="step"><span class="step-no">1</span><p>Pilih menu di panel navigasi. Pada ponsel, ketuk tombol menu terlebih dahulu untuk membuka panel.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Menu berkelompok seperti <strong>Akademik</strong> atau <strong>Persuratan</strong> dapat dibuka untuk melihat sub-menu.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Gunakan tombol kembali pada halaman atau navigasi browser bila ingin kembali ke daftar sebelumnya.</p></div>
+    <div class="callout"><strong>Menu tidak terlihat?</strong><p>Menu ditampilkan sesuai peran, status, dan hak akses. Jika suatu layanan seharusnya dapat digunakan tetapi tidak muncul, hubungi admin akademik dan sebutkan nama menu serta NIM Anda.</p></div>
+    <h2>Keluar dari aplikasi</h2>
+    <p>Gunakan menu akun/profil pada antarmuka ASC dan pilih tindakan keluar jika tersedia. Pada perangkat bersama, selalu keluar setelah selesai dan tutup jendela browser.</p>
+    <p class="small">Tip: simpan alamat resmi di bookmark. Hindari membuka tautan login dari pesan yang tidak dikenal.</p>
+  </section>
+
+  <section class="page" id="bab-3">
+    <div class="page-head"><strong>Akademik dan kemahasiswaan</strong><span>Bab 3</span></div>
+    <p class="chapter-no">03 · Rencana studi</p>
+    <h1>KRS Saya</h1>
+    <p class="lead">KRS adalah daftar mata kuliah yang direncanakan untuk semester aktif dan dikirim untuk ditinjau dosen wali.</p>
+    <h2>Membuat dan mengirim KRS</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Akademik → KRS Saya</strong>. Periksa semester aktif dan kartu <strong>Periode KRS</strong> serta <strong>Status Keuangan</strong>.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Jika periode dibuka, status keuangan memenuhi syarat, dan tombol tersedia, pilih <strong>Mulai Buat KRS</strong>.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih <strong>Tambah MK</strong>, tentukan mata kuliah, lalu pilih kelas jika daftar kelas tersedia. Pilihan kelas dapat dibiarkan otomatis hanya jika aplikasi mengizinkannya.</p></div>
+    <div class="step"><span class="step-no">4</span><p>Periksa mata kuliah, jumlah SKS, kelas, dosen, jadwal, dan ruangan. Hapus atau ubah pilihan selama KRS masih dapat diedit.</p></div>
+    <div class="step"><span class="step-no">5</span><p>Jika sudah benar, pilih <strong>Submit KRS ke Dosen Wali</strong>. Pantau status persetujuan dan notifikasi.</p></div>
+    <h2>Memahami status KRS</h2>
+    <p><span class="status blue">DRAFT</span> Masih disusun dan dapat diedit sesuai periode. <span class="status amber">SUBMITTED</span> Menunggu tinjauan dosen wali. <span class="status green">APPROVED</span> Disetujui; tombol PDF tersedia. <span class="status red">REJECTED</span> Periksa catatan dosen wali, perbaiki pilihan, lalu kirim kembali bila fitur mengizinkan.</p>
+    <div class="callout warn"><strong>Jika tidak dapat membuat atau mengirim KRS</strong><p>Periksa tanggal periode, sisa tunggakan/status keuangan, serta jumlah mata kuliah. Jika pesan menyebut prasyarat atau beban SKS, hubungi dosen wali atau bagian akademik.</p></div>
+    <h2>Simpan salinan</h2>
+    <p>Setelah status <strong>APPROVED</strong>, pilih <strong>PDF</strong> untuk mengunduh salinan KRS. Simpan file dengan nama yang mudah ditemukan.</p>
+  </section>
+
+  <section class="page" id="bab-4">
+    <div class="page-head"><strong>Akademik dan kemahasiswaan</strong><span>Bab 4</span></div>
+    <p class="chapter-no">04 · Kegiatan perkuliahan</p>
+    <h1>Kelas Saya dan RPS Mata Kuliah</h1>
+    <p class="lead">Daftar kelas dan RPS mengikuti KRS yang telah disetujui untuk semester aktif.</p>
+    <h2>Melihat kelas yang diikuti</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Akademik → Kelas Saya</strong>, lalu pilih kelas/mata kuliah untuk membuka halaman kelas.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Di halaman kelas, gunakan tab yang tersedia untuk membuka ringkasan, jurnal/presensi, materi, tugas, diskusi, ujian, atau pengumuman.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Periksa jadwal, ruangan, materi terbaru, tenggat tugas, dan pengumuman secara berkala. Fitur yang muncul dapat bergantung pada pengaturan kelas/dosen.</p></div>
+    <h2>Mengumpulkan tugas</h2>
+    <div class="step"><span class="step-no">1</span><p>Pada kelas yang benar, buka tab <strong>Tugas</strong> dan pilih tugas yang akan dikerjakan. Baca instruksi dan tenggat.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Pilih tindakan <strong>Kumpulkan Tugas</strong>, lampirkan berkas yang diminta, lalu kirim. Tunggu konfirmasi bahwa pengumpulan tersimpan.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Jika masih diizinkan, gunakan <strong>Perbarui Pengumpulan</strong> untuk mengganti kiriman. Pastikan versi terakhir sudah benar.</p></div>
+    <div class="callout warn"><strong>Sebelum mengirim</strong><p>Periksa kembali nama file, isi, dan koneksi internet. Jangan menutup halaman sebelum proses unggah selesai. Simpan salinan tugas secara lokal.</p></div>
+    <h2>Mengunduh RPS</h2>
+    <p>Buka <strong>Akademik → RPS Mata Kuliah</strong>, temukan mata kuliah, kemudian pilih tombol <strong>Unduh RPS</strong>. Jika dokumen belum tersedia, tanyakan kepada dosen pengampu atau program studi.</p>
+    <div class="callout"><strong>Diskusi dan pengumuman</strong><p>Gunakan tab Diskusi untuk mengikuti topik kelas yang dibuka dosen. Tab Pengumuman menampilkan informasi kelas; respons dan lampiran mengikuti fitur yang tersedia.</p></div>
+  </section>
+
+  <section class="page" id="bab-5">
+    <div class="page-head"><strong>Akademik dan kemahasiswaan</strong><span>Bab 5</span></div>
+    <p class="chapter-no">05 · Hasil studi</p>
+    <h1>Riwayat akademik, KHS, dan transkrip</h1>
+    <p class="lead">Gunakan halaman ini untuk meninjau hasil semester, nilai mata kuliah, total SKS, dan IPK yang tercatat.</p>
+    <h2>Melihat KHS per semester</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Akademik → KHS / Transkrip</strong> (nama menu dapat tampil sebagai Riwayat Akademik, KHS &amp; Transkrip).</p></div>
+    <div class="step"><span class="step-no">2</span><p>Tinjau bagian <strong>Riwayat Akademik per Semester</strong> untuk melihat status semester dan ringkasan hasil.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pada bagian <strong>Kartu Hasil Studi</strong>, pilih semester untuk menampilkan nilai mata kuliah pada semester tersebut.</p></div>
+    <div class="step"><span class="step-no">4</span><p>Pilih <strong>Cetak PDF</strong> pada bagian KHS untuk menyimpan dokumen semester. Gunakan tombol PDF yang sesuai jika ingin mencetak transkrip.</p></div>
+    <h2>Memahami ringkasan</h2>
+    <div class="grid-2">
+      <div class="card"><h3>SKS</h3><p>Jumlah satuan kredit yang dicatat pada periode/hasil studi. Periksa rincian mata kuliah untuk konteks nilai.</p></div>
+      <div class="card"><h3>IPK</h3><p>Indeks prestasi kumulatif sesuai data akademik yang tersimpan. Jika data belum lengkap, angka dapat belum mencerminkan proses terbaru.</p></div>
+      <div class="card"><h3>Transkrip</h3><p>Ringkasan riwayat nilai lintas semester; unduh sebagai PDF bila diperlukan untuk keperluan resmi.</p></div>
+      <div class="card"><h3>Perbedaan data</h3><p>Nilai yang baru diinput dapat memerlukan waktu atau proses administrasi sebelum tercermin pada riwayat.</p></div>
+    </div>
+    <div class="callout warn"><strong>Nilai belum muncul atau keliru?</strong><p>Periksa semester yang dipilih terlebih dahulu. Jika masalah tetap ada, hubungi dosen pengampu atau bagian akademik dengan mencantumkan mata kuliah, semester, dan tangkapan layar. Jangan mengubah dokumen PDF sebagai pengganti koreksi data resmi.</p></div>
+    <h2>Unduhan PDF</h2>
+    <p>File yang diunduh berisi data pada saat permintaan diproses. Simpan dengan aman, terutama jika berisi NIM dan informasi akademik pribadi. Hindari mengirimkan dokumen ke pihak yang tidak berwenang.</p>
+  </section>
+
+  <section class="page" id="bab-6">
+    <div class="page-head"><strong>Akademik dan kemahasiswaan</strong><span>Bab 6</span></div>
+    <p class="chapter-no">06 · Layanan akademik lanjutan</p>
+    <h1>Praktikum/KKN, skripsi, cuti, dan wisuda</h1>
+    <p class="lead">Menu akademik mahasiswa menjadi pintasan ke halaman layanan terkait. Persyaratan dan periode ditetapkan oleh unit pengelola.</p>
+    <h2>Praktikum, KKN, dan magang</h2>
+    <p>Buka <strong>Akademik → Praktikum / KKN</strong> untuk melihat program yang sedang atau pernah diikuti. Pilih <strong>Cari Program Baru</strong> bila tersedia untuk meninjau kesempatan yang dibuka.</p>
+    <p>Pada kartu program, tinjau jenis program, semester, kelompok, lokasi, pembimbing, status, dan ringkasan logbook/presensi. Pilih <strong>Buka Detail</strong> untuk membuka kegiatan peserta, seperti logbook, presensi, atau laporan. Ikuti instruksi dan tenggat program.</p>
+    <h2>Skripsi / Tugas Akhir</h2>
+    <p>Pilih <strong>Akademik → Skripsi / TA</strong>, lalu buka halaman Skripsi. Gunakan halaman layanan tersebut untuk mengikuti proses yang tersedia, misalnya pengajuan topik, bimbingan, dan pendaftaran sidang. Persetujuan dan langkah yang dapat dilakukan mengikuti status serta aturan program studi.</p>
+    <h2>Cuti Akademik</h2>
+    <p>Pilih <strong>Akademik → Cuti Akademik</strong> untuk membuka layanan pengajuan/perpanjangan cuti. Baca syarat dan isi informasi sesuai kondisi sebenarnya. Pantau status pengajuan dan tindak lanjuti bila bagian akademik meminta kelengkapan.</p>
+    <h2>Pendaftaran wisuda</h2>
+    <p>Pilih <strong>Akademik → Daftar Wisuda</strong> untuk membuka layanan pendaftaran. Pendaftaran tersedia bagi mahasiswa yang memenuhi ketentuan kelulusan dan periode yang ditetapkan. Pastikan seluruh persyaratan dan data sudah lengkap sebelum mengirim.</p>
+    <div class="callout warn"><strong>Halaman kosong atau tombol tidak tersedia?</strong><p>Periksa apakah periode/program sedang dibuka dan apakah status Anda memenuhi syarat. Hubungi unit yang menangani layanan tersebut; tampilan menu saja bukan konfirmasi bahwa pengajuan sudah diterima.</p></div>
+    <p class="small">Setelah mengirim permohonan, simpan nomor/konfirmasi jika ditampilkan, lalu periksa Notifikasi atau halaman layanan untuk perubahan status.</p>
+  </section>
+
+  <section class="page" id="bab-7">
+    <div class="page-head"><strong>Akademik dan kemahasiswaan</strong><span>Bab 7</span></div>
+    <p class="chapter-no">07 · Komunikasi akademik</p>
+    <h1>Bimbingan akademik</h1>
+    <p class="lead">Jika menu Bimbingan Akademik tersedia untuk akun Anda, gunakan Sesi Bimbingan untuk mengajukan pertemuan dan mengikuti statusnya.</p>
+    <h2>Mengajukan sesi bimbingan</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Bimbingan Akademik → Sesi Bimbingan</strong>, kemudian pilih tombol untuk membuat sesi baru.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Isi topik/keperluan dan informasi jadwal atau keterangan yang diminta. Tuliskan kebutuhan dengan jelas dan sopan.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Simpan pengajuan. Buka sesi dari daftar untuk melihat rincian, status, dan catatan bimbingan.</p></div>
+    <h2>Memantau status</h2>
+    <p>Status umum dapat meliputi <span class="status blue">DIAJUKAN</span> <span class="status amber">DIJADWALKAN</span> <span class="status blue">BERLANGSUNG</span> <span class="status green">SELESAI</span> atau <span class="status red">DIBATALKAN</span>. Dosen wali/pembimbing dapat memperbarui status dan informasi sesi.</p>
+    <p>Pada rincian sesi, baca catatan bimbingan dan kirim balasan/catatan jika kolom tersedia. Gunakan fungsi ini untuk komunikasi terkait sesi tersebut, bukan untuk mengirim data rahasia yang tidak diperlukan.</p>
+    <h2>Catatan akademik dan peringatan</h2>
+    <p>Jika sub-menu <strong>Catatan Akademik</strong> atau <strong>Peringatan Akademik</strong> terlihat, buka untuk membaca informasi yang dicatat untuk akun Anda. Hubungi dosen wali jika isi catatan memerlukan klarifikasi atau tindak lanjut.</p>
+    <div class="callout"><strong>Akses tidak tersedia</strong><p>Modul ini memerlukan hak akses yang diberikan kampus. Bila tidak tampil, hubungi dosen wali atau admin akademik untuk memastikan akses dan penugasan pembimbing.</p></div>
+    <h2>Etika dan persiapan</h2>
+    <ul>
+      <li>Gunakan topik yang spesifik, misalnya konsultasi KRS atau kendala mata kuliah.</li>
+      <li>Ajukan sesi lebih awal dan periksa kembali jadwal yang disepakati.</li>
+      <li>Sertakan informasi pendukung yang relevan, tetapi lindungi data pribadi.</li>
+    </ul>
+  </section>
+
+  <section class="page" id="bab-8">
+    <div class="page-head"><strong>Layanan dan informasi</strong><span>Bab 8</span></div>
+    <p class="chapter-no">08 · Tagihan dan pembayaran</p>
+    <h1>Keuangan Saya</h1>
+    <p class="lead">Halaman ini merangkum tagihan mahasiswa dan riwayat pembayaran yang tercatat.</p>
+    <h2>Membaca ringkasan</h2>
+    <p>Kartu ringkasan menampilkan total tagihan, jumlah yang telah dibayar, sisa tunggakan, dan beasiswa yang tercatat. Periksa angka dan periode/tagihan sebelum mengirim pembayaran.</p>
+    <h2>Mengirim konfirmasi pembayaran</h2>
+    <div class="step"><span class="step-no">1</span><p>Pada tab <strong>Tagihan Aktif</strong>, pilih tagihan yang benar dan periksa nomor invoice, semester, tanggal jatuh tempo, diskon/beasiswa, dan sisa bayar.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Pilih <strong>Bayar Sekarang</strong>. Isi jumlah dan tanggal pembayaran serta metode yang sesuai (transfer bank, tunai, virtual account, QRIS, atau lainnya).</p></div>
+    <div class="step"><span class="step-no">3</span><p>Isi nomor referensi dan informasi bank jika relevan. Unggah bukti pembayaran; jika browser menawarkan kamera, foto bukti dengan jelas dan pastikan seluruh informasi terbaca.</p></div>
+    <div class="step"><span class="step-no">4</span><p>Periksa ulang data dan kirim formulir. Buka tab <strong>Riwayat Pembayaran</strong> untuk melihat status pemrosesan.</p></div>
+    <h2>Status pembayaran</h2>
+    <p><span class="status amber">PENDING</span> menunggu verifikasi; <span class="status green">VERIFIED</span> telah diverifikasi; <span class="status red">REJECTED</span> ditolak dan perlu tindak lanjut dengan bagian keuangan. Jika bukti ditolak atau status tidak berubah, hubungi admin keuangan dengan nomor pembayaran dan bukti transaksi.</p>
+    <div class="callout warn"><strong>Penting</strong><p>Pengiriman konfirmasi di ASC tidak sama dengan transaksi transfer. Lakukan pembayaran melalui kanal resmi kampus, simpan bukti transaksi bank, dan jangan membagikan PIN/OTP. Jangan membayar dua kali hanya karena verifikasi masih tertunda.</p></div>
+  </section>
+
+  <section class="page" id="bab-9">
+    <div class="page-head"><strong>Layanan dan informasi</strong><span>Bab 9</span></div>
+    <p class="chapter-no">09 · Sumber belajar</p>
+    <h1>Digital Library</h1>
+    <p class="lead">Digital Library menyediakan katalog koleksi serta layanan perpustakaan untuk akun yang memiliki akses.</p>
+    <h2>Membuka katalog</h2>
+    <div class="step"><span class="step-no">1</span><p>Pilih pintasan <strong>Digital Library</strong> dari dashboard atau menu. Tautan langsung: <span class="url">https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan</span>.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Gunakan kolom pencarian serta filter kategori, tahun, atau akses untuk menemukan koleksi.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih kartu/judul buku untuk membuka rincian. Periksa tipe koleksi dan ketersediaan salinan atau file digital.</p></div>
+    <h2>Layanan anggota</h2>
+    <p>Masuk dengan akun ASC. Pada katalog, Anda dapat menggunakan tindakan yang tersedia seperti menyimpan favorit, mengajukan reservasi untuk koleksi yang tidak tersedia, atau mengunduh e-book jika akun berhak dan file tersedia.</p>
+    <p>Halaman <strong>Layanan Perpustakaan Saya</strong> memiliki tab:</p>
+    <ul>
+      <li><strong>Pinjaman:</strong> buku, tanggal pinjam/jatuh tempo, status dan denda jika ada. Tombol perpanjangan hanya tersedia pada pinjaman yang memenuhi syarat.</li>
+      <li><strong>Reservasi:</strong> urutan antrean dan status. Jika reservasi siap, gunakan <strong>Proses Pinjam</strong> sesuai petunjuk perpustakaan. Batalkan jika tidak lagi diperlukan.</li>
+      <li><strong>Favorit:</strong> koleksi yang Anda simpan; hapus dari daftar jika tidak dibutuhkan.</li>
+    </ul>
+    <div class="callout"><strong>Akses akun</strong><p>Reservasi, favorit, unduhan digital, dan layanan anggota mungkin memerlukan izin perpustakaan. Jika akses ditolak, hubungi pustakawan/admin Digital Library.</p></div>
+    <div class="callout warn"><strong>Koleksi fisik</strong><p>Peminjaman, pengembalian, perpanjangan, dan pembayaran denda buku fisik mengikuti layanan pustakawan. Konfirmasi aturan serta jam layanan di perpustakaan.</p></div>
+  </section>
+
+  <section class="page" id="bab-10">
+    <div class="page-head"><strong>Layanan dan informasi</strong><span>Bab 10</span></div>
+    <p class="chapter-no">10 · Karya ilmiah</p>
+    <h1>Repository ASC</h1>
+    <p class="lead">Repository membantu mencari dan membaca metadata karya ilmiah yang telah dipublikasikan kampus.</p>
+    <h2>Mencari karya</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka tautan <strong>Repository ASC</strong> dari Digital Library atau kunjungi <span class="url">https://asc.aljawami.ac.id/repository</span>.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Gunakan pencarian dan filter kategori/tahun/program studi bila tersedia. Pilih judul untuk membuka detail.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Periksa metadata, ringkasan, penulis, tahun terbit, program studi, dan informasi publikasi.</p></div>
+    <h2>Mengunduh dokumen</h2>
+    <p>Jika tombol file tersedia, pilih unduh. Pengunduhan dokumen repository memerlukan login ASC. Pastikan sesi akun Anda masih aktif; browser akan mengunduh file melalui aplikasi.</p>
+    <p>Detail <strong>Karya Dosen</strong> hanya menampilkan pilihan unduhan <strong>File Utama</strong>. File pendukung tidak ditampilkan sebagai unduhan. Untuk jenis karya lain, nama dokumen mengikuti berkas yang tersedia pada halaman detail.</p>
+    <div class="callout warn"><strong>Tombol mengarah ke login atau unduhan gagal</strong><p>Masuk kembali ke ASC di tab yang sama, lalu buka ulang detail dan coba lagi. Jika tetap gagal, catat judul karya dan pesan kesalahan; hubungi admin. Jangan menyalin tautan file privat atau membagikan file tanpa izin.</p></div>
+    <h2>Etika pemanfaatan</h2>
+    <ul>
+      <li>Gunakan dokumen sesuai tujuan akademik dan ketentuan hak cipta/lisensi.</li>
+      <li>Cantumkan sitasi yang sesuai saat mengutip karya.</li>
+      <li>Jangan menyebarkan dokumen terbatas atau data pribadi tanpa kewenangan.</li>
+    </ul>
+  </section>
+
+  <section class="page" id="bab-11">
+    <div class="page-head"><strong>Layanan dan informasi</strong><span>Bab 11</span></div>
+    <p class="chapter-no">11 · Jadwal kampus</p>
+    <h1>Kalender akademik dan Scan QR</h1>
+    <h2>Kalender Akademik</h2>
+    <p>Buka menu <strong>Kalender Akademik</strong> untuk melihat kegiatan kampus pada tampilan kalender atau daftar. Gunakan kontrol bulan sebelumnya/berikutnya pada kalender. Periksa judul, kategori, dan rentang tanggal kegiatan.</p>
+    <p>Kalender membantu memantau jadwal penting, tetapi jadwal dapat berubah. Ikuti pengumuman resmi kampus dan konfirmasi kepada unit terkait jika ada perubahan.</p>
+    <h2>Scan QR Code</h2>
+    <p>Menu <strong>Scan QR</strong> dapat digunakan untuk QR presensi kegiatan atau verifikasi dokumen.</p>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Scan QR</strong> pada perangkat dengan kamera dan berikan izin kamera saat browser memintanya.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Arahkan kamera ke kode QR hingga terdeteksi. Tunggu halaman tujuan terbuka.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Jika kode berada sebagai gambar, pilih <strong>Pilih Gambar QR</strong> (jika didukung browser), lalu pilih gambar yang jelas.</p></div>
+    <div class="callout warn"><strong>Privasi kamera</strong><p>Izinkan kamera hanya untuk situs resmi ASC dan hanya saat diperlukan. Anda dapat mencabut izin melalui pengaturan situs di browser.</p></div>
+    <h2>Kamera tidak dapat diakses?</h2>
+    <ul>
+      <li>Pastikan halaman memakai HTTPS dan izin kamera untuk situs tidak diblokir.</li>
+      <li>Tutup aplikasi lain yang sedang menggunakan kamera, lalu pilih <strong>Coba Lagi</strong>.</li>
+      <li>Periksa apakah browser/perangkat mendukung scan QR. Pada browser yang tidak mendukung pemindaian gambar, gunakan kamera atau browser terkini.</li>
+      <li>Pastikan QR tidak buram, terpotong, atau terlalu jauh.</li>
+    </ul>
+    <p class="small">QR dari sumber tidak dikenal dapat membuka situs eksternal. Periksa alamat sebelum memasukkan informasi login.</p>
+  </section>
+
+  <section class="page" id="bab-12">
+    <div class="page-head"><strong>Layanan dan informasi</strong><span>Bab 12</span></div>
+    <p class="chapter-no">12 · Komunikasi dan pemberitahuan</p>
+    <h1>Persuratan dan notifikasi</h1>
+    <h2>Mengajukan pembuatan surat</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Persuratan → Pengajuan Surat</strong>, lalu pilih <strong>Ajukan Surat</strong>.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Pilih jenis surat jika tersedia. Isi <strong>Keperluan Surat</strong> dengan jelas dan lengkapi keterangan tambahan yang diperlukan.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih <strong>Ajukan</strong>, lalu pantau status pada daftar pengajuan.</p></div>
+    <p>Status yang umum terlihat: <span class="status blue">DIAJUKAN</span> sedang menunggu, <span class="status amber">DIPROSES</span> sedang dikerjakan, <span class="status green">SELESAI</span> proses selesai, dan <span class="status red">DITOLAK</span> perlu membaca catatan admin jika disediakan.</p>
+    <p>Pengajuan yang masih berstatus diajukan dapat diedit atau dihapus jika tombol tersedia. Setelah diproses, hubungi bagian administrasi jika perlu koreksi.</p>
+    <h2>Melihat Surat Masuk</h2>
+    <p>Buka <strong>Persuratan → Surat Masuk</strong> untuk melihat surat yang ditujukan kepada akun Anda. Pilih item surat untuk melihat detail atau membuka berkas yang tersedia.</p>
+    <h2>Mengelola notifikasi</h2>
+    <p>Buka menu <strong>Notifikasi</strong> untuk meninjau pemberitahuan dan aktivitas terbaru. Centang <strong>Belum dibaca</strong> untuk menyaring daftar. Pilih notifikasi untuk menandainya sebagai dibaca dan membuka halaman tujuan bila ada tautan.</p>
+    <p>Gunakan <strong>Tandai Semua Dibaca</strong> untuk membersihkan indikator belum dibaca. Tombol hapus menghapus notifikasi dari daftar akun.</p>
+    <div class="callout"><strong>Notifikasi penting</strong><p>Periksa pemberitahuan terkait status KRS, pembayaran, bimbingan, dan persuratan. Notifikasi melengkapi—bukan menggantikan—pengumuman resmi unit kampus.</p></div>
+  </section>
+
+  <section class="page" id="bab-13">
+    <div class="page-head"><strong>Profil dan bantuan</strong><span>Bab 13</span></div>
+    <p class="chapter-no">13 · Keamanan dan pemecahan masalah</p>
+    <h1>Profil, keamanan, dan bantuan</h1>
+    <h2>Memperbarui profil</h2>
+    <p>Buka <strong>Profil Saya</strong> untuk melihat informasi akun. Pada tab <strong>Informasi Akun</strong>, perbarui nama, email, atau username sesuai kebutuhan, kemudian pilih <strong>Simpan Perubahan</strong>. Perubahan username dapat memengaruhi cara Anda masuk berikutnya.</p>
+    <h2>Mengubah kata sandi</h2>
+    <div class="step"><span class="step-no">1</span><p>Pilih tab <strong>Ubah Password</strong> dan isi kata sandi saat ini.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Masukkan kata sandi baru (minimal 8 karakter) dan konfirmasi dengan nilai yang sama.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih <strong>Simpan</strong>. Gunakan kombinasi huruf besar/kecil, angka, dan simbol; jangan gunakan kata sandi yang sama dengan layanan lain.</p></div>
+    <h2>Pemecahan masalah cepat</h2>
+    <div class="two-col">
+      <div><h3>Halaman tidak memuat</h3><p>Periksa internet, muat ulang halaman, lalu masuk kembali. Jika PWA lama, tutup aplikasi sepenuhnya dan buka ulang.</p></div>
+      <div><h3>Menu tidak tersedia</h3><p>Akses mungkin ditentukan status/peran atau periode. Catat nama menu dan tanyakan kepada unit pengelola.</p></div>
+      <div><h3>Unduhan gagal</h3><p>Pastikan sudah login, periksa ruang penyimpanan dan izin unduhan, lalu coba browser lain yang diperbarui.</p></div>
+      <div><h3>Data tidak sesuai</h3><p>Catat semester, nomor invoice, nama mata kuliah, waktu kejadian, dan pesan error. Laporkan ke bagian yang bertanggung jawab.</p></div>
+    </div>
+    <h2>Jaga keamanan akun</h2>
+    <ul>
+      <li>Jangan berbagi kata sandi, OTP, atau tautan unduhan privat.</li>
+      <li>Gunakan perangkat pribadi bila memungkinkan; keluar dari akun di perangkat bersama.</li>
+      <li>Pastikan domain benar: <strong>asc.aljawami.ac.id</strong>.</li>
+      <li>Sertakan tangkapan layar pesan error saat meminta bantuan, tetapi samarkan kata sandi, token, atau data sensitif.</li>
+    </ul>
+    <p class="endnote">Panduan ini menjelaskan alur umum berdasarkan fitur yang tersedia saat edisi diterbitkan. Label, akses, persyaratan, dan tata cara layanan dapat berubah mengikuti kebijakan kampus. Untuk keputusan akademik/keuangan, konfirmasikan kepada unit resmi terkait.</p>
+  </section>
+</body>
+</html>

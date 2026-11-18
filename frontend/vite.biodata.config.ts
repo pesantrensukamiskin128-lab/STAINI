@@ -1,0 +1,22 @@
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  base: '/biodata/',
+  plugins: [vue(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+  build: {
+    outDir: 'dist-biodata',
+    emptyOutDir: true,
+    rollupOptions: {
+      input: fileURLToPath(new URL('./biodata/index.html', import.meta.url)),
+    },
+  },
+})

@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panduan Admin Keuangan ASC</title>
+  <style>
+    :root {
+      --navy: #12304a;
+      --blue: #1769aa;
+      --cyan: #28a6b8;
+      --ink: #1f2937;
+      --muted: #65758b;
+      --line: #dce5ed;
+      --pale: #f2f7fb;
+      --green: #18794e;
+      --amber: #9a5b00;
+      --red: #a33a3a;
+    }
+    * { box-sizing: border-box; }
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--ink);
+      background: #e8eef3;
+      font-family: Arial, "Segoe UI", sans-serif;
+      font-size: 9pt;
+      line-height: 1.37;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      margin: 8mm auto;
+      padding: 15mm 18mm 19mm;
+      overflow: hidden;
+      background: #fff;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 3mm;
+      margin-bottom: 5mm;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 7.2pt;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .page-head strong { color: var(--blue); }
+    .page-foot {
+      position: absolute;
+      right: 18mm;
+      bottom: 8mm;
+      left: 18mm;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 2mm;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 7.2pt;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 3mm; color: var(--navy); font-size: 20pt; line-height: 1.1; }
+    h2 { margin: 4mm 0 1.7mm; color: var(--navy); font-size: 11pt; line-height: 1.17; }
+    h3 { margin: 0 0 1.5mm; color: var(--navy); font-size: 9pt; }
+    p { margin-bottom: 1.8mm; }
+    ul, ol { margin: 1mm 0 2mm; padding-left: 5mm; }
+    li { margin: 0 0 .8mm; padding-left: .3mm; }
+    .eyebrow {
+      margin-bottom: 1.5mm;
+      color: var(--blue);
+      font-size: 7.3pt;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .lead { color: var(--muted); font-size: 10pt; }
+    .small { color: var(--muted); font-size: 7.8pt; }
+    .callout {
+      margin: 2.5mm 0;
+      padding: 2.4mm 3mm;
+      border-left: 3px solid var(--cyan);
+      border-radius: 2mm;
+      background: var(--pale);
+    }
+    .callout.warn { border-left-color: #e0a12b; background: #fff8e9; }
+    .callout.good { border-left-color: #2c9a67; background: #eef9f3; }
+    .callout.danger { border-left-color: #cf5656; background: #fff1f1; }
+    .callout p:last-child, .card p:last-child { margin-bottom: 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5mm; }
+    .card { padding: 2.8mm 3mm; border: 1px solid var(--line); border-radius: 2mm; background: #fff; }
+    .step { display: grid; grid-template-columns: 6mm 1fr; gap: 2mm; margin: 1.5mm 0; }
+    .step-no {
+      display: flex;
+      width: 5.5mm;
+      height: 5.5mm;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 7.2pt;
+      font-weight: 700;
+    }
+    .step p { margin: .2mm 0 0; }
+    .tag {
+      display: inline-block;
+      margin: 0 1mm 1mm 0;
+      padding: .6mm 1.8mm;
+      border-radius: 8mm;
+      color: #15527f;
+      background: #e8f3fb;
+      font-size: 7.2pt;
+      font-weight: 700;
+    }
+    .toc-title { margin: 0 0 2mm; font-size: 25pt; }
+    .toc-intro { margin-bottom: 3mm; color: var(--muted); }
+    .toc-list { margin: 0; padding: 0; list-style: none; }
+    .toc-list li {
+      display: grid;
+      grid-template-columns: 1fr 13mm;
+      gap: 3mm;
+      align-items: baseline;
+      margin: 0;
+      padding: 1.55mm 1mm;
+      border-bottom: 1px dotted #bdcad6;
+      font-size: 8.5pt;
+    }
+    .toc-list .page-ref { color: var(--blue); font-weight: 700; text-align: right; }
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      background: linear-gradient(145deg, #10283f 0%, #174d77 59%, #188c9c 100%);
+    }
+    .cover::before, .cover::after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 50%;
+    }
+    .cover::before { top: -42mm; right: -37mm; width: 135mm; height: 135mm; }
+    .cover::after { top: -21mm; right: -16mm; width: 92mm; height: 92mm; }
+    .cover > * { position: relative; z-index: 1; }
+    .cover-brand { display: flex; align-items: center; gap: 5mm; }
+    .cover-brand img { width: 22mm; height: 22mm; border: 1px solid rgba(255,255,255,.55); border-radius: 5mm; }
+    .cover-brand strong { display: block; font-size: 12pt; letter-spacing: .04em; }
+    .cover-brand span { color: #c7e5ee; font-size: 8pt; }
+    .cover .eyebrow { margin-top: 6mm; color: #9de6e8; }
+    .cover h1 { max-width: 155mm; margin: 0; color: #fff; font-size: 36pt; line-height: 1.04; }
+    .cover .subtitle { max-width: 140mm; margin: 6mm 0 0; color: #e0f2f5; font-size: 16pt; line-height: 1.3; }
+    .cover-band { max-width: 138mm; padding: 4mm; border: 1px solid rgba(255,255,255,.3); border-radius: 3mm; background: rgba(255,255,255,.08); }
+    .cover-band p { margin: 0; color: #eaf6f8; font-size: 9pt; }
+    .cover-foot { color: #c7e5ee; font-size: 8pt; letter-spacing: .08em; }
+    @media print {
+      html, body { background: #fff; }
+      .page { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div class="cover-brand">
+      <img alt="Logo ASC" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%232563eb'/%3E%3Ctext x='256' y='320' font-family='Arial,sans-serif' font-size='180' font-weight='bold' text-anchor='middle' fill='white'%3EASC%3C/text%3E%3C/svg%3E">
+      <div><strong>AL-JAWAMI SMART CAMPUS</strong><span>Panduan operasional pengelolaan keuangan mahasiswa dan honor</span></div>
+    </div>
+    <div>
+      <p class="eyebrow">Buku Panduan Pengguna</p>
+      <h1>Panduan Admin Keuangan ASC</h1>
+      <p class="subtitle">Siklus tagihan, pembayaran, beasiswa, laporan, dan honor</p>
+    </div>
+    <div class="cover-band">
+      <p>Panduan langkah demi langkah untuk menyiapkan tarif dan struktur biaya, membuat tagihan, memeriksa pembayaran, meninjau piutang, serta mengelola proses honor sesuai kewenangan akun.</p>
+    </div>
+    <div class="cover-foot">ASC.ALJAWAMI.AC.ID &nbsp; | &nbsp; EDISI 1.0 &nbsp; | &nbsp; 4 OKTOBER 2026</div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>ASC · Panduan Admin Keuangan</strong><span>Daftar Isi</span></div>
+    <p class="eyebrow">Navigasi Dokumen</p>
+    <h1 class="toc-title">Daftar Isi</h1>
+    <p class="toc-intro">Nama menu mengikuti aplikasi saat panduan disusun. Hak akses dapat berbeda menurut role, permission, dan versi aplikasi.</p>
+    <ol class="toc-list">
+      <li><span>1. Akses, peran, dan prinsip kerja</span><span class="page-ref">3</span></li>
+      <li><span>2. Dashboard keuangan</span><span class="page-ref">4</span></li>
+      <li><span>3. Menyiapkan jenis tagihan</span><span class="page-ref">5</span></li>
+      <li><span>4. Menyusun struktur biaya</span><span class="page-ref">6</span></li>
+      <li><span>5. Generate tagihan batch</span><span class="page-ref">7</span></li>
+      <li><span>6. Membuat tagihan individual</span><span class="page-ref">8</span></li>
+      <li><span>7. Memantau daftar dan detail tagihan</span><span class="page-ref">9</span></li>
+      <li><span>8. Verifikasi pembayaran mahasiswa</span><span class="page-ref">10</span></li>
+      <li><span>9. Koreksi dan penghapusan transaksi</span><span class="page-ref">11</span></li>
+      <li><span>10. Beasiswa dan ringkasan keuangan mahasiswa</span><span class="page-ref">12</span></li>
+      <li><span>11. Laporan dan rekonsiliasi</span><span class="page-ref">13</span></li>
+      <li><span>12. Honor: tarif dan aktivitas</span><span class="page-ref">14</span></li>
+      <li><span>13. Honor: hitung periode, sahkan, dan bayar</span><span class="page-ref">15</span></li>
+      <li><span>14. Checklist operasional dan pemecahan masalah</span><span class="page-ref">16</span></li>
+    </ol>
+    <div class="callout">
+      <p><strong>Urutan kerja yang disarankan:</strong> konfigurasi jenis dan struktur biaya → pratinjau batch → terbitkan tagihan → verifikasi pembayaran → tinjau saldo dan laporan. Modul honor adalah alur terpisah dari tagihan mahasiswa.</p>
+    </div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>2</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian I · Memulai</strong><span>01</span></div>
+    <p class="eyebrow">Akses dan Tanggung Jawab</p>
+    <h1>1. Akses, peran, dan prinsip kerja</h1>
+    <p>Masuk melalui <strong>https://asc.aljawami.ac.id</strong> menggunakan akun pribadi. Menu Keuangan tampil jika akun memiliki izin <strong>keuangan.view</strong>. Menu <strong>Honor Dosen &amp; Tendik</strong> dibatasi untuk SUPER_ADMIN dan ADMIN_KEUANGAN. Beberapa laporan memerlukan izin analitik.</p>
+    <h2>Kenali menu utama</h2>
+    <p><span class="tag">Dashboard</span><span class="tag">Jenis Tagihan</span><span class="tag">Struktur Biaya</span><span class="tag">Tagihan</span><span class="tag">Pembayaran</span><span class="tag">Beasiswa</span><span class="tag">Honor</span></p>
+    <ul>
+      <li>Dashboard merangkum tagihan, pembayaran terverifikasi, piutang, dan pembayaran yang menunggu verifikasi.</li>
+      <li>Jenis Tagihan dan Struktur Biaya membentuk sumber data bagi pembuatan tagihan otomatis.</li>
+      <li>Tagihan dan Pembayaran adalah catatan transaksi mahasiswa; Beasiswa adalah katalog beasiswa yang tampak di menu Keuangan.</li>
+      <li>Honor Dosen &amp; Tendik memiliki tarif, aktivitas, dan periode payroll sendiri; transaksi honor tidak masuk ke tagihan mahasiswa.</li>
+    </ul>
+    <h2>Prinsip pengendalian transaksi</h2>
+    <ol>
+      <li>Pastikan identitas mahasiswa, semester, jenis biaya, tanggal, nominal, dan bukti cocok sebelum menyimpan/mengesahkan.</li>
+      <li>Gunakan pratinjau sebelum membuat tagihan massal. Simpan hasil pemeriksaan dan catatan pendukung sesuai prosedur kampus.</li>
+      <li>Jangan mengubah atau menghapus transaksi hanya untuk merapikan angka. Periksa invoice, status pembayaran, bukti, dan dampak ke saldo terlebih dahulu.</li>
+      <li>Gunakan akun sendiri, keluar setelah memakai perangkat bersama, dan jangan kirim kredensial atau bukti pembayaran di kanal yang tidak aman.</li>
+    </ol>
+    <div class="callout warn"><p>Jika menu tidak muncul, minta admin memeriksa role, permission, dan status akun. Jangan memakai akun kolega; setiap verifikasi dapat tercatat atas pengguna yang sedang masuk.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>3</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian I · Memulai</strong><span>02</span></div>
+    <p class="eyebrow">Pemantauan Semester</p>
+    <h1>2. Dashboard keuangan</h1>
+    <p>Buka <strong>Keuangan → Dashboard</strong>. Dashboard memilih semester aktif sebagai nilai awal bila tersedia; pilih semester tertentu atau <strong>Semua Semester</strong> untuk mengubah cakupan ringkasan.</p>
+    <div class="grid-2">
+      <div class="card"><h3>Total Tagihan</h3><p>Nilai tagihan pada semester yang dipilih, tidak termasuk invoice yang dibatalkan atau dibebaskan dalam ringkasan backend.</p></div>
+      <div class="card"><h3>Total Terbayar</h3><p>Akumulasi pembayaran berstatus VERIFIED, bukan seluruh pengajuan yang masih menunggu.</p></div>
+      <div class="card"><h3>Sisa Piutang</h3><p>Ringkasan selisih setelah pembayaran yang diperhitungkan. Telusuri detail invoice bila nilai perlu direkonsiliasi.</p></div>
+      <div class="card"><h3>Menunggu Verifikasi</h3><p>Jumlah transaksi PENDING. Pilih kartu untuk menuju halaman verifikasi pembayaran.</p></div>
+      <div class="card"><h3>Tagihan Belum Lunas</h3><p>Jumlah invoice berstatus UNPAID, PARTIAL, atau OVERDUE.</p></div>
+      <div class="card"><h3>Jatuh Tempo</h3><p>Jumlah invoice yang berstatus OVERDUE pada semester terpilih.</p></div>
+    </div>
+    <h2>Aksi cepat</h2>
+    <p>Gunakan tombol <strong>Buat Tagihan</strong>, <strong>Generate Batch</strong>, <strong>Verifikasi Bayar</strong>, <strong>Jenis Tagihan</strong>, <strong>Struktur Biaya</strong>, atau <strong>Beasiswa</strong> untuk membuka proses yang sesuai.</p>
+    <div class="callout"><p>Dashboard adalah ringkasan untuk membantu triase. Untuk menjelaskan angka, telusuri daftar tagihan/pembayaran dan status masing-masing; jumlah pending bukan pendapatan terverifikasi.</p></div>
+    <h2>Pemeriksaan awal setiap periode</h2>
+    <ul>
+      <li>Pastikan semester di filter sesuai periode yang sedang dikelola.</li>
+      <li>Prioritaskan antrean pembayaran PENDING, lalu evaluasi invoice jatuh tempo dan transaksi yang memerlukan klarifikasi.</li>
+      <li>Catat kondisi awal sebelum menjalankan proses massal agar hasil sebelum/sesudah mudah dibandingkan.</li>
+    </ul>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>4</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Konfigurasi Tagihan</strong><span>03</span></div>
+    <p class="eyebrow">Katalog Biaya</p>
+    <h1>3. Menyiapkan jenis tagihan</h1>
+    <p>Buka <strong>Keuangan → Jenis Tagihan</strong>. Jenis tagihan adalah label/kategori yang dipakai pada item invoice, misalnya SPP, Herregistrasi, UTS, UAS, KKN, atau PPL.</p>
+    <h2>Menambah jenis baru</h2>
+    <ol>
+      <li>Pilih <strong>Tambah Jenis</strong> lalu isi Kode yang singkat dan unik, Nama yang mudah dipahami, dan Deskripsi bila diperlukan.</li>
+      <li><strong>Wajib Bayar</strong> menandai sifat kewajiban biaya pada master. <strong>Berulang Per Semester</strong> menandai jenis berulang yang dapat dipilih cepat saat batch.</li>
+      <li>Aktifkan <strong>Aktif</strong> agar jenis tersedia untuk konfigurasi/pemilihan yang memerlukan jenis aktif, lalu simpan.</li>
+      <li>Periksa baris yang baru tersimpan: kode, nama, wajib/opsional, berulang/sekali, serta status.</li>
+    </ol>
+    <h2>Mengubah dan mengarsipkan</h2>
+    <ul>
+      <li>Gunakan ikon edit untuk memperbarui nama, deskripsi, penanda wajib/berulang, atau status aktif.</li>
+      <li>Jenis yang sudah dipakai pada item invoice tidak dapat dihapus. Nonaktifkan jenis tersebut agar tidak dipilih untuk penggunaan baru, tanpa menghilangkan riwayat.</li>
+      <li>Jenis nonaktif tidak muncul pada pemilihan tagihan batch; aktifkan kembali hanya jika biaya memang akan digunakan lagi.</li>
+    </ul>
+    <div class="callout warn"><p>Jangan membuat jenis ganda dengan nama berbeda untuk kewajiban yang sama. Kode/nama yang konsisten membantu laporan dan mencegah penerbitan tagihan berulang dengan label yang membingungkan.</p></div>
+    <h2>Periksa kebijakan sebelum membuat master</h2>
+    <p>Sepakati nama, kode, periode pengenaan, penerima, dan apakah nominalnya seragam atau berbeda menurut prodi/angkatan/tingkat. Jangan menafsirkan penanda “wajib” sebagai pengganti persetujuan kebijakan biaya kampus.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>5</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Konfigurasi Tagihan</strong><span>04</span></div>
+    <p class="eyebrow">Nominal Berdasarkan Cakupan</p>
+    <h1>4. Menyusun struktur biaya</h1>
+    <p>Buka <strong>Keuangan → Struktur Biaya</strong>. Struktur memasangkan satu jenis tagihan dengan nominal dan cakupan mahasiswa. Batch menggunakan struktur yang cocok untuk mahasiswa dan semester terpilih.</p>
+    <h2>Menambahkan struktur</h2>
+    <ol>
+      <li>Pilih <strong>Tambah Struktur</strong> dan pilih jenis tagihan.</li>
+      <li>Tentukan Program Studi, Tahun Akademik, dan Tingkat jika nominal hanya berlaku untuk cakupan tertentu. Kosongkan untuk cakupan umum.</li>
+      <li>Untuk SPP, pilih kelas Reguler/Khusus/Hybrid bila nominal berbeda menurut kelas SPP. Untuk jenis non-SPP, biarkan cakupan kelas kosong.</li>
+      <li>Isi Nominal dalam rupiah, tambahkan Catatan dasar penetapan (misalnya nomor keputusan/periode kebijakan), lalu simpan.</li>
+    </ol>
+    <h2>Filter dan prioritas struktur</h2>
+    <p>Gunakan filter Jenis, Prodi, Tahun Akademik, Tingkat, dan Kelas untuk memeriksa daftar. Sistem memilih satu struktur paling sesuai untuk setiap jenis biaya: konfigurasi yang lebih spesifik seperti prodi/tahun/tingkat mengungguli konfigurasi umum. SPP memiliki pencocokan khusus menurut angkatan mahasiswa dan kelasnya.</p>
+    <div class="callout warn"><p>Hindari beberapa struktur yang bertumpuk untuk jenis dan cakupan yang sama. Sebelum batch, uji satu perwakilan mahasiswa dari tiap kelompok (prodi, angkatan/tingkat, dan kelas SPP), kemudian cocokkan nominal pratinjau dengan keputusan biaya.</p></div>
+    <h2>Jika jenis tidak muncul di batch</h2>
+    <ul>
+      <li>Pastikan jenis tagihan berstatus Aktif.</li>
+      <li>Periksa apakah struktur biaya cocok dengan tahun, prodi, tingkat, dan kelas mahasiswa.</li>
+      <li>Pastikan semester serta data angkatan/kelas pada profil mahasiswa benar.</li>
+      <li>Jenis non-berulang tetap dapat ditagihkan melalui pemilihan khusus batch bila struktur tersedia.</li>
+    </ul>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>6</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Tagihan Mahasiswa</strong><span>05</span></div>
+    <p class="eyebrow">Penerbitan Massal</p>
+    <h1>5. Generate tagihan batch</h1>
+    <p>Batch membuat tagihan untuk mahasiswa berstatus Aktif berdasarkan struktur biaya yang cocok. Tagihan untuk jenis terpilih hanya dibuat jika jenis tersebut belum tercakup pada invoice semester itu yang tidak dibatalkan.</p>
+    <h2>Pratinjau dahulu</h2>
+    <ol>
+      <li>Dari Dashboard atau halaman Tagihan, buka <strong>Generate Batch</strong>.</li>
+      <li>Pilih jenis biaya. Secara awal, jenis aktif yang berulang dipilih; gunakan <strong>Pilih semua</strong> atau <strong>Hanya berulang</strong>, lalu centang/hapus centang jenis sesuai keputusan periode.</li>
+      <li>Pilih Semester, tanggal Jatuh Tempo, serta filter Program Studi dan/atau Tahun Angkatan jika batch tidak mencakup seluruh mahasiswa aktif.</li>
+      <li>Pilih <strong>Pratinjau</strong>. Baca pesan hasil dan angka mahasiswa, akan dibuat, sudah lengkap, tanpa struktur biaya, serta kesalahan bila ada.</li>
+      <li>Cocokkan cakupan dan nominal terhadap kebijakan; jika hasil tidak sesuai, batalkan dan koreksi filter/struktur/master sebelum meneruskan.</li>
+    </ol>
+    <h2>Menjalankan batch</h2>
+    <p>Setelah hasil pratinjau disetujui, jalankan <strong>Generate Tagihan</strong> dan konfirmasi dialog. Periksa kembali ringkasan: jumlah dibuat harus sejalan dengan “akan dibuat” pada pratinjau. Tautan <strong>Lihat Semua Tagihan</strong> membuka daftar untuk pengecekan lanjutan.</p>
+    <div class="grid-2">
+      <div class="card"><h3>Sudah lengkap</h3><p>Semua struktur biaya terpilih untuk mahasiswa tersebut sudah tercakup pada invoice semester yang belum dibatalkan.</p></div>
+      <div class="card"><h3>Tanpa struktur biaya</h3><p>Tidak ditemukan struktur yang cocok untuk jenis biaya terpilih; periksa cakupan struktur dan data mahasiswa.</p></div>
+    </div>
+    <div class="callout danger"><p>Filter kosong berarti semua prodi/angkatan. Pastikan semester, jenis yang dipilih, tanggal jatuh tempo, dan cakupan target benar sebelum konfirmasi. Jangan mengulang batch secara membabi buta; gunakan pratinjau dan daftar invoice untuk menghindari salah sasaran.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>7</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Tagihan Mahasiswa</strong><span>06</span></div>
+    <p class="eyebrow">Penerbitan Satu Mahasiswa</p>
+    <h1>6. Membuat tagihan individual</h1>
+    <p>Gunakan pembuatan individual untuk biaya khusus atau koreksi administratif yang disetujui, bukan untuk menggantikan batch rutin tanpa alasan.</p>
+    <h2>Langkah pembuatan</h2>
+    <ol>
+      <li>Buka <strong>Keuangan → Tagihan</strong> lalu pilih <strong>Buat Tagihan</strong>.</li>
+      <li>Ketik minimal dua karakter NIM/nama, lalu pilih hasil mahasiswa yang tepat. Pastikan NIM, nama, dan prodi.</li>
+      <li>Pilih Semester (opsional jika invoice memang tanpa semester) dan Jatuh Tempo.</li>
+      <li>Tambahkan satu atau beberapa item: pilih Jenis, masukkan keterangan, dan nominal untuk setiap item. Gunakan tombol Tambah untuk menambah baris.</li>
+      <li>Masukkan Diskon atau Potongan Beasiswa hanya berdasarkan persetujuan yang dapat diverifikasi; isi catatan yang menerangkan dasar/periode.</li>
+      <li>Periksa total item dan tanggal, lalu pilih <strong>Buat Tagihan</strong>. Setelah berhasil, aplikasi membuka detail invoice.</li>
+    </ol>
+    <div class="callout"><p>Total yang ditampilkan pada formulir adalah jumlah item sebelum diskon/potongan. Detail invoice memisahkan subtotal, diskon, beasiswa, pembayaran terverifikasi, dan sisa.</p></div>
+    <h2>Hitung dan validasi saldo</h2>
+    <p><strong>Sisa tagihan = total item − diskon − potongan beasiswa − pembayaran VERIFIED.</strong> Pembayaran PENDING/REJECTED belum mengurangi piutang. Cek semua nominal dalam rupiah dan perhatikan pemisah ribuan ketika memasukkan data.</p>
+    <div class="callout warn"><p>Simpan bukti keputusan diskon/beasiswa sesuai tata kelola institusi. Jangan menyamakan potongan manual pada invoice dengan penetapan beasiswa pada master atau penugasan penerima.</p></div>
+    <h2>Pemberitahuan mahasiswa</h2>
+    <p>Setelah tagihan dibuat, sistem dapat mengirim notifikasi kepada akun mahasiswa yang tertaut, berisi informasi nominal dan tanggal jatuh tempo. Jika akun mahasiswa belum tertaut, tindak lanjuti melalui kanal komunikasi resmi kampus.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Tagihan Mahasiswa</strong><span>07</span></div>
+    <p class="eyebrow">Pencarian dan Siklus Status</p>
+    <h1>7. Memantau daftar dan detail tagihan</h1>
+    <p>Halaman <strong>Tagihan</strong> dapat difilter menurut semester dan status, serta dicari memakai NIM/nama. Baris menampilkan nomor invoice, jatuh tempo, mahasiswa/prodi, semester, total, jumlah dibayar, dan status.</p>
+    <h2>Memahami status invoice</h2>
+    <div class="grid-2">
+      <div class="card"><h3>UNPAID — Belum Bayar</h3><p>Belum ada pembayaran terverifikasi dan jatuh tempo belum terlewati.</p></div>
+      <div class="card"><h3>PARTIAL — Sebagian</h3><p>Sebagian nominal bersih invoice sudah dibayar dan masih ada sisa.</p></div>
+      <div class="card"><h3>PAID — Lunas</h3><p>Total pembayaran terverifikasi telah memenuhi nilai setelah diskon/potongan.</p></div>
+      <div class="card"><h3>OVERDUE — Jatuh Tempo</h3><p>Invoice belum lunas dan tanggal jatuh temponya sudah lewat.</p></div>
+      <div class="card"><h3>CANCELLED — Dibatalkan</h3><p>Invoice dibatalkan; invoice dengan pembayaran yang telah tercatat tidak dapat dibatalkan.</p></div>
+      <div class="card"><h3>WAIVED — Dibebaskan</h3><p>Status pembebasan. Pastikan dasar kebijakan/otorisasi tersimpan sesuai prosedur.</p></div>
+    </div>
+    <h2>Detail invoice dan tindakan koreksi</h2>
+    <p>Pilih ikon lihat untuk membuka rincian item, semester, jatuh tempo, diskon, beasiswa, riwayat pembayaran, dan sisa tagihan. Ikon edit membuka formulir untuk tanggal, catatan, item, nominal, diskon, dan potongan beasiswa.</p>
+    <ul>
+      <li>Hapus tersedia di daftar untuk status UNPAID/OVERDUE, bila tidak ada pembayaran VERIFIED. Penghapusan invoice bersifat permanen.</li>
+      <li>Batalkan invoice dari halaman detail hanya bila belum ada pembayaran. Jika sudah ada transaksi, tinjau dahulu bukti dan status pembayaran.</li>
+      <li>Invoice yang PAID/CANCELLED/WAIVED tidak ditawarkan untuk pembatalan di detail.</li>
+    </ul>
+    <div class="callout warn"><p>Jika invoice mempunyai pembayaran VERIFIED, jangan mengubah item/nominal secara rutin: perubahan akan mengubah saldo dan status. Ikuti persetujuan koreksi keuangan dan simpan jejak dokumentasi di luar sistem sesuai kebijakan kampus.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>9</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian IV · Pembayaran</strong><span>08</span></div>
+    <p class="eyebrow">Pencocokan Bukti</p>
+    <h1>8. Verifikasi pembayaran mahasiswa</h1>
+    <p>Mahasiswa dapat mengirim laporan pembayaran dengan metode, tanggal, referensi, informasi bank, catatan, dan bukti JPG/PNG/WEBP/PDF (maksimum 5 MB). Transaksi baru berstatus <strong>PENDING</strong> hingga admin memprosesnya.</p>
+    <h2>Meninjau antrean pembayaran</h2>
+    <ol>
+      <li>Buka <strong>Keuangan → Pembayaran</strong>. Filter awal menampilkan PENDING. Gunakan filter status dan pencarian NIM/nama untuk menyaring antrean.</li>
+      <li>Periksa nomor pembayaran, tanggal, identitas mahasiswa, nomor invoice, metode, nominal, dan nomor referensi.</li>
+      <li>Pilih ikon detail. Cocokkan bukti (gambar/PDF), nama bank/rekening, waktu transaksi, serta invoice yang dibayar dengan catatan bank/kanal penerimaan resmi.</li>
+      <li>Pastikan nominal tidak melebihi sisa invoice setelah diskon/potongan dan pembayaran VERIFIED lain. Sistem menolak verifikasi jika melewati nilai bersih invoice.</li>
+      <li>Jika transaksi valid, pilih <strong>Verifikasi Pembayaran</strong>. Jika tidak cocok, pilih <strong>Tolak</strong> dan berikan alasan yang jelas.</li>
+      <li>Pastikan status berubah menjadi VERIFIED atau REJECTED pada daftar/detail. Verifikasi memperbarui saldo invoice dan memberi notifikasi ke mahasiswa.</li>
+    </ol>
+    <div class="grid-2">
+      <div class="card"><h3>VERIFIED</h3><p>Transaksi diperhitungkan sebagai pembayaran invoice; sistem mencatat pengguna dan waktu verifikasi.</p></div>
+      <div class="card"><h3>REJECTED</h3><p>Transaksi tidak diperhitungkan ke saldo. Alasan penolakan disimpan untuk ditindaklanjuti mahasiswa.</p></div>
+    </div>
+    <div class="callout danger"><p>Jangan verifikasi hanya berdasarkan screenshot yang tidak dapat dicocokkan. Konfirmasi transaksi melalui rekening/kanal penerimaan yang berwenang; jangan meminta atau menyimpan PIN, OTP, maupun kata sandi perbankan.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>10</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian IV · Pembayaran</strong><span>09</span></div>
+    <p class="eyebrow">Koreksi Berisiko Tinggi</p>
+    <h1>9. Koreksi dan penghapusan transaksi</h1>
+    <p>Halaman Pembayaran menyediakan edit untuk rincian transaksi dan hapus untuk status tertentu. Gunakan hanya untuk memperbaiki kesalahan yang sudah dikonfirmasi, dengan persetujuan serta catatan sesuai tata kelola keuangan.</p>
+    <h2>Mengedit pembayaran</h2>
+    <p>Buka Edit dari daftar atau riwayat pembayaran pada detail invoice. Formulir memuat nominal, tanggal, metode, referensi, bank, nomor/nama rekening, dan catatan. Periksa semua nilai sebelum menyimpan.</p>
+    <ul>
+      <li>Jika pembayaran VERIFIED diedit, nilai pembayaran dapat mengubah paid_amount dan status invoice setelah dihitung ulang.</li>
+      <li>Sistem menolak jumlah VERIFIED yang baru jika gabungan pembayaran VERIFIED melampaui jumlah invoice setelah diskon/potongan.</li>
+      <li>Periksa ulang invoice dan saldo setelah perubahan. Edit data tidak boleh dipakai untuk mencatat refund.</li>
+    </ul>
+    <h2>Menghapus pembayaran</h2>
+    <ul>
+      <li><strong>PENDING</strong>, <strong>VERIFIED</strong>, dan <strong>REJECTED</strong> dapat dihapus dari daftar Pembayaran atau detail pembayaran.</li>
+      <li>Menghapus pembayaran menghapus transaksi dan bukti yang terunggah; tindakan ini tidak dapat dibatalkan.</li>
+      <li>Jika yang dihapus VERIFIED, sistem menghitung ulang saldo dan status invoice. Setelah itu invoice dapat kembali menjadi UNPAID, PARTIAL, OVERDUE, atau tetap lunas sesuai transaksi yang tersisa.</li>
+      <li><strong>REFUNDED</strong> tidak dapat dihapus melalui tindakan ini. Jangan mengubah status transaksi lain untuk mengakali batas tersebut.</li>
+    </ul>
+    <div class="callout danger"><p>Sebelum menghapus VERIFIED, konfirmasikan kesalahan transaksi, simpan nomor invoice/pembayaran dan bukti pendukung menurut prosedur pencatatan kampus, lalu informasikan dampaknya pada saldo kepada pihak yang berwenang. Tidak ada pemulihan bukti lewat tombol hapus.</p></div>
+    <p class="small">Fitur pembayaran pada layar admin berfokus pada pemeriksaan, pengeditan, verifikasi/penolakan, dan penghapusan untuk status yang diperbolehkan. Ikuti prosedur institusi untuk pencatatan refund atau koreksi kas di luar tindakan yang tersedia.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>11</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian V · Beasiswa dan Mahasiswa</strong><span>10</span></div>
+    <p class="eyebrow">Katalog dan Ringkasan Individu</p>
+    <h1>10. Beasiswa dan ringkasan keuangan mahasiswa</h1>
+    <h2>Mengelola katalog beasiswa</h2>
+    <p>Buka <strong>Keuangan → Beasiswa</strong>, pilih Tambah Beasiswa, lalu isi kode unik, nama, penyedia, jenis, nominal per semester, deskripsi, persyaratan, dan status Aktif. Jenis yang tersedia: FULL, PARTIAL, TUITION_ONLY, dan LIVING_COST.</p>
+    <ul>
+      <li>Kartu beasiswa menampilkan kode/nama, penyedia, status, jenis, nominal per semester, dan jumlah penerima aktif.</li>
+      <li>Edit memperbarui informasi master. Hapus ditolak bila beasiswa telah memiliki penerima; nonaktifkan bila tidak lagi digunakan.</li>
+      <li>Halaman Beasiswa yang tersedia menyajikan katalog dan jumlah penerima. Jika menu tidak menampilkan tindakan penetapan penerima, ikuti proses institusi/Admin Akademik yang berwenang; jangan menganggap pembuatan katalog otomatis memberi potongan pada invoice.</li>
+    </ul>
+    <h2>Melihat ringkasan keuangan mahasiswa</h2>
+    <p>Dari tautan mahasiswa di daftar Tagihan, buka <strong>Keuangan Mahasiswa</strong>. Ringkasan mencakup total invoice, total dibayar, total diskon/beasiswa, sisa tagihan, seluruh invoice, dan riwayat pembayaran. Gunakan tombol <strong>Export PDF</strong> untuk mengunduh ringkasan.</p>
+    <ol>
+      <li>Pastikan nama, NIM, dan program studi benar.</li>
+      <li>Buka nomor invoice untuk menelusuri item, jatuh tempo, status, dan pembayaran terkait.</li>
+      <li>Bandingkan angka ringkasan dengan jumlah invoice serta hanya pembayaran VERIFIED.</li>
+      <li>Bagikan PDF hanya kepada pihak yang memiliki kepentingan dan hak akses.</li>
+    </ol>
+    <div class="callout"><p>Dosen wali/Kaprodi/Sekprodi juga dapat memiliki akses baca ringkasan sesuai cakupan tugas. Edit keuangan dibatasi pada SUPER_ADMIN, ADMIN_KEUANGAN, dan ADMIN_AKADEMIK.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>12</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian V · Beasiswa dan Mahasiswa</strong><span>11</span></div>
+    <p class="eyebrow">Analisis dan Rekonsiliasi</p>
+    <h1>11. Laporan dan rekonsiliasi</h1>
+    <p>Menu <strong>Laporan → Statistik Keuangan</strong> memerlukan akses analitik. Tampilan saat ini menyajikan pendapatan per bulan untuk 12 bulan terakhir, status tagihan, metode pembayaran, tunggakan per program studi, dan total beasiswa diberikan.</p>
+    <h2>Makna angka laporan</h2>
+    <ul>
+      <li>Pendapatan bulanan dihitung dari pembayaran berstatus VERIFIED berdasarkan tanggal pembayaran.</li>
+      <li>Ringkasan status invoice menunjukkan jumlah dan total per status; gunakan halaman Tagihan untuk menelusuri invoice sumber.</li>
+      <li>Tunggakan per prodi membantu menentukan tindak lanjut. Cocokkan dengan semester dan detail invoice sebelum menyimpulkan nilai per mahasiswa.</li>
+      <li>Metode pembayaran mengelompokkan transaksi. Saat membandingkan dengan penerimaan bank, gunakan transaksi terverifikasi dan rentang tanggal pembukuan yang sama.</li>
+      <li>Nilai beasiswa pada laporan adalah ringkasan sistem, bukan pengganti persetujuan dan dokumen pemberian beasiswa.</li>
+    </ul>
+    <h2>Checklist rekonsiliasi harian/periode</h2>
+    <ol>
+      <li>Tetapkan tanggal/periode serta rekening/kanal penerimaan yang akan dicocokkan.</li>
+      <li>Bandingkan transaksi bank dengan pembayaran ASC: tanggal, referensi, nominal, mahasiswa, dan invoice.</li>
+      <li>Pastikan transaksi sudah memiliki status VERIFIED sebelum dihitung sebagai penerimaan pada ringkasan dashboard.</li>
+      <li>Investigasi transaksi ganda, selisih nominal, invoice yang tetap bersisa, dan pengajuan PENDING/REJECTED.</li>
+      <li>Dokumentasikan hasil, nomor transaksi terkait, penanggung jawab tindak lanjut, dan koreksi yang disetujui.</li>
+    </ol>
+    <div class="callout warn"><p>Dashboard dan statistik adalah laporan operasional di aplikasi, bukan buku besar akuntansi atau rekening koran. Gunakan sumber pembukuan resmi institusi untuk penutupan dan audit.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>13</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian VI · Honor</strong><span>12</span></div>
+    <p class="eyebrow">Honor Dosen dan Tenaga Kependidikan</p>
+    <h1>12. Honor: tarif dan aktivitas</h1>
+    <p>Menu <strong>Keuangan → Honor Dosen &amp; Tendik</strong> tersedia untuk SUPER_ADMIN dan ADMIN_KEUANGAN. Honor merupakan payroll tersendiri, bukan tagihan mahasiswa.</p>
+    <h2>Menyiapkan tarif</h2>
+    <p>Pada tab <strong>Tarif</strong>, isi nama, kategori, nominal, dan tanggal mulai berlaku (tanggal akhir opsional). Kategori dan satuan:</p>
+    <div class="grid-2">
+      <div class="card"><h3>Mengajar (TEACHING)</h3><p>Per pertemuan; pilih cara Luring atau Daring.</p></div>
+      <div class="card"><h3>Jabatan struktural (STRUCTURAL)</h3><p>Bulanan; pilih kode jabatan yang tarifnya berlaku.</p></div>
+      <div class="card"><h3>Pembimbing akademik (ADVISOR)</h3><p>Per mahasiswa per semester.</p></div>
+      <div class="card"><h3>Insidental (INCIDENTAL)</h3><p>Per aktivitas; dipakai untuk pencatatan kegiatan khusus.</p></div>
+      <div class="card"><h3>Tendik bulanan (STAFF_MONTHLY)</h3><p>Bulanan; jabatan opsional untuk tarif khusus.</p></div>
+    </div>
+    <p>Tarif baru berlaku sesuai rentang tanggalnya. Tarif yang sudah digunakan tidak dapat diubah; jika tarif berubah, buat tarif baru dengan tanggal berlaku yang tepat.</p>
+    <h2>Mencatat aktivitas insidental</h2>
+    <p>Pada tab <strong>Aktivitas</strong>, pilih dosen, tarif insidental yang berlaku pada tanggal kegiatan, isi nomor referensi penugasan, rincian, tanggal, jumlah satuan, dan semester bila relevan. Simpan; aktivitas akan berstatus PENDING.</p>
+    <ul>
+      <li>Periksa tarif × jumlah dan deskripsi terhadap surat tugas/bukti kegiatan.</li>
+      <li>Verifikasi aktivitas valid; tolak yang tidak memenuhi ketentuan. Aktivitas VERIFIED dapat dipertimbangkan pada perhitungan payroll.</li>
+      <li>Tarif kategori selain Insidental dan aktivitas yang berasal dari proses lain mengikuti mekanisme modul honor yang terkait.</li>
+    </ul>
+    <div class="callout warn"><p>Periksa masa berlaku dan kategori tarif dengan teliti. Snapshot tarif yang dipakai dapat dipertahankan pada catatan aktivitas/periode sehingga perubahan tarif baru tidak memperbaiki data historis.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>14</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian VI · Honor</strong><span>13</span></div>
+    <p class="eyebrow">Payroll dan Status Pembayaran</p>
+    <h1>13. Honor: hitung periode, sahkan, dan bayar</h1>
+    <h2>Membuat dan menghitung draft periode</h2>
+    <ol>
+      <li>Pada tab <strong>Periode honor</strong>, pilih Bulanan (tahun dan bulan) atau Semester, lalu buka draft periode.</li>
+      <li>Pilih periode pada daftar. Periksa rentang tanggal, status, jumlah rincian, total snapshot, dan aktivitas yang menunggu verifikasi.</li>
+      <li>Selesaikan review aktivitas PENDING pada tab Aktivitas. Honor mengajar dihitung dari jurnal berstatus COMPLETED dan cara mengajar yang tercatat.</li>
+      <li>Pilih <strong>Hitung draft</strong>. Sistem menyusun snapshot dari aktivitas yang sudah terverifikasi; perhitungan ulang mengganti snapshot draft sebelumnya.</li>
+      <li>Periksa setiap penerima, deskripsi, tanggal, jumlah × tarif snapshot, total, dan aktivitas tertunda sebelum pengesahan.</li>
+    </ol>
+    <h2>Mengesahkan dan menandai telah dibayar</h2>
+    <ul>
+      <li>Draft hanya dapat disahkan setelah periode berakhir. Pastikan daftar penerima dan nilai sudah direkonsiliasi sebelum memilih <strong>Sahkan</strong>.</li>
+      <li>Setelah disahkan, snapshot payroll tidak dapat dihitung ulang. Tarif/aktivitas sumber yang berubah tidak boleh dianggap memperbarui snapshot.</li>
+      <li>Periode APPROVED dapat ditandai telah dibayar. Konfirmasi bahwa pembayaran seluruh rincian periode benar-benar sudah dilakukan, lalu masukkan referensi pembayaran bila tersedia.</li>
+      <li>Pastikan status periode berubah, simpan referensi, dan cocokkan total payroll dengan bukti pembayaran/pembukuan institusi.</li>
+    </ul>
+    <div class="callout danger"><p>Jangan mengesahkan draft sebelum periode ditutup dan aktivitas tertunda ditinjau. Pengesahan mengunci snapshot. Jangan tandai dibayar sebelum pembayaran benar-benar dilaksanakan.</p></div>
+    <div class="callout"><p>Urutan status operasional: DRAFT → hitung/periksa → APPROVED setelah periode berakhir → tandai dibayar. Jika daftar rincian kosong, periksa aktivitas terverifikasi, jurnal selesai, rentang tanggal, tarif yang berlaku, dan jenis periode.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>15</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian VII · Pemeriksaan</strong><span>14</span></div>
+    <p class="eyebrow">Operasional dan Troubleshooting</p>
+    <h1>14. Checklist operasional dan pemecahan masalah</h1>
+    <h2>Checklist sebelum dan sesudah proses</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Sebelum menerbitkan tagihan</h3>
+        <ul>
+          <li>Semester, prodi, angkatan, dan jenis dipilih benar.</li>
+          <li>Jenis aktif dan struktur biaya sesuai keputusan.</li>
+          <li>Pratinjau serta tanpa-struktur/kesalahan sudah ditinjau.</li>
+          <li>Tanggal jatuh tempo dan potongan disetujui.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Sebelum memverifikasi</h3>
+        <ul>
+          <li>NIM, invoice, referensi, tanggal, dan nominal cocok.</li>
+          <li>Bukti dapat dibuka dan transaksi terkonfirmasi.</li>
+          <li>Sisa invoice mencukupi untuk nominal pembayaran.</li>
+          <li>Alasan penolakan jelas bila bukti tidak valid.</li>
+        </ul>
+      </div>
+    </div>
+    <h2>Masalah umum</h2>
+    <ul>
+      <li><strong>Tagihan tidak terbentuk:</strong> cek status mahasiswa Aktif, filter batch, jenis aktif, struktur cocok, dan invoice non-CANCELLED yang mungkin sudah mencakup biaya.</li>
+      <li><strong>Pratinjau “tanpa struktur”:</strong> periksa cakupan prodi/tahun/tingkat, kelas SPP, tahun angkatan mahasiswa, dan nilai struktur.</li>
+      <li><strong>Verifikasi ditolak karena melebihi saldo:</strong> cek jumlah invoice setelah diskon/beasiswa dan seluruh pembayaran VERIFIED; jangan mengubah nominal tanpa bukti koreksi.</li>
+      <li><strong>Bukti tidak terlihat:</strong> buka detail pembayaran; periksa jaringan dan coba buka PDF/gambar di tab baru. Jangan menghapus transaksi untuk mengatasi kegagalan tampilan.</li>
+      <li><strong>Menu tidak ada:</strong> pastikan izin finance atau role Admin Keuangan; untuk Honor, cek role SUPER_ADMIN/ADMIN_KEUANGAN.</li>
+    </ul>
+    <h2>Jika halaman tampak usang</h2>
+    <p>Di laptop tekan <strong>Ctrl+Shift+R</strong> (Windows) atau <strong>Cmd+Shift+R</strong> (Mac). Jika masih bermasalah, keluar dan buka ulang ASC, atau hapus data situs ASC dari pengaturan browser. Di smartphone, tutup aplikasi/browser lalu buka kembali; bila tetap usang, hapus data situs pada browser dan masuk kembali. Penghapusan cookie dapat mengeluarkan akun.</p>
+    <div class="callout good"><p>Jika kendala berlanjut, catat nama menu, waktu, nomor invoice/pembayaran (tanpa data rekening sensitif), pesan error, dan langkah reproduksi. Hubungi Admin ASC/Admin Keuangan melalui kanal resmi. Jangan kirim kata sandi, OTP, atau data bank rahasia.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus | Dokumen Edisi 1.0</span><span>16</span></div>
+  </section>
+</body>
+</html>

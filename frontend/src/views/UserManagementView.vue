@@ -1,0 +1,190 @@
+<script setup lang="ts">
+import { ref, reactive, onMounted, computed } from 'vue'
+import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { useCrud } from '@/composables/useCrud'
+import { useExcel } from '@/composables/useExcel'
+import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores/auth'
+import DataTable from '@/components/ui/DataTable.vue'
+import BaseModal from '@/components/ui/BaseModal.vue'
+import api from '@/services/api'
+import ExcelButtons from '@/components/ui/ExcelButtons.vue'
+
+interface Role { id: number; name: string }
+interface User {
+  id: number; name: string; email: string; username: string
+  is_active: boolean; last_login_at: string
+  roles: { name: string }[]
+}
+
+const { items, pagination, loading, fetchAll, create, update, remove } = useCrud<User>('/users')
+const { exporting, exportExcel } = useExcel('/users')
+const toast = useToast()
+const auth = useAuthStore()
+const rolesList = ref<Role[]>([])
+const search = ref(''); const filterRole = ref('')
+const modalOpen = ref(false); const editingId = ref<number | null>(null); const saving = ref(false)
+
+// Bulk selection
+const selectedIds = ref<number[]>([])
+const bulkDeleting = ref(false)
+const isAllSelected = computed(() => items.value.length > 0 && items.value.every((i: any) => selectedIds.value.includes(i.id)))
+function toggleSelectAll() { if (isAllSelected.value) selectedIds.value = []; else selectedIds.value = items.value.filter((i: any) => i.id !== auth.user?.id).map((i: any) => i.id) }
+function toggleSelect(id: number) { if (id === auth.user?.id) return; const idx = selectedIds.value.indexOf(id); if (idx >= 0) selectedIds.value.splice(idx, 1); else selectedIds.value.push(id) }
+async function bulkDelete() {
+  if (!selectedIds.value.length) return
+  if (!confirm(`Hapus ${selectedIds.value.length} pengguna yang dipilih?`)) return
+  bulkDeleting.value = true
+  try { const { data } = await api.post('/users/bulk-delete', { ids: selectedIds.value }); toast.success(data.message); selectedIds.value = []; load() }
+  catch (e: any) { toast.error(e?.response?.data?.message ?? 'Gagal.') }
+  finally { bulkDeleting.value = false }
+}
+
+const form = reactive({ name: '', email: '', username: '', password: '', role: '', is_active: true })
+
+const columns = [
+  { key: 'select', label: '', class: 'w-8' },
+  { key: 'name', label: 'Nama' }, { key: 'email', label: 'Email' },
+  { key: 'username', label: 'Username' }, { key: 'role', label: 'Role' },
+  { key: 'login', label: 'Login Terakhir' }, { key: 'status', label: 'Status' },
+  { key: 'aksi', label: 'Aksi', class: 'text-right' },
+]
+
+onMounted(async () => {
+  load()
+  const { data } = await api.get('/roles')
+  rolesList.value = data
+})
+
+async function load(page = 1) { await fetchAll({ search: search.value, role: filterRole.value, page }) }
+
+function openCreate() {
+  editingId.value = null
+  Object.assign(form, { name: '', email: '', username: '', password: '', role: '', is_active: true })
+  modalOpen.value = true
+}
+
+function openEdit(item: User) {
+  editingId.value = item.id
+  Object.assign(form, { name: item.name, email: item.email, username: item.username, password: '', role: item.roles[0]?.name ?? '', is_active: item.is_active })
+  modalOpen.value = true
+}
+
+async function handleSave() {
+  saving.value = true
+  try {
+    const payload: any = { ...form }
+    if (!payload.password) delete payload.password
+    editingId.value ? await update(editingId.value, payload) : await create(payload)
+    modalOpen.value = false; load()
+  } catch { } finally { saving.value = false }
+}
+
+async function handleDelete(item: User) {
+  if (!confirm(`Hapus user "${item.name}"?`)) return
+  await remove(item.id); load()
+}
+
+function formatDate(d: string) {
+  if (!d) return '-'
+  return new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+</script>
+
+<template>
+  <div class="space-y-5">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold text-gray-900">Manajemen Pengguna</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Kelola akun dan hak akses pengguna sistem</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <ExcelButtons
+          :exporting="exporting"
+          :importing="false"
+          :hide-import="true"
+          :export-params="{ search: search, role: filterRole }"
+          @export="exportExcel($event, 'pengguna.xlsx')"
+        />
+        <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors" @click="openCreate">
+          <PlusIcon class="w-4 h-4" /> Tambah Pengguna
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
+      <input v-model="search" type="text" placeholder="Cari nama atau email..." class="px-3.5 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64" @input="load()" />
+      <select v-model="filterRole" class="px-3.5 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" @change="load()">
+        <option value="">Semua Role</option>
+        <option v-for="r in rolesList" :key="r.id" :value="r.name">{{ r.name }}</option>
+      </select>
+      <button v-if="selectedIds.length" :disabled="bulkDeleting" class="ml-auto px-3 py-2 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white text-xs font-medium rounded-lg inline-flex items-center gap-1.5" @click="bulkDelete">
+        <TrashIcon class="w-3.5 h-3.5" /> Hapus {{ selectedIds.length }} dipilih
+      </button>
+    </div>
+    <DataTable :columns="columns" :rows="items" :loading="loading" :total="pagination.total" :current-page="pagination.currentPage" :last-page="pagination.lastPage" @page-change="load">
+      <template #header-select>
+        <input type="checkbox" :checked="isAllSelected" @change="toggleSelectAll" class="rounded border-gray-300" />
+      </template>
+      <template #default="{ row }">
+        <td class="px-4 py-3">
+          <input v-if="row.id !== auth.user?.id" type="checkbox" :checked="selectedIds.includes(row.id)" @change="toggleSelect(row.id)" class="rounded border-gray-300" />
+          <span v-else class="text-[10px] text-gray-400">Anda</span>
+        </td>
+        <td class="px-4 py-3 font-medium text-gray-900">{{ row.name }}</td>
+        <td class="px-4 py-3 text-gray-600 text-sm">{{ row.email }}</td>
+        <td class="px-4 py-3 font-mono text-xs text-gray-600">{{ row.username ?? '-' }}</td>
+        <td class="px-4 py-3">
+          <span v-for="role in row.roles" :key="role.name" class="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700 mr-1">{{ role.name }}</span>
+        </td>
+        <td class="px-4 py-3 text-xs text-gray-500">{{ formatDate(row.last_login_at) }}</td>
+        <td class="px-4 py-3"><span :class="['inline-flex px-2 py-0.5 rounded-full text-xs font-medium', row.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600']">{{ row.is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
+        <td class="px-4 py-3">
+          <div class="flex items-center justify-end gap-1">
+            <button class="p-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors" @click="openEdit(row)"><PencilIcon class="w-4 h-4" /></button>
+            <button class="p-1.5 rounded-lg text-red-500 hover:bg-red-50 transition-colors" @click="handleDelete(row)"><TrashIcon class="w-4 h-4" /></button>
+          </div>
+        </td>
+      </template>
+    </DataTable>
+  </div>
+
+  <BaseModal :open="modalOpen" :title="editingId ? 'Edit Pengguna' : 'Tambah Pengguna'" size="lg" @close="modalOpen = false">
+    <form class="space-y-4" @submit.prevent="handleSave">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+        <input v-model="form.name" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
+          <input v-model="form.email" type="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input v-model="form.username" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Password {{ editingId ? '(kosongkan jika tidak diubah)' : '*' }}</label>
+          <input v-model="form.password" type="password" :required="!editingId" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
+          <select v-model="form.role" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">-- Pilih Role --</option>
+            <option v-for="r in rolesList" :key="r.id" :value="r.name">{{ r.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <input v-model="form.is_active" type="checkbox" id="user_active" class="rounded" />
+        <label for="user_active" class="text-sm text-gray-700">Akun aktif</label>
+      </div>
+    </form>
+    <template #footer>
+      <button class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors" @click="modalOpen = false">Batal</button>
+      <button :disabled="saving" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-medium rounded-lg transition-colors" @click="handleSave">{{ saving ? 'Menyimpan...' : 'Simpan' }}</button>
+    </template>
+  </BaseModal>
+</template>

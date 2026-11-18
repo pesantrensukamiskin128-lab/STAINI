@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panduan Pengguna ASC — Dosen dan Pejabat Struktural</title>
+  <style>
+    :root {
+      --navy: #12304a;
+      --blue: #1769aa;
+      --cyan: #28a6b8;
+      --ink: #1f2937;
+      --muted: #65758b;
+      --line: #dce5ed;
+      --pale: #f2f7fb;
+      --green: #18794e;
+      --amber: #9a5b00;
+      --red: #a33a3a;
+    }
+    * { box-sizing: border-box; }
+    @page { size: A4; margin: 0; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: var(--ink);
+      background: #e8eef3;
+      font-family: Arial, "Segoe UI", sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.4;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      position: relative;
+      width: 210mm;
+      height: 297mm;
+      margin: 8mm auto;
+      padding: 16mm 18mm 19mm;
+      overflow: hidden;
+      background: #fff;
+      page-break-after: always;
+      break-after: page;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 3mm;
+      margin-bottom: 6mm;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 7.5pt;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .page-head strong { color: var(--blue); }
+    .page-foot {
+      position: absolute;
+      right: 18mm;
+      bottom: 8mm;
+      left: 18mm;
+      display: flex;
+      justify-content: space-between;
+      padding-top: 2mm;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 7.5pt;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 3mm; color: var(--navy); font-size: 21pt; line-height: 1.12; }
+    h2 { margin: 5mm 0 2mm; color: var(--navy); font-size: 11.5pt; line-height: 1.2; }
+    h3 { margin: 0 0 1.5mm; color: var(--navy); font-size: 9.5pt; }
+    p { margin-bottom: 2.1mm; }
+    ul, ol { margin: 1mm 0 2.5mm; padding-left: 5mm; }
+    li { margin: 0 0 1mm; padding-left: .4mm; }
+    .eyebrow {
+      margin-bottom: 2mm;
+      color: var(--blue);
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .lead { color: var(--muted); font-size: 10.5pt; }
+    .small { color: var(--muted); font-size: 8pt; }
+    .callout {
+      margin: 3mm 0;
+      padding: 2.8mm 3.5mm;
+      border-left: 3px solid var(--cyan);
+      border-radius: 2mm;
+      background: var(--pale);
+    }
+    .callout.warn { border-left-color: #e0a12b; background: #fff8e9; }
+    .callout.good { border-left-color: #2c9a67; background: #eef9f3; }
+    .callout.danger { border-left-color: #cf5656; background: #fff1f1; }
+    .callout p:last-child, .card p:last-child { margin-bottom: 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5mm; }
+    .card { padding: 3mm 3.5mm; border: 1px solid var(--line); border-radius: 2mm; background: #fff; }
+    .step { display: grid; grid-template-columns: 6mm 1fr; gap: 2mm; margin: 1.8mm 0; }
+    .step-no {
+      display: flex;
+      width: 5.5mm;
+      height: 5.5mm;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 7.5pt;
+      font-weight: 700;
+    }
+    .step p { margin: .3mm 0 0; }
+    .tag {
+      display: inline-block;
+      margin: 0 1mm 1mm 0;
+      padding: .7mm 2mm;
+      border-radius: 8mm;
+      color: #15527f;
+      background: #e8f3fb;
+      font-size: 7.5pt;
+      font-weight: 700;
+    }
+    .toc-title { margin: 0 0 2mm; font-size: 25pt; }
+    .toc-intro { margin-bottom: 4mm; color: var(--muted); }
+    .toc-list { margin: 0; padding: 0; list-style: none; }
+    .toc-list li {
+      display: grid;
+      grid-template-columns: 1fr 12mm;
+      gap: 4mm;
+      align-items: baseline;
+      margin: 0;
+      padding: 1.8mm 1mm;
+      border-bottom: 1px dotted #bdcad6;
+      font-size: 9pt;
+    }
+    .toc-list .page-ref { color: var(--blue); font-weight: 700; text-align: right; }
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #fff;
+      background: linear-gradient(145deg, #10283f 0%, #174d77 59%, #188c9c 100%);
+    }
+    .cover::before, .cover::after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 50%;
+    }
+    .cover::before { top: -42mm; right: -37mm; width: 135mm; height: 135mm; }
+    .cover::after { top: -21mm; right: -16mm; width: 92mm; height: 92mm; }
+    .cover > * { position: relative; z-index: 1; }
+    .cover-brand { display: flex; align-items: center; gap: 5mm; }
+    .cover-brand img { width: 22mm; height: 22mm; border: 1px solid rgba(255,255,255,.55); border-radius: 5mm; }
+    .cover-brand strong { display: block; font-size: 12pt; letter-spacing: .04em; }
+    .cover-brand span { color: #c7e5ee; font-size: 8pt; }
+    .cover .eyebrow { margin-top: 6mm; color: #9de6e8; }
+    .cover h1 { max-width: 155mm; margin: 0; color: #fff; font-size: 34pt; line-height: 1.05; }
+    .cover .subtitle { max-width: 135mm; margin: 6mm 0 0; color: #e0f2f5; font-size: 15pt; line-height: 1.3; }
+    .cover-band { max-width: 130mm; padding: 4mm; border: 1px solid rgba(255,255,255,.3); border-radius: 3mm; background: rgba(255,255,255,.08); }
+    .cover-band p { margin: 0; color: #eaf6f8; font-size: 9pt; }
+    .cover-foot { color: #c7e5ee; font-size: 8pt; letter-spacing: .08em; }
+    .two-col-list { columns: 2; column-gap: 8mm; }
+    .two-col-list li { break-inside: avoid; }
+    .browser-key { padding: .4mm 1.5mm; border: 1px solid #b8c6d3; border-radius: 1mm; background: #f7fafc; font-weight: 700; }
+    @media print {
+      html, body { background: #fff; }
+      .page { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <section class="page cover">
+    <div class="cover-brand">
+      <img alt="Logo ASC" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='96' fill='%232563eb'/%3E%3Ctext x='256' y='320' font-family='Arial,sans-serif' font-size='180' font-weight='bold' text-anchor='middle' fill='white'%3EASC%3C/text%3E%3C/svg%3E">
+      <div><strong>AL-JAWAMI SMART CAMPUS</strong><span>Panduan layanan akademik dan kelembagaan</span></div>
+    </div>
+    <div>
+      <p class="eyebrow">Buku Panduan Pengguna</p>
+      <h1>Panduan Penggunaan Aplikasi ASC</h1>
+      <p class="subtitle">Untuk Dosen dan Pejabat Struktural</p>
+    </div>
+    <div class="cover-band">
+      <p>Panduan akses, instalasi aplikasi, pembelajaran, layanan akademik, peran struktural, persuratan, serta penanganan kendala aplikasi.</p>
+    </div>
+    <div class="cover-foot">ASC.ALJAWAMI.AC.ID &nbsp; • &nbsp; EDISI 1.1 &nbsp; • &nbsp; 4 OKTOBER 2026</div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>ASC · Panduan Pengguna</strong><span>Daftar Isi</span></div>
+    <p class="eyebrow">Navigasi Dokumen</p>
+    <h1 class="toc-title">Daftar Isi</h1>
+    <p class="toc-intro">Nomor halaman mengikuti dokumen PDF ini. Menu yang muncul di akun mengikuti peran, izin, dan lingkup tugas yang diberikan.</p>
+    <ol class="toc-list">
+      <li><span>1. Mengenal ASC, akses, dan akun</span><span class="page-ref">3</span></li>
+      <li><span>2. Instalasi di laptop atau komputer</span><span class="page-ref">4</span></li>
+      <li><span>3. Instalasi di smartphone</span><span class="page-ref">5</span></li>
+      <li><span>4. Dashboard, kalender, dan notifikasi</span><span class="page-ref">6</span></li>
+      <li><span>5. Kelas, materi, presensi, tugas, dan diskusi</span><span class="page-ref">7</span></li>
+      <li><span>6. RPKPS/RPS dan kurikulum</span><span class="page-ref">8</span></li>
+      <li><span>Pembuatan RPKPS/RPS untuk dosen</span><span class="page-ref">9–10</span></li>
+      <li><span>7. Gradebook dan pengelolaan nilai</span><span class="page-ref">11</span></li>
+      <li><span>8. KRS dan perwalian</span><span class="page-ref">12</span></li>
+      <li><span>9. Bimbingan akademik</span><span class="page-ref">13</span></li>
+      <li><span>10. Skripsi dan tugas akhir</span><span class="page-ref">14</span></li>
+      <li><span>11. Praktikum, KKN, penelitian, dan karya dosen</span><span class="page-ref">15</span></li>
+      <li><span>12. Alur kerja Kaprodi dan Sekretaris Prodi</span><span class="page-ref">16</span></li>
+      <li><span>13. Master data mata kuliah</span><span class="page-ref">17</span></li>
+      <li><span>14. Menyusun kurikulum OBE</span><span class="page-ref">18</span></li>
+      <li><span>15. Penetapan dosen PA/wali</span><span class="page-ref">19</span></li>
+      <li><span>16. Menyiapkan kelas dan jadwal kuliah</span><span class="page-ref">20</span></li>
+      <li><span>17. Mengelola dan meninjau KRS</span><span class="page-ref">21</span></li>
+      <li><span>18. Persuratan, agenda, dan notulen</span><span class="page-ref">22</span></li>
+      <li><span>19. Honor, perpustakaan, repository, dan profil</span><span class="page-ref">23</span></li>
+      <li><span>20. Troubleshooting dan penyegaran cache</span><span class="page-ref">24</span></li>
+    </ol>
+    <div class="callout">
+      <p><strong>Petunjuk:</strong> ikuti nama menu yang terlihat pada layar Anda. Jika menu yang dibutuhkan tidak ada, kemungkinan izin belum diberikan atau tugas/jabatan belum ditautkan ke akun. Hubungi admin ASC/Admin Akademik.</p>
+    </div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>2</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian I · Memulai</strong><span>01</span></div>
+    <p class="eyebrow">Akses dan Akun</p>
+    <h1>1. Mengenal ASC, akses, dan akun</h1>
+    <p class="lead">ASC adalah aplikasi kampus berbasis web yang menampilkan layanan sesuai peran pengguna.</p>
+    <div class="card">
+      <h3>Alamat aplikasi</h3>
+      <p><strong>https://asc.aljawami.ac.id</strong></p>
+      <p class="small">Pastikan alamat menggunakan HTTPS dan nama domain tepat. Gunakan jaringan internet yang stabil saat menyimpan, mengirim, menandatangani, atau mengunduh dokumen.</p>
+    </div>
+    <h2>Masuk ke akun</h2>
+    <div class="step"><span class="step-no">1</span><p>Buka alamat ASC, lalu pilih halaman masuk jika belum tampil.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Masukkan username/email dan kata sandi yang diberikan atau diatur untuk akun Anda.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Pilih <strong>Masuk</strong>. Setelah berhasil, periksa nama dan peran yang ditampilkan di aplikasi.</p></div>
+    <h2>Menu berdasarkan tugas</h2>
+    <p>Dosen umumnya menggunakan menu kelas/perkuliahan, RPKPS/RPS, nilai, KRS/perwalian, bimbingan, skripsi, dan layanan pribadi yang diizinkan. Pejabat struktural dapat memperoleh menu tambahan untuk pemantauan, lingkup program/fakultas, persetujuan, kurikulum, laporan, atau penandatanganan.</p>
+    <div class="callout warn"><p><strong>Akses terbatas:</strong> jabatan dan menu bersifat spesifik. Data yang terlihat mengikuti kewenangan serta lingkup kerja akun; tidak semua pejabat melihat semua program studi atau layanan.</p></div>
+    <h2>Keamanan akun</h2>
+    <ul>
+      <li>Jangan membagikan kata sandi atau kode autentikasi.</li>
+      <li>Keluar dari aplikasi pada perangkat bersama.</li>
+      <li>Perbarui kata sandi dari profil/pengaturan apabila fitur tersedia.</li>
+      <li>Periksa kembali data dan lampiran sebelum dikirim atau disahkan.</li>
+    </ul>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>3</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian I · Memulai</strong><span>02</span></div>
+    <p class="eyebrow">Laptop dan Komputer</p>
+    <h1>2. Instalasi di laptop atau komputer</h1>
+    <p class="lead">ASC dapat dipasang sebagai aplikasi web (PWA) dari browser. Pemasangan tidak mengunduh aplikasi dari toko aplikasi.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Microsoft Edge</h3>
+        <ol>
+          <li>Buka <strong>https://asc.aljawami.ac.id</strong> dan masuk.</li>
+          <li>Pilih ikon <strong>App tersedia/Install</strong> di bilah alamat, jika muncul; atau buka menu <strong>…</strong>.</li>
+          <li>Pilih <strong>Apps</strong> → <strong>Install this site as an app</strong>.</li>
+          <li>Konfirmasi <strong>Install</strong>. Aktifkan pintasan taskbar/desktop jika diinginkan.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Google Chrome</h3>
+        <ol>
+          <li>Buka alamat ASC pada Chrome dan masuk.</li>
+          <li>Pilih ikon <strong>Install</strong> di bilah alamat bila tersedia.</li>
+          <li>Jika tidak muncul, buka menu <strong>⋮</strong> → <strong>Cast, save, and share</strong> → <strong>Install page as app</strong> (nama menu dapat berbeda).</li>
+          <li>Konfirmasi pemasangan. ASC akan muncul sebagai jendela/aplikasi tersendiri.</li>
+        </ol>
+      </div>
+    </div>
+    <h2>Jika pilihan Install tidak muncul</h2>
+    <ul>
+      <li>Perbarui browser, gunakan Chrome atau Edge versi terbaru, lalu kunjungi ulang alamat ASC.</li>
+      <li>Pastikan halaman sudah dimuat penuh dan perangkat terhubung ke internet.</li>
+      <li>Anda tetap dapat menggunakan ASC langsung dari browser tanpa memasangnya.</li>
+    </ul>
+    <div class="callout good"><p><strong>Catatan:</strong> PWA adalah pintasan aplikasi ke layanan web. Login, penyimpanan, dan fitur kampus tetap memerlukan koneksi internet.</p></div>
+    <h2>Membuka atau menghapus aplikasi</h2>
+    <p>Buka ASC dari Start Menu/daftar aplikasi. Untuk menghapusnya, gunakan pengaturan Apps di Edge/Chrome atau daftar aplikasi Windows; penghapusan PWA tidak menghapus akun ASC.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>4</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian I · Memulai</strong><span>03</span></div>
+    <p class="eyebrow">Android dan iPhone</p>
+    <h1>3. Instalasi di smartphone</h1>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Android · Chrome</h3>
+        <ol>
+          <li>Buka Chrome, kunjungi <strong>https://asc.aljawami.ac.id</strong>, lalu masuk.</li>
+          <li>Ketuk menu <strong>⋮</strong> di kanan atas.</li>
+          <li>Pilih <strong>Install app</strong> atau <strong>Add to Home screen</strong>.</li>
+          <li>Konfirmasi. Ikon ASC akan muncul di layar utama/daftar aplikasi.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>iPhone/iPad · Safari</h3>
+        <ol>
+          <li>Buka Safari, kunjungi <strong>https://asc.aljawami.ac.id</strong>, lalu masuk.</li>
+          <li>Ketuk tombol <strong>Bagikan</strong> (kotak dengan panah ke atas).</li>
+          <li>Gulir pilihan, ketuk <strong>Add to Home Screen/Tambahkan ke Layar Utama</strong>.</li>
+          <li>Periksa nama ASC, lalu ketuk <strong>Add/Tambahkan</strong>.</li>
+        </ol>
+      </div>
+    </div>
+    <h2>Menggunakan aplikasi yang terpasang</h2>
+    <p>Ketuk ikon ASC untuk membuka. Jika diminta, masuk kembali dengan akun kampus. Gunakan browser yang sama saat memasang aplikasi untuk hasil terbaik.</p>
+    <div class="callout warn"><p><strong>Jika instalasi tidak tersedia:</strong> gunakan opsi <em>Tambahkan ke layar utama</em> pada menu browser, periksa koneksi, atau buka ASC melalui browser. Hindari memasang aplikasi dari tautan atau toko tidak resmi.</p></div>
+    <h2>Berbagi perangkat dengan aman</h2>
+    <ul>
+      <li>Jangan memilih simpan kata sandi pada perangkat milik orang lain.</li>
+      <li>Keluar dari akun setelah selesai.</li>
+      <li>Jangan menghapus data situs jika masih ada formulir yang belum dikirim; simpan dahulu perubahan yang diperlukan.</li>
+    </ul>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>5</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>04</span></div>
+    <p class="eyebrow">Beranda dan Informasi</p>
+    <h1>4. Dashboard, kalender, dan notifikasi</h1>
+    <h2>Dashboard</h2>
+    <p>Dashboard menyapa pengguna dan memuat ringkasan sesuai peran. Dosen dapat melihat ringkasan kelas, mahasiswa bimbingan, KRS yang menunggu persetujuan, atau pengumpulan tugas. Pejabat dapat melihat jabatan aktif, ringkasan lingkup kerja, dan akses cepat ke layanan yang diizinkan.</p>
+    <div class="step"><span class="step-no">1</span><p>Gunakan menu kiri (komputer) atau tombol menu (ponsel) untuk membuka layanan.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Pilih kartu ringkasan/menu cepat untuk menuju rincian jika tersedia.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Gunakan filter semester, status, atau pencarian pada halaman daftar untuk mempersempit data.</p></div>
+    <h2>Kalender akademik dan agenda</h2>
+    <p>Periksa tanggal kegiatan akademik, periode penting, rapat, undangan, lokasi, dan waktu. Agenda personal menampilkan kegiatan yang relevan dengan akun. Informasi jadwal pada ASC dapat berubah mengikuti pembaruan admin.</p>
+    <h2>Notifikasi</h2>
+    <ul>
+      <li>Buka menu <strong>Notifikasi</strong> atau ikon lonceng bila ditampilkan.</li>
+      <li>Perhatikan pemberitahuan baru mengenai persetujuan, bimbingan, surat, atau kegiatan.</li>
+      <li>Ketuk notifikasi untuk membuka data terkait; status baca dapat diperbarui otomatis.</li>
+    </ul>
+    <div class="callout"><p><strong>Perlu diperhatikan:</strong> angka ringkasan merupakan informasi cepat. Buka halaman rincian sebelum melakukan persetujuan atau mengambil keputusan.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>6</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>05</span></div>
+    <p class="eyebrow">Perkuliahan</p>
+    <h1>5. Kelas, materi, presensi, tugas, dan diskusi</h1>
+    <p>Buka menu <strong>Akademik → Penawaran Kelas</strong> atau kartu <strong>Kelas Saya</strong> pada Dashboard. Daftar dan tombol yang tersedia bergantung pada penugasan dosen di kelas tersebut.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Melihat kelas dan jadwal</h3>
+        <ol>
+          <li>Pilih semester dan kelas yang diampu.</li>
+          <li>Buka detail kelas untuk melihat mata kuliah, peserta, jadwal, dan fasilitas.</li>
+          <li>Gunakan tab kelas untuk berpindah antara jurnal, materi, tugas, presensi, dan fitur pembelajaran yang tersedia.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Jurnal dan presensi</h3>
+        <ol>
+          <li>Pilih pertemuan/jurnal yang sesuai dengan jadwal.</li>
+          <li>Lengkapi topik, materi, metode, dan informasi pertemuan yang diminta.</li>
+          <li>Simpan; buka kembali untuk memastikan catatan dan status tersimpan.</li>
+        </ol>
+      </div>
+    </div>
+    <h2>Materi, tugas, dan diskusi</h2>
+    <ul>
+      <li>Tambahkan materi atau tautan yang jelas dan relevan pada kelas yang benar.</li>
+      <li>Saat membuat tugas, periksa petunjuk, tenggat, nilai maksimum, dan lampiran sebelum disimpan/dibagikan.</li>
+      <li>Buka daftar pengumpulan, tinjau jawaban mahasiswa, berikan nilai dan umpan balik, lalu simpan.</li>
+      <li>Gunakan diskusi/pengumuman untuk komunikasi pembelajaran; pastikan topik ditautkan ke kelas yang tepat.</li>
+    </ul>
+    <div class="callout warn"><p>Jangan mengisi presensi atau jurnal untuk kelas/pertemuan yang keliru. Koreksi atau perubahan mungkin terbatas setelah data disimpan.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>7</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>06</span></div>
+    <p class="eyebrow">Rencana Pembelajaran</p>
+    <h1>6. RPKPS/RPS dan kurikulum</h1>
+    <p>Menu <strong>Kurikulum → RPKPS / RPS Digital</strong> membantu dosen menyusun Rencana Pembelajaran Semester (RPS/RPKPS) untuk mata kuliah yang diampu. Dokumen menghubungkan CPL, CPMK, rencana per minggu, asesmen, rubrik, dan referensi.</p>
+    <div class="step"><span class="step-no">1</span><p>Buka <strong>Kurikulum → RPKPS / RPS Digital</strong>, lalu cari mata kuliah dan kurikulum yang sesuai.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Pilih <strong>Buat RPS</strong>, pilih mata kuliah yang diampu, kurikulum aktif yang sesuai, dan tahun akademik. Identitas dosen terisi otomatis.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Buka detail dan lengkapi tab CPL, CPMK, Deskripsi &amp; Bahan Kajian, Rencana Mingguan, Asesmen, Instrumen &amp; Rubrik, dan Referensi.</p></div>
+    <div class="step"><span class="step-no">4</span><p>Simpan tiap tab, periksa kembali dokumen, lalu pilih Ajukan Validasi. Panduan rinci setiap bagian ada di halaman 9–10.</p></div>
+    <div class="callout warn"><p>Dosen hanya dapat membuat RPKPS untuk mata kuliah yang ditugaskan kepadanya. Jika mata kuliah tidak muncul, koordinasikan penugasan mengajar dengan Kaprodi/Admin Akademik.</p></div>
+    <div class="callout"><p><strong>Pejabat struktural:</strong> Kaprodi dapat meninjau pengajuan RPKPS, meminta revisi dengan catatan, menyetujui, dan mengunci dokumen sesuai izin.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>8</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>06A</span></div>
+    <p class="eyebrow">Panduan Dosen · Identitas dan Capaian</p>
+    <h1>Pembuatan RPKPS/RPS (1)</h1>
+    <h2>Membuat dokumen untuk mata kuliah yang diampu</h2>
+    <ol>
+      <li>Buka <strong>Kurikulum → RPKPS / RPS Digital</strong> dan pilih <strong>Buat RPS</strong>.</li>
+      <li>Pilih mata kuliah yang ditugaskan kepada Anda. Pilih kurikulum aktif yang memuat mata kuliah tersebut dan tahun akademik yang sesuai. Tahun aktif serta identitas dosen dapat terisi otomatis.</li>
+      <li>Isi deskripsi awal bila diperlukan, lalu buat dokumen. Pastikan kode/nama mata kuliah, kurikulum, tahun akademik, dan nama penyusun benar.</li>
+      <li>Jika membuat dokumen baru untuk tahun berikutnya, tombol <strong>Gunakan RPKPS Lama</strong> dapat menyalin RPKPS yang telah disetujui/dikunci/diarsipkan menjadi draf baru. Pilih tahun tujuan; kurikulum dapat diganti bila relevan. Dokumen lama tidak berubah.</li>
+    </ol>
+    <div class="callout"><p>Dokumen yang baru dibuat berstatus DRAFT. Dosen penyusun dapat mengedit saat DRAFT atau REVISI; dokumen DIKUNCI/DIARSIPKAN tidak dapat diubah.</p></div>
+    <h2>Lengkapi CPL dan CPMK</h2>
+    <ul>
+      <li><strong>CPL:</strong> ditampilkan dari kurikulum dan pemetaan CPL–Mata Kuliah. Dosen memilih/menyinkronkan CPL sesuai dukungan yang sudah ditetapkan kurikulum. Jika daftar kosong, minta pengelola kurikulum memeriksa pemetaan, bukan membuat CPL baru dari halaman RPS.</li>
+      <li><strong>CPMK:</strong> pilih tab CPMK, tekan Tambah CPMK, isi kode dan uraian capaian mata kuliah, lalu tautkan ke satu atau lebih CPL yang relevan.</li>
+      <li>Tambahkan Sub-CPMK yang lebih spesifik dan dapat diamati/diukur. Isi kode serta deskripsi; sistem membantu membentuk kode Sub-CPMK berurutan.</li>
+      <li>Pastikan CPMK/Sub-CPMK menjabarkan kontribusi mata kuliah terhadap CPL secara logis dan dapat dinilai. Simpan perubahan dan periksa urutan serta relasinya.</li>
+    </ul>
+    <h2>Deskripsi dan bahan kajian</h2>
+    <p>Pada tab <strong>Deskripsi &amp; Bahan Kajian</strong>, tulis ringkasan ruang lingkup mata kuliah. Pilih mata kuliah prasyarat dari daftar mata kuliah pada kurikulum atau pilih tidak ada prasyarat. Klik <strong>Simpan</strong> pada tab ini.</p>
+    <div class="callout warn"><p>Jika kurikulum, CPL, atau mata kuliah tidak tersedia, koordinasikan pembaruan master/kurikulum terlebih dahulu. RPKPS harus merujuk struktur kurikulum yang berlaku, bukan menggantinya.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>9</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>06B</span></div>
+    <p class="eyebrow">Panduan Dosen · Rencana, Asesmen, dan Pengajuan</p>
+    <h1>Pembuatan RPKPS/RPS (2)</h1>
+    <h2>Rencana pembelajaran 16 minggu</h2>
+    <ol>
+      <li>Buka tab <strong>Rencana Mingguan</strong>. Jika belum ada tabel, tekan <strong>Inisialisasi 16 Minggu</strong>.</li>
+      <li>Untuk tiap minggu, tautkan Sub-CPMK, lalu isi indikator, bahan kajian, metode, pembelajaran luring/daring, alokasi waktu, aktivitas dosen, dan aktivitas/pengalaman mahasiswa.</li>
+      <li>Lengkapi bentuk/teknik penilaian, kriteria, media pembelajaran, dan bobot sesuai rencana. Minggu 8 dan 16 disediakan sebagai evaluasi tengah dan akhir semester.</li>
+      <li>Geser tabel ke samping untuk melihat semua kolom, kemudian tekan <strong>Simpan Rencana Mingguan</strong>.</li>
+    </ol>
+    <h2>Asesmen, rubrik, dan referensi</h2>
+    <ul>
+      <li>Di tab <strong>Asesmen</strong>, tetapkan komponen, keterangan/teknik, dan bobot. Jumlah bobot wajib tepat <strong>100%</strong> sebelum dapat disimpan. Lengkapi rumus nilai akhir serta rentang nilai huruf dan bobot mutunya.</li>
+      <li>Di <strong>Instrumen &amp; Rubrik</strong>, hubungkan instrumen dengan komponen asesmen dan Sub-CPMK; isi teknik, jenis instrumen, ranah, waktu, butir, serta deskripsi bila relevan.</li>
+      <li>Tambahkan rubrik: judul, kriteria, bobot, serta deskripsi tingkat performa. Simpan instrumen dan rubrik.</li>
+      <li>Di tab <strong>Referensi</strong>, catat referensi utama/pendukung beserta kategori dan informasi bibliografi/tautan yang tersedia. Simpan.</li>
+    </ul>
+    <h2>Simpan, ajukan, dan tindak lanjuti</h2>
+    <p>Simpan masing-masing tab setelah perubahan; jangan mengandalkan pindah tab sebagai penyimpanan otomatis. Gunakan Template/Import/Export Excel bila ingin mengisi workbook. Impor memperbarui bagian yang tercantum dan mempertahankan baris yang tidak disertakan. Unduh PDF untuk memeriksa hasil akhir.</p>
+    <p>Pilih <strong>Ajukan Validasi</strong> saat siap. Status berubah dari DRAFT menjadi DIAJUKAN; Kaprodi meninjau, menyetujui, atau mengembalikan dengan catatan REVISI. Perbaiki catatan dan ajukan kembali. Setelah disetujui, pejabat yang berwenang dapat mengunci dokumen.</p>
+    <div class="callout warn"><p>Ajukan hanya setelah CPL–CPMK–Sub-CPMK, rencana mingguan, bobot 100%, rubrik, dan referensi diperiksa. Status terkunci mencegah perubahan.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>10</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>07</span></div>
+    <p class="eyebrow">Penilaian</p>
+    <h1>7. Gradebook dan pengelolaan nilai</h1>
+    <p>Nilai akhir dikelola untuk kelas dan mahasiswa yang menjadi tanggung jawab dosen. Pastikan semester, mata kuliah, dan kelas sudah benar sebelum mengubah data.</p>
+    <h2>Menyiapkan komponen nilai</h2>
+    <ol>
+      <li>Buka detail kelas dan tab Gradebook/skema penilaian jika tersedia.</li>
+      <li>Tambahkan komponen sesuai ketentuan mata kuliah, misalnya tugas, kuis, UTS, atau UAS.</li>
+      <li>Atur bobot hingga totalnya <strong>100%</strong>, lalu simpan dan periksa kembali.</li>
+    </ol>
+    <h2>Mengisi atau mengimpor nilai akhir</h2>
+    <ol>
+      <li>Buka <strong>Akademik → Input Nilai Akhir</strong> dan pilih kelas.</li>
+      <li>Isi nilai komponen yang wajib untuk setiap mahasiswa, atau unduh template dan impor sesuai petunjuk di layar.</li>
+      <li>Tinjau nilai, kelengkapan, perhitungan, dan pesan validasi. Perbaiki kesalahan sebelum menyimpan.</li>
+      <li>Pilih <strong>Sahkan Nilai Akhir</strong> hanya setelah yakin data benar dan proses pengesahan memang menjadi kewenangan Anda.</li>
+    </ol>
+    <div class="callout warn"><p>Total bobot selain 100% atau nilai wajib yang kosong dapat membuat nilai akhir tidak dapat disahkan. Setelah disahkan, perubahan dapat memerlukan kewenangan khusus.</p></div>
+    <h2>KHS dan transkrip</h2>
+    <p>Menu KHS/Transkrip dapat digunakan sesuai peran untuk melihat ringkasan hasil studi. Pejabat menggunakan informasi tersebut sebagai bahan pemantauan; verifikasi rincian pada data akademik sebelum mengambil keputusan.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>11</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>08</span></div>
+    <p class="eyebrow">Persetujuan Akademik</p>
+    <h1>8. KRS dan perwalian</h1>
+    <p>Dosen wali dan pejabat yang mendapat akses dapat memeriksa pengajuan KRS pada menu <strong>Akademik → KRS &amp; Perwalian</strong>.</p>
+    <div class="step"><span class="step-no">1</span><p>Pilih semester atau gunakan pencarian nama/NIM dan status untuk menemukan pengajuan.</p></div>
+    <div class="step"><span class="step-no">2</span><p>Buka rincian KRS; periksa mahasiswa, mata kuliah, SKS, kelas, dan jadwal yang ditampilkan.</p></div>
+    <div class="step"><span class="step-no">3</span><p>Periksa kelayakan akademik dan informasi yang menjadi tanggung jawab dosen wali/prodi.</p></div>
+    <div class="step"><span class="step-no">4</span><p>Jika sesuai, pilih <strong>Setujui</strong>. Jika perlu revisi, pilih <strong>Tolak</strong> dan isi catatan yang jelas agar mahasiswa tahu tindak lanjutnya.</p></div>
+    <div class="callout danger"><p><strong>Pemeriksaan bentrok:</strong> sistem menolak pengajuan bila jadwal aktif pada kelas yang dipilih bertabrakan. Rincian hari, kelas, dan jam ditampilkan pada halaman KRS. Minta mahasiswa mengganti kelas atau menghapus mata kuliah bentrok, kemudian tinjau ulang.</p></div>
+    <h2>Status dan kewenangan</h2>
+    <p>Status umum mencakup draft, diajukan/menunggu review, disetujui, atau ditolak. Gunakan tombol sesuai status dan kewenangan yang tampil. Jangan membagikan dokumen atau data mahasiswa di luar lingkup tugas.</p>
+    <div class="callout"><p>Kaprodi/Sekprodi dan pejabat lain mungkin memperoleh lingkup data yang berbeda. Jika mahasiswa tidak terlihat, verifikasi semester, status, program studi, dan penugasan dosen wali.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>12</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>09</span></div>
+    <p class="eyebrow">Perwalian Mahasiswa</p>
+    <h1>9. Bimbingan akademik</h1>
+    <p>Jika izin Bimbingan Akademik tersedia, dosen wali dapat mengelola sesi dan catatan pendampingan. Gunakan data ini untuk mendokumentasikan tindak lanjut secara terarah.</p>
+    <h2>Mengelola sesi bimbingan</h2>
+    <ol>
+      <li>Buka menu <strong>Bimbingan Akademik</strong> dan pilih dashboard, sesi, atau mahasiswa bimbingan.</li>
+      <li>Buka sesi yang diajukan. Periksa nama mahasiswa, topik, waktu usulan, dan informasi pendukung.</li>
+      <li>Perbarui status sesuai proses pada halaman, misalnya menjadwalkan sesi bila tersedia.</li>
+      <li>Setelah pertemuan, catat pembahasan dan langkah tindak lanjut pada catatan bimbingan.</li>
+    </ol>
+    <h2>Catatan dan peringatan akademik</h2>
+    <ul>
+      <li>Gunakan menu Catatan Akademik untuk menyimpan catatan yang faktual, relevan, dan profesional.</li>
+      <li>Gunakan Peringatan Akademik hanya bila tugas dan kewenangan Anda mencakup fitur tersebut.</li>
+      <li>Jaga kerahasiaan catatan pribadi; hindari menulis data sensitif yang tidak diperlukan.</li>
+      <li>Periksa kembali mahasiswa dan isi catatan sebelum menyimpan.</li>
+    </ul>
+    <div class="callout good"><p>Catatan sebaiknya merangkum isu akademik, kesepakatan, penanggung jawab, serta waktu tindak lanjut secara singkat dan jelas.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>13</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>10</span></div>
+    <p class="eyebrow">Pembimbing dan Penguji</p>
+    <h1>10. Skripsi dan tugas akhir</h1>
+    <p>Modul Skripsi/TA memuat alur pengajuan dan pembimbingan mahasiswa. Tampilan tindakan bergantung pada tahap proses dan peran—misalnya pembimbing, penguji, Kaprodi, atau sekretariat.</p>
+    <h2>Meninjau pengajuan</h2>
+    <ol>
+      <li>Buka menu <strong>Akademik → Skripsi / TA</strong> atau notifikasi tugas terkait.</li>
+      <li>Pilih mahasiswa dan proposal yang tepat; baca judul, dokumen, riwayat, dan status.</li>
+      <li>Gunakan tindakan review yang tersedia. Bila menolak atau meminta perbaikan, tuliskan alasan/masukan yang spesifik.</li>
+      <li>Untuk bimbingan, catat bab/kemajuan dan arahan; simpan tautan revisi bila memang diminta.</li>
+    </ol>
+    <h2>Seminar, sidang, dan hasil</h2>
+    <p>Jika menjadi kewenangan Anda, gunakan halaman detail untuk menjadwalkan seminar/sidang, memasukkan penilaian penguji, atau mencatat hasil. Pastikan jadwal, peserta, dan peran penguji benar sebelum menyimpan.</p>
+    <div class="callout warn"><p>Jangan mengubah status hanya untuk melewati tahap proses. Ikuti prosedur prodi, gunakan catatan review, dan simpan dokumen pada mahasiswa yang benar.</p></div>
+    <p class="small">Menu LP2M, karya dosen, penelitian, atau pengabdian pada akun struktural merupakan layanan terpisah; lihat bab 11 dan 12.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>14</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian II · Penggunaan</strong><span>11</span></div>
+    <p class="eyebrow">Kegiatan dan Karya Ilmiah</p>
+    <h1>11. Praktikum, KKN, penelitian, dan karya dosen</h1>
+    <h2>Praktikum/KKN/PPL/Magang</h2>
+    <p>Jika dosen berperan sebagai pembimbing/pengelola, buka menu <strong>Praktikum / KKN</strong>, pilih program, lalu buka rincian peserta atau kelompok. Periksa lokasi, periode, status, logbook, dan bukti yang diperlukan sebelum memberi penilaian atau tindak lanjut. Fitur yang tersedia mengikuti peran yang diberikan.</p>
+    <h2>Penelitian dan pengabdian</h2>
+    <p>Menu <strong>Penelitian &amp; Pengabdian</strong> atau <strong>Hibah Penelitian</strong> digunakan jika akun mendapat izin terkait. Periksa periode aktif, data tim, usulan, berkas, anggaran, serta status review. Lengkapi bagian yang menjadi tanggung jawab Anda dan gunakan komentar untuk permintaan revisi.</p>
+    <h2>Karya dosen</h2>
+    <p>Gunakan <strong>Karya Dosen</strong> untuk mencatat karya sesuai ketentuan institusi. Isi metadata dan penulis dengan tepat, lampirkan berkas utama yang diperlukan, lalu kirim untuk verifikasi bila alur tersebut tersedia.</p>
+    <div class="callout">
+      <p><strong>Unggah berkas:</strong> gunakan format/ukuran yang diterima aplikasi, nama file yang jelas, dan pastikan file berhasil terunggah. Buka detail setelah menyimpan untuk memeriksa kembali tautan atau lampiran.</p>
+    </div>
+    <p>Pejabat yang bertugas menilai/memverifikasi hanya boleh memproses data pada lingkup kewenangannya. Baca status dan riwayat perubahan sebelum memberi keputusan.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>15</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pejabat Struktural</strong><span>12</span></div>
+    <p class="eyebrow">Panduan Kaprodi dan Sekretaris Prodi</p>
+    <h1>12. Alur kerja Kaprodi dan Sekretaris Prodi</h1>
+    <p>Gunakan urutan berikut sebagai checklist awal semester. Nama menu dapat berbeda menurut izin akun. Kaprodi dan Sekprodi dapat memiliki hak yang berbeda; tindakan hanya tersedia bila role, izin, dan lingkup prodi sudah ditetapkan.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Persiapan akademik prodi</h3>
+        <ul>
+          <li>Pastikan program studi dan Kaprodi yang tercatat sudah benar.</li>
+          <li>Periksa master mata kuliah, kode, SKS, dan semester penawaran.</li>
+          <li>Siapkan kurikulum prodi, susunan mata kuliah, dan status kurikulum.</li>
+          <li>Perbarui penugasan dosen PA/wali untuk mahasiswa yang menjadi tanggung jawab prodi.</li>
+          <li>Pastikan kelas, dosen pengampu, kapasitas, jadwal, dan ruangan sudah disiapkan.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pelaksanaan dan pemantauan</h3>
+        <ul>
+          <li>Pilih semester dan program studi yang tepat saat meninjau data.</li>
+          <li>Pantau mahasiswa yang mengisi KRS, status pengajuan, jumlah SKS, dan dosen wali.</li>
+          <li>Tinjau bentrok jadwal dan kelayakan sebelum memberi persetujuan.</li>
+          <li>Gunakan ekspor/impor untuk pemeriksaan atau pembaruan massal, lalu baca hasilnya.</li>
+          <li>Gunakan dashboard/laporan sebagai ringkasan; periksa detail sebelum mengambil keputusan.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout good"><p><strong>Urutan yang disarankan:</strong> Master Mata Kuliah → Kurikulum OBE dan pemetaan MK → Dosen PA/wali → kelas dan jadwal semester → pemantauan serta review KRS.</p></div>
+    <h2>Hak akses dan tanggung jawab</h2>
+    <p>Beberapa operasi data induk mungkin hanya muncul untuk Admin Akademik. Fitur Dosen PA massal tersedia bagi Kaprodi dan peran admin tertentu; Sekprodi mungkin memiliki akses pemantauan atau review sesuai konfigurasi institusi. Jangan mengubah status kurikulum, kelas, atau KRS tanpa kewenangan.</p>
+    <div class="callout warn"><p><strong>Tidak melihat menu/data?</strong> Verifikasi semester, prodi, jabatan aktif, dan akun dosen yang tertaut. Minta Admin ASC/Admin Akademik memeriksa izin; jangan menggunakan akun orang lain.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>16</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pengelolaan Program Studi</strong><span>13</span></div>
+    <p class="eyebrow">Data Induk Akademik</p>
+    <h1>13. Master data mata kuliah</h1>
+    <p>Master mata kuliah menjadi sumber pilihan saat menyusun kurikulum dan penawaran kelas. Pastikan mata kuliah dibuat pada program studi yang benar sebelum ditambahkan ke kurikulum.</p>
+    <h2>Membuat mata kuliah</h2>
+    <ol>
+      <li>Buka <strong>Master Data → Mata Kuliah</strong>. Jika menu tidak terlihat, minta Admin Akademik mengelola atau memberi akses.</li>
+      <li>Pilih <strong>Tambah MK</strong>, lalu isi Program Studi, Kode, Nama Mata Kuliah, dan Jenis: Wajib, Pilihan, atau Praktikum.</li>
+      <li>Masukkan SKS Teori dan SKS Praktik. Total SKS dihitung otomatis; jumlahnya harus 1–6 SKS.</li>
+      <li>Pilih semester yang disarankan (1–8), isi rumpun mata kuliah bila diperlukan, lalu tentukan status Aktif.</li>
+      <li>Pilih pelaksanaan: tatap muka atau non-tatap muka, kemudian simpan.</li>
+    </ol>
+    <div class="callout"><p><strong>Arti pelaksanaan:</strong> kelas tatap muka memerlukan dosen, jadwal, dan ruangan. Mata kuliah non-tatap muka tidak memerlukan tiga data tersebut saat kelas dibuat.</p></div>
+    <h2>Memeriksa dan memperbarui</h2>
+    <ul>
+      <li>Gunakan pencarian kode/nama dan filter program studi atau semester untuk menemukan data.</li>
+      <li>Periksa kode, nama, prodi, total SKS, semester, jenis, pelaksanaan, dan status pada tabel sebelum dipakai di kurikulum.</li>
+      <li>Gunakan tombol edit untuk memperbarui data. Nonaktifkan mata kuliah yang tidak lagi ditawarkan, alih-alih menghapus jika sudah digunakan pada data akademik.</li>
+      <li>Untuk banyak mata kuliah, unduh template dari tombol Excel pada halaman Mata Kuliah, pertahankan nama kolom, lalu impor. Periksa laporan baris yang gagal.</li>
+    </ul>
+    <div class="callout warn"><p>Pastikan tidak membuat kode mata kuliah ganda dan jangan mengubah SKS secara sembarang setelah mata kuliah digunakan oleh kelas atau riwayat studi.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>17</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pengelolaan Program Studi</strong><span>14</span></div>
+    <p class="eyebrow">Kurikulum Program Studi</p>
+    <h1>14. Menyusun kurikulum OBE</h1>
+    <p>Kurikulum OBE menautkan profil lulusan, Capaian Pembelajaran Lulusan (CPL), mata kuliah, dan pemetaan kontribusi mata kuliah terhadap CPL.</p>
+    <h2>Membuat kurikulum dan memasukkan mata kuliah</h2>
+    <ol>
+      <li>Buka <strong>Kurikulum → Kurikulum OBE</strong>, lalu pilih <strong>Tambah Kurikulum</strong>.</li>
+      <li>Pilih Program Studi. Isi kode kurikulum, nama, tahun, deskripsi bila perlu, serta status. Gunakan status Draft saat masih disusun.</li>
+      <li>Buka detail kurikulum melalui ikon lihat. Pastikan nama prodi dan tahun kurikulum sudah sesuai.</li>
+      <li>Kelola bagian <strong>Mata Kuliah</strong>, pilih mata kuliah master yang akan masuk ke kurikulum, lalu tetapkan semester dan apakah mata kuliah wajib.</li>
+      <li>Simpan susunan. Periksa jumlah mata kuliah dan semester penempatannya.</li>
+    </ol>
+    <h2>Melengkapi komponen OBE</h2>
+    <ul>
+      <li>Tambahkan Profil Lulusan dengan kode, nama, dan deskripsi kompetensi lulusan.</li>
+      <li>Tambahkan CPL dengan kode dan uraian capaian; hubungkan CPL ke profil lulusan yang relevan.</li>
+      <li>Di matriks CPL–Mata Kuliah, tandai mata kuliah yang berkontribusi pada masing-masing CPL, lalu simpan pemetaan.</li>
+      <li>Gunakan tombol Template untuk memperoleh format workbook, Export untuk mengunduh data, dan Import untuk memuat perubahan.</li>
+    </ul>
+    <div class="callout warn"><p>Impor workbook menambah atau memperbarui baris yang tercantum; data yang tidak ada pada file tidak otomatis dihapus. Tinjau konfirmasi impor, hasil sukses, dan kesalahan sebelum melanjutkan.</p></div>
+    <h2>Validasi sebelum kurikulum digunakan</h2>
+    <p>Periksa kembali mata kuliah wajib/pilihan, alokasi semester, total SKS, kode, CPL, dan matriks. Status Draft/Aktif/Nonaktif harus mencerminkan keputusan resmi prodi. Kelas baru mengambil mata kuliah dari kurikulum aktif, jadi koordinasikan aktivasi dengan Admin Akademik sesuai prosedur kampus.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>18</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pengelolaan Program Studi</strong><span>15</span></div>
+    <p class="eyebrow">Dosen Pembimbing Akademik</p>
+    <h1>15. Penetapan dosen PA/wali</h1>
+    <p>Setiap mahasiswa perlu ditautkan ke dosen PA/wali yang benar agar pengajuan KRS dapat masuk ke antrean dosen yang berwenang. Periksa NIM, NIDN dosen, dan lingkup prodi sebelum memperbarui penugasan.</p>
+    <h2>Impor penugasan secara massal</h2>
+    <ol>
+      <li>Buka <strong>SDM → Data Mahasiswa</strong> menggunakan akun Kaprodi atau admin yang berwenang. Panel <strong>Dosen Pembimbing Akademik</strong> akan muncul bila akses tersedia.</li>
+      <li>Pilih <strong>Template PA</strong> untuk mengunduh workbook contoh. Template memuat kolom NIM, identitas mahasiswa/prodi, NIDN Dosen PA, dan nama dosen.</li>
+      <li>Isi kolom NIM dan <strong>NIDN Dosen PA</strong> dengan data yang benar. NIM harus cocok dengan mahasiswa; NIDN harus cocok dengan dosen di data ASC.</li>
+      <li>Simpan sebagai XLSX/XLS/CSV tanpa mengganti nama kolom wajib. Hindari NIM ganda dalam satu file.</li>
+      <li>Pilih <strong>Import PA</strong> dan unggah berkas. Baca pesan jumlah penugasan yang diperbarui serta daftar baris yang tidak diproses.</li>
+      <li>Jika ada kesalahan, koreksi baris terkait lalu impor ulang. Gunakan <strong>Export PA</strong> untuk memeriksa penugasan saat ini.</li>
+    </ol>
+    <div class="callout danger"><p><strong>Perhatian:</strong> NIDN Dosen PA yang dikosongkan akan melepas penugasan dosen pada mahasiswa tersebut. Jangan kosongkan kolom ini kecuali memang ingin menghapus penugasan.</p></div>
+    <h2>Memperbarui satu mahasiswa</h2>
+    <p>Jika formulir Edit Mahasiswa tersedia pada akun Anda, cari mahasiswa berdasarkan NIM, buka edit, pilih Dosen Wali/Pembimbing Akademik, lalu simpan. Bila tombol edit tidak ada, gunakan impor massal bila berwenang atau minta Admin Akademik memperbaruinya.</p>
+    <p>Setelah impor, cari beberapa mahasiswa sebagai sampel dan pastikan nama dosen PA sudah benar. Perubahan penugasan dapat mengirim notifikasi kepada dosen yang baru ditetapkan.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>19</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pengelolaan Program Studi</strong><span>16</span></div>
+    <p class="eyebrow">Penawaran Perkuliahan</p>
+    <h1>16. Menyiapkan kelas dan jadwal kuliah</h1>
+    <p>Penawaran kelas dibuat per semester. Pilihan mata kuliah pada formulir mengikuti mata kuliah yang tercantum di kurikulum aktif program studi.</p>
+    <h2>Membuat kelas</h2>
+    <ol>
+      <li>Buka <strong>Akademik → Pembagian Kelas &amp; Jadwal</strong>. Pilih semester dan prodi pada filter agar daftar mudah diperiksa.</li>
+      <li>Pilih <strong>Tambah Kelas</strong>, lalu tentukan Semester, Program Studi, dan Mata Kuliah. Jika mata kuliah tidak muncul, periksa status kurikulum dan keanggotaan mata kuliah di kurikulum aktif.</li>
+      <li>Isi nama kelas (misalnya A), kapasitas, dan tingkat. Periksa agar nama kelas tidak membingungkan mahasiswa.</li>
+      <li>Untuk tatap muka, pilih dosen pengampu, hari, jam mulai/selesai, dan ruangan. Untuk non-tatap muka, dosen/jadwal/ruangan tidak diperlukan.</li>
+      <li>Jika kelas dipakai lintas prodi atau beberapa mata kuliah, aktifkan opsi kelas gabungan, pilih mata kuliah tambahan, dan atur kuota bila diperlukan.</li>
+      <li>Simpan dan tangani pesan bentrok jadwal bila sistem menampilkannya. Tinjau kembali kapasitas serta rincian kelas di tabel.</li>
+    </ol>
+    <h2>Impor dan pemeriksaan jadwal</h2>
+    <ul>
+      <li>Gunakan Template/Excel pada halaman ini untuk membuat banyak kelas. Pertahankan format kolom dan nilai referensi sesuai template.</li>
+      <li>Periksa kelas per semester, prodi, mata kuliah, dosen, jadwal, ruangan, dan kuota setelah impor.</li>
+      <li>Jangan menonaktifkan atau menghapus kelas yang sudah dipilih mahasiswa tanpa koordinasi. Atur pengganti dan informasikan perubahan.</li>
+      <li>Mahasiswa hanya dapat memilih kelas yang ditawarkan; kuota yang habis atau kelas yang tidak aktif dapat membatasi pilihan.</li>
+    </ul>
+    <div class="callout"><p><strong>Checklist sebelum KRS dibuka:</strong> semester aktif benar, kurikulum sudah siap, kelas tersedia, dosen pengampu dan jadwal benar, kapasitas sesuai, serta tidak ada jadwal bentrok.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>20</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pengelolaan Program Studi</strong><span>17</span></div>
+    <p class="eyebrow">KRS dan Perwalian</p>
+    <h1>17. Mengelola dan meninjau KRS</h1>
+    <p>Kaprodi/Sekprodi dengan akses yang sesuai dapat memantau pengajuan KRS prodi. Persetujuan akademik dilakukan oleh dosen wali/admin sesuai kewenangan; Kaprodi dapat menandatangani KRS yang sudah disetujui jika tombol tersedia.</p>
+    <h2>Mencari dan membuka KRS</h2>
+    <ol>
+      <li>Buka <strong>Akademik → KRS &amp; Perwalian</strong>. Pilih semester, prodi, status, atau cari NIM/nama.</li>
+      <li>Untuk membuat KRS atas nama mahasiswa, pilih <strong>Buat KRS</strong>, pastikan semester yang dipilih benar, cari mahasiswa aktif, lalu pilih mahasiswa dan buat KRS.</li>
+      <li>Buka detail KRS. Periksa identitas mahasiswa, prodi, semester, dosen wali, total SKS, dan daftar mata kuliah/kelas.</li>
+      <li>Jika KRS masih DRAFT atau REJECTED dan Anda memiliki hak kelola, mata kuliah dapat ditambahkan atau dihapus. Pilih kelas yang sesuai untuk setiap mata kuliah.</li>
+    </ol>
+    <h2>Review pengajuan dan tanda tangan Kaprodi</h2>
+    <ul>
+      <li><strong>SUBMITTED:</strong> menunggu review. Dosen wali yang ditugaskan atau admin yang berwenang dapat menyetujui atau menolak.</li>
+      <li>Sebelum menyetujui, periksa beban SKS, kesesuaian mata kuliah/kelas dengan kurikulum, dan catatan mahasiswa. Jika menolak, isi alasan yang jelas agar mahasiswa tahu perbaikannya.</li>
+      <li><strong>APPROVED:</strong> KRS sudah disetujui dosen wali. Kaprodi yang berwenang dapat menggunakan tombol tanda tangan bila status belum ditandatangani.</li>
+      <li><strong>REJECTED:</strong> mahasiswa perlu memperbaiki KRS sesuai catatan dan mengajukan ulang. Periksa perubahan sebelum review berikutnya.</li>
+    </ul>
+    <div class="callout danger"><p>Sistem menolak submit jika jadwal kelas mahasiswa bertabrakan; halaman detail menampilkan pasangan mata kuliah, kelas, hari, dan jam. Minta mahasiswa mengganti kelas atau menghapus pilihan yang konflik. Jangan menyetujui berdasarkan tangkapan layar saja.</p></div>
+    <p class="small">Status umum: DRAFT (disusun), SUBMITTED (menunggu persetujuan), APPROVED (disetujui), REJECTED (perlu perbaikan), dan CANCELLED (dibatalkan). Selalu periksa status terbaru pada detail KRS.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>21</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian III · Pejabat Struktural</strong><span>18</span></div>
+    <p class="eyebrow">Administrasi dan Komunikasi</p>
+    <h1>18. Persuratan, agenda, dan notulen</h1>
+    <h2>Pengajuan surat</h2>
+    <p>Dosen dapat menggunakan <strong>Persuratan → Pengajuan Surat</strong> jika tersedia. Pilih jenis surat, lengkapi tujuan dan data wajib, lampirkan berkas pendukung, lalu kirim. Pantau status pada menu surat saya.</p>
+    <h2>Review, tanda tangan, dan disposisi</h2>
+    <ul>
+      <li>Pejabat membuka antrean <strong>Tanda Tangan Surat</strong> untuk membaca isi dan lampiran sebelum menandatangani/menyetujui.</li>
+      <li>Gunakan <strong>Disposisi</strong> untuk membaca arahan, merespons, dan menandai tindak lanjut jika kewenangan tersedia.</li>
+      <li>Periksa penerima, nomor, tanggal, dan isi surat. Tindakan final dapat mengubah status dokumen.</li>
+    </ul>
+    <h2>Agenda kegiatan dan presensi</h2>
+    <p>Pejabat/panitia yang diizinkan dapat membuat agenda, menentukan waktu/lokasi, serta mengundang peserta. Jika presensi QR digunakan, tampilkan QR resmi untuk kegiatan tersebut; peserta memindai QR, mengisi form yang diminta, lalu mengirim kehadiran.</p>
+    <h2>Notulen rapat</h2>
+    <ol>
+      <li>Buka <strong>Notulen Rapat</strong>, buat notulen baru, atau tautkan notulen ke agenda.</li>
+      <li>Isi agenda, jalannya rapat, keputusan, penutup, penandatangan, dan tindak lanjut.</li>
+      <li>Pilih <strong>Simpan Draft</strong> untuk melanjutkan nanti atau <strong>Simpan &amp; Kirim</strong> untuk proses berikutnya.</li>
+      <li>Pemeriksa, penandatangan, dan notulis membuka notulen untuk review/tanda tangan sesuai status. PDF dapat diunduh setelah tersedia.</li>
+    </ol>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>22</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian IV · Layanan Lain</strong><span>19</span></div>
+    <p class="eyebrow">Fasilitas Akun Dosen</p>
+    <h1>19. Honor, perpustakaan, repository, dan profil</h1>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Honor Saya</h3>
+        <p>Buka menu <strong>Honor Saya</strong> untuk melihat daftar periode/slip yang diterbitkan untuk akun. Buka periode untuk melihat rincian dan unduh slip jika tombol tersedia. Hubungi Admin Keuangan bila data belum sesuai atau periode belum muncul.</p>
+      </div>
+      <div class="card">
+        <h3>Digital Library</h3>
+        <p>Buka menu <strong>Digital Library</strong> untuk mencari koleksi dan menggunakan fitur anggota sesuai izin, seperti melihat detail buku atau layanan peminjaman/reservasi yang diaktifkan.</p>
+      </div>
+      <div class="card">
+        <h3>Repository</h3>
+        <p>Gunakan menu/tautan Repository untuk mencari karya yang tersedia. Buka detail sebelum mengunduh. Akses berkas dapat bergantung pada jenis koleksi, status akses, dan autentikasi.</p>
+      </div>
+      <div class="card">
+        <h3>Profil dan Scan QR</h3>
+        <p>Periksa informasi profil, kata sandi, dan pilihan akun yang tersedia. Menu Scan QR digunakan untuk kebutuhan kampus yang secara khusus menyediakan kode presensi atau layanan yang didukung.</p>
+      </div>
+    </div>
+    <h2>Layanan keuangan selain honor pribadi</h2>
+    <p>Menu keuangan tambahan mungkin tersedia bagi jabatan tertentu untuk memantau laporan atau data dalam lingkup tugas. Informasi mahasiswa bersifat terbatas; buka hanya bila pekerjaan Anda memerlukannya.</p>
+    <div class="callout warn"><p>Ponsel memerlukan izin kamera saat memindai QR. Arahkan kamera ke QR resmi yang aktif, pastikan nama acara/tujuan sesuai, dan jangan membagikan QR yang bersifat terbatas.</p></div>
+    <div class="page-foot"><span>Al-Jawami Smart Campus</span><span>23</span></div>
+  </section>
+
+  <section class="page">
+    <div class="page-head"><strong>Bagian V · Bantuan</strong><span>20</span></div>
+    <p class="eyebrow">Kendala Aplikasi</p>
+    <h1>20. Troubleshooting dan penyegaran cache</h1>
+    <p>ASC terus mendapat perbaikan dan penambahan fitur. Browser atau aplikasi terpasang terkadang masih menggunakan berkas lama. Simpan pekerjaan terlebih dahulu, pastikan internet aktif, lalu coba langkah berikut.</p>
+    <h2>Laptop atau komputer</h2>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Hard refresh</h3>
+        <ul>
+          <li>Windows/Linux, Chrome/Edge/Firefox: tekan <span class="browser-key">Ctrl</span> + <span class="browser-key">Shift</span> + <span class="browser-key">R</span> atau <span class="browser-key">Ctrl</span> + <span class="browser-key">F5</span>.</li>
+          <li>macOS: tekan <span class="browser-key">Command</span> + <span class="browser-key">Shift</span> + <span class="browser-key">R</span>.</li>
+          <li>Atau tahan tombol muat ulang dan pilih <strong>Empty cache and hard reload</strong> pada Chrome/Edge DevTools.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Hapus data situs ASC</h3>
+        <ol>
+          <li>Buka ASC dan klik ikon kontrol situs di kiri alamat.</li>
+          <li>Pilih <strong>Site settings/Pengaturan situs</strong>, lalu <strong>Delete/Clear data</strong>.</li>
+          <li>Tutup semua tab/jendela ASC, buka kembali alamat, lalu masuk ulang.</li>
+        </ol>
+      </div>
+    </div>
+    <h2>Smartphone</h2>
+    <ul>
+      <li><strong>Android Chrome:</strong> buka Chrome → menu ⋮ → History/Riwayat → Clear browsing data/Hapus data penjelajahan. Pilih cache; pilih cookies/data situs bila perlu, lalu hapus. Untuk ASC saja: Pengaturan Android → Aplikasi → Chrome → Penyimpanan → Kelola ruang/data situs (nama menu bervariasi) → cari asc.aljawami.ac.id → hapus data.</li>
+      <li><strong>Android PWA:</strong> tutup aplikasi ASC sepenuhnya, buka kembali saat online, lalu tarik layar ke bawah untuk memuat ulang. Jika masih lama, hapus data situs ASC dari Chrome; buka kembali ASC dan pasang ulang ikon layar utama bila diperlukan.</li>
+      <li><strong>iPhone/iPad Safari:</strong> Settings/Pengaturan → Apps → Safari (atau Safari pada pengaturan) → Advanced/Lanjutan → Website Data/Data Situs → cari aljawami.ac.id/ASC → Delete, atau pilih Clear History and Website Data. Menu dapat berbeda menurut versi iOS.</li>
+      <li><strong>iPhone PWA:</strong> tutup ASC dari pengalih aplikasi, buka kembali setelah cache Safari dibersihkan. Jika tetap bermasalah, hapus ikon web dari layar utama, buka ASC di Safari, lalu tambahkan kembali.</li>
+    </ul>
+    <div class="callout warn"><p><strong>Cookies/data situs mengeluarkan Anda dari akun.</strong> Pastikan kata sandi diketahui. Simpan atau kirim formulir yang belum selesai; menghapus data dapat menghilangkan sesi login, preferensi, atau data sementara.</p></div>
+    <h2>Jika masalah berlanjut</h2>
+    <p>Periksa koneksi dan coba browser terbaru. Catat menu, waktu, pesan kesalahan, serta langkah yang memunculkan masalah; sampaikan kepada admin ASC/Admin Akademik. Jangan mengirim kata sandi, kode login, atau data pribadi yang tidak diperlukan.</p>
+    <div class="page-foot"><span>Al-Jawami Smart Campus · Dokumen Edisi 1.1</span><span>24</span></div>
+  </section>
+</body>
+</html>

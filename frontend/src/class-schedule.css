@@ -1,0 +1,100 @@
+.asc-schedule-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+  background: rgb(15 23 42 / 55%);
+  padding: 1rem;
+}
+
+.asc-schedule-dialog {
+  display: flex;
+  width: min(32rem, 100%);
+  flex-direction: column;
+  gap: .55rem;
+  border-radius: .8rem;
+  background: #fff;
+  padding: 1.25rem;
+  box-shadow: 0 20px 50px rgb(15 23 42 / 25%);
+  color: #111827;
+  font: inherit;
+}
+
+.asc-schedule-dialog h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.asc-schedule-dialog p {
+  margin: 0 0 .35rem;
+  color: #6b7280;
+  font-size: .82rem;
+}
+
+.asc-schedule-dialog label {
+  margin-top: .25rem;
+  color: #374151;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.asc-schedule-dialog input,
+.asc-schedule-dialog select {
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: .5rem;
+  background: #fff;
+  padding: .6rem .7rem;
+  color: #111827;
+  font: inherit;
+  font-size: .875rem;
+}
+
+.asc-schedule-dialog input:focus,
+.asc-schedule-dialog select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.asc-schedule-time-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.asc-schedule-time-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+
+.asc-schedule-hint {
+  margin-top: .45rem !important;
+  border-radius: .5rem;
+  background: #eff6ff;
+  padding: .65rem .75rem;
+  color: #1e40af !important;
+  line-height: 1.45;
+}
+
+.asc-schedule-conflicts {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  border: 1px solid #fecaca;
+  border-radius: .5rem;
+  background: #fef2f2;
+  padding: .65rem .75rem;
+  color: #991b1b;
+  font-size: .8rem;
+}
+
+.asc-schedule-dialog footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: .75rem;
+}

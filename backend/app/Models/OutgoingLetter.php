@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
+
+class OutgoingLetter extends Model
+{
+    protected $fillable = [
+        'created_by', 'letter_type_id', 'letter_number', 'subject', 'recipient',
+        'attachment_note', 'city', 'letter_date', 'body', 'appendix_body',
+        'reviewer_id', 'signer_id', 'status', 'reviewed_at', 'signed_at',
+        'sent_at', 'revision_note', 'verification_token', 'external_recipients', 'carbon_copy',
+        'supporting_documents',
+    ];
+
+    protected $casts = [
+        'letter_date'          => 'date',
+        'reviewed_at'          => 'datetime',
+        'signed_at'            => 'datetime',
+        'sent_at'              => 'datetime',
+        'supporting_documents' => 'array',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $letter) {
+            $letter->verification_token = Str::random(32);
+        });
+    }
+
+    public function creator(): BelongsTo { return $this->belongsTo(User::class, 'created_by'); }
+    public function letterType(): BelongsTo { return $this->belongsTo(LetterType::class); }
+    public function reviewer(): BelongsTo { return $this->belongsTo(User::class, 'reviewer_id'); }
+    public function signer(): BelongsTo { return $this->belongsTo(User::class, 'signer_id'); }
+
+    public function internalRecipients(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'outgoing_letter_recipients')
+            ->withPivot('is_read', 'read_at')
+            ->withTimestamps();
+    }
+
+    /** Generate nomor surat: 001/A/STAI-YAB/VIII/2026 */
+    public function generateNumber(): string
+    {
+        $year = $this->letter_date->format('Y');
+        $month = $this->romanMonth($this->letter_date->month);
+        $code = $this->letterType->code ?? 'X';
+
+        // Urutan berlaku untuk semua jenis surat dalam satu tahun
+        $max = self::whereYear('letter_date', $year)
+            ->whereNotNull('letter_number')
+            ->when($this->exists, fn ($q) => $q->where('id', '!=', $this->id))
+            ->pluck('letter_number')
+            ->map(fn ($n) => (int) strtok((string) $n, '/'))
+            ->max() ?? 0;
+        $count = $max + 1;
+
+        return str_pad($count, 3, '0', STR_PAD_LEFT) . "/{$code}/STAI-YAB/{$month}/{$year}";
+    }
+
+    private function romanMonth(int $m): string
+    {
+        $roman = ['', 'I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+        return $roman[$m] ?? (string) $m;
+    }
+}
