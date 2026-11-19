@@ -34,7 +34,7 @@ async function loadQrImage() {
     const { data } = await api.get(`/events/${event.value.id}/qr-code`)
     qrImageUrl.value = data.qr_image
   } catch {
-    qrImageUrl.value = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=1e3a8a&data=${encodeURIComponent(qrUrl.value)}&ecc=H`
+    qrImageUrl.value = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=047857&data=${encodeURIComponent(qrUrl.value)}&ecc=H`
   }
 }
 
@@ -75,7 +75,7 @@ async function downloadPoster() {
 
     // Gradient background
     const grad = ctx.createLinearGradient(0, 0, W, H)
-    grad.addColorStop(0, '#1e3a8a')
+    grad.addColorStop(0, '#047857')
     grad.addColorStop(0.5, '#047857')
     grad.addColorStop(1, '#0f766e')
     ctx.fillStyle = grad

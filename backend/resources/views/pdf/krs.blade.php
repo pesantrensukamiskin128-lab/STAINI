@@ -33,7 +33,7 @@
 
 {{-- HEADER --}}
 @php
-    $letterheadPath = $institution?->letterhead_path ? storage_path('app/public/' . $institution->letterhead_path) : null;
+    $letterheadPath = $institution?->letterhead_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path) : null;
 @endphp
 
 @if($letterheadPath && file_exists($letterheadPath))

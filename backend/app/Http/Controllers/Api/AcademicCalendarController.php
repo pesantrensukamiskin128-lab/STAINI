@@ -157,7 +157,7 @@ class AcademicCalendarController extends Controller
         $institution = Institution::first();
         $letterheadUrl = null;
         if ($institution?->letterhead_path) {
-            $letterheadUrl = storage_path('app/public/'.$institution->letterhead_path);
+            $letterheadUrl = \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path);
         }
 
         // Ambil nama Wakil Ketua I dari jabatan struktural (sertakan gelar)

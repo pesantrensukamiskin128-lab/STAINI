@@ -140,7 +140,7 @@
                     <tr>
                         <td width="40" style="vertical-align:middle; padding-right:8px;">
                             @if($institution && $institution->logo_path)
-                                <img class="logo-img" src="{{ storage_path('app/public/' . $institution->logo_path) }}" alt="Logo">
+                                <img class="logo-img" src="{{ \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path) }}" alt="Logo">
                             @else
                                 <div style="width:36px;height:36px;border-radius:4px;background:rgba(255,255,255,0.2);text-align:center;line-height:36px;font-size:16px;font-weight:bold;color:white;">
                                     {{ strtoupper(substr($institution->name ?? 'U', 0, 1)) }}

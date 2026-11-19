@@ -369,8 +369,8 @@ class GradeController extends Controller
     private function pdfData(): array
     {
         $institution = Institution::first();
-        $logoPath = $institution?->logo_path ? storage_path('app/public/'.$institution->logo_path) : null;
-        $letterheadPath = $institution?->letterhead_path ? storage_path('app/public/'.$institution->letterhead_path) : null;
+        $logoPath = $institution?->logo_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path) : null;
+        $letterheadPath = $institution?->letterhead_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path) : null;
 
         return compact('institution', 'logoPath', 'letterheadPath') + ['printedAt' => now()];
     }

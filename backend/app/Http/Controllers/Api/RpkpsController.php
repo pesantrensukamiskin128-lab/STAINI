@@ -1082,7 +1082,7 @@ class RpkpsController extends Controller
 
         $institution = Institution::first();
         $logoPath = $institution?->logo_path
-            ? storage_path('app/public/'.$institution->logo_path)
+            ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path)
             : null;
         $logoDataUri = null;
         if ($institution?->logo_path && Storage::disk('public')->exists($institution->logo_path)) {

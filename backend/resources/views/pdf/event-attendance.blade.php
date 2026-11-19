@@ -6,11 +6,11 @@
 @page { size: A4 portrait; margin: 15mm 10mm 30mm; }
 body { font-family: Arial, sans-serif; font-size: 11pt; color: #1f2937; }
 .header { text-align: center; margin-bottom: 20px; }
-.header h1 { font-size: 16pt; margin: 0 0 4px; color: #1e3a8a; }
+.header h1 { font-size: 16pt; margin: 0 0 4px; color: #047857; }
 .header p { font-size: 10pt; color: #6b7280; margin: 2px 0; }
 table { width: 100%; border-collapse: collapse; margin-top: 12px; }
 th, td { border: 1px solid #d1d5db; padding: 6px 8px; text-align: left; font-size: 10pt; }
-th { background: #1e3a8a; color: #fff; font-weight: bold; text-align: center; }
+th { background: #047857; color: #fff; font-weight: bold; text-align: center; }
 tr:nth-child(even) { background: #f9fafb; }
 td.center { text-align: center; }
 .footer { margin-top: 20px; font-size: 9pt; color: #6b7280; }

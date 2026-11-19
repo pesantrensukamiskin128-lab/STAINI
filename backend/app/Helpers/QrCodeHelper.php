@@ -108,7 +108,7 @@ class QrCodeHelper
         $url = "https://api.qrserver.com/v1/create-qr-code/?"
             . http_build_query([
                 'size' => "{$size}x{$size}",
-                'color' => '1e3a8a',
+                'color' => '047857',
                 'bgcolor' => 'ffffff',
                 'data' => $data,
                 'format' => 'png',
@@ -127,14 +127,14 @@ class QrCodeHelper
 
     private static function fallbackUrl(string $data, int $size): string
     {
-        return "https://api.qrserver.com/v1/create-qr-code/?size={$size}x{$size}&color=1e3a8a&data=" . urlencode($data);
+        return "https://api.qrserver.com/v1/create-qr-code/?size={$size}x{$size}&color=047857&data=" . urlencode($data);
     }
 
     private static function getLogoPath(): ?string
     {
         $institution = Institution::first();
         if (!$institution?->logo_path) return null;
-        $path = storage_path('app/public/' . $institution->logo_path);
+        $path = \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path);
         return file_exists($path) ? $path : null;
     }
 

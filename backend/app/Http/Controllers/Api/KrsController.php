@@ -660,7 +660,7 @@ class KrsController extends Controller
         ]);
 
         $institution = Institution::first();
-        $logoPath = $institution?->logo_path ? storage_path('app/public/'.$institution->logo_path) : null;
+        $logoPath = $institution?->logo_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path) : null;
 
         // Kaprodi
         $prodiId = $krs->student?->study_program_id;

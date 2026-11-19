@@ -889,8 +889,8 @@ class HonorController extends Controller
         $signatureBaseUrl = $verifyUrl.'?recipient='.urlencode($recipientKey).$signerContext.'&signer=';
         $publicVerifyUrl = $verifyUrl.'?recipient='.urlencode($recipientKey).$signerContext;
         $institution = Institution::first();
-        $logoPath = $institution?->logo_path ? storage_path('app/public/'.$institution->logo_path) : null;
-        $letterheadPath = $institution?->letterhead_path ? storage_path('app/public/'.$institution->letterhead_path) : null;
+        $logoPath = $institution?->logo_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->logo_path) : null;
+        $letterheadPath = $institution?->letterhead_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path) : null;
 
         $pdf = Pdf::loadView('pdf.lecturer-honor-slip', [
             'recipientName' => $record instanceof Lecturer ? $record->display_name : $record->name,

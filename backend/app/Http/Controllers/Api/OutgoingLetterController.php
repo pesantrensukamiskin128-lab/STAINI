@@ -281,7 +281,7 @@ class OutgoingLetterController extends Controller
         $institution = \App\Models\Institution::first();
         $letterheadUrl = null;
         if ($institution?->letterhead_path) {
-            $letterheadUrl = storage_path('app/public/' . $institution->letterhead_path);
+            $letterheadUrl = \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path);
         }
 
         // Signer info

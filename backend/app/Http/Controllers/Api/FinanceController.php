@@ -306,7 +306,7 @@ class FinanceController extends Controller
             'report' => $this->studentReportData($request),
             'institution' => $institution,
             'letterheadPath' => $institution?->letterhead_path
-                ? storage_path('app/public/'.$institution->letterhead_path)
+                ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path)
                 : null,
         ])->setPaper('a4', 'landscape')->download('laporan-keuangan-mahasiswa-'.now()->format('Ymd').'.pdf');
     }
@@ -346,7 +346,7 @@ class FinanceController extends Controller
             'invoices' => $invoices,
             'payments' => $payments,
             'letterheadPath' => $institution?->letterhead_path
-                ? storage_path('app/public/'.$institution->letterhead_path)
+                ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path)
                 : null,
             'summary' => [
                 'totalInvoiced' => $totalInvoiced,

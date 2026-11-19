@@ -149,7 +149,7 @@ class MeetingMinutesController extends Controller
     {
         $institution = \App\Models\Institution::first();
         $url = rtrim((string)config('app.frontend_url'),'/').'/verify/notulen/'.$m->verification_token;
-        $pdf = Pdf::loadView('pdf.meeting-minutes',['minutes'=>$m->load(['signer','notulis','chairman','event']),'institution'=>$institution,'letterheadUrl'=>$institution?->letterhead_path ? storage_path('app/public/'.$institution->letterhead_path) : null,'verifyUrl'=>$url,'qrVerification'=>$preview ? '' : QrCodeHelper::generateWithLogo($url,140),'isFinal'=>!$preview])->setPaper('a4','portrait');
+        $pdf = Pdf::loadView('pdf.meeting-minutes',['minutes'=>$m->load(['signer','notulis','chairman','event']),'institution'=>$institution,'letterheadUrl'=>$institution?->letterhead_path ? \Illuminate\Support\Facades\Storage::disk('public')->path($institution->letterhead_path) : null,'verifyUrl'=>$url,'qrVerification'=>$preview ? '' : QrCodeHelper::generateWithLogo($url,140),'isFinal'=>!$preview])->setPaper('a4','portrait');
         return $preview ? $pdf->stream(($m->number ?: 'notulen-preview').'.pdf') : $pdf->download(str_replace('/','-',$m->number).'.pdf');
     }
 
