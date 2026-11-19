@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Guide â€” Nurul Iman Academic Integrated System (NURIS)</title>
+<title>User Guide — Nurul Iman Academic Integrated System (NURIS)</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11pt; color: #1a1a2e; line-height: 1.6; }
@@ -17,8 +17,8 @@
   }
 
   /* Cover */
-  .cover { text-align: center; padding: 80px 40px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; border-radius: 8px; }
-  .cover h1 { font-size: 28pt; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .cover { text-align: center; padding: 80px 40px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #064e3b 0%, #059669 100%); color: white; border-radius: 8px; }
+  .cover h1 { font-size: 28pt; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; color: #fff; border-bottom-color: #d4af37; }
   .cover .subtitle { font-size: 14pt; opacity: 0.9; margin-bottom: 40px; }
   .cover .app-name { font-size: 18pt; font-weight: 600; background: rgba(255,255,255,0.15); padding: 12px 32px; border-radius: 50px; margin-bottom: 16px; }
   .cover .version { font-size: 10pt; opacity: 0.7; margin-top: 48px; }
@@ -26,8 +26,8 @@
 
   /* Content */
   .content { max-width: 800px; margin: 0 auto; padding: 20px; }
-  h1 { font-size: 20pt; color: #1e3a8a; border-bottom: 3px solid #2563eb; padding-bottom: 8px; margin: 32px 0 16px; }
-  h2 { font-size: 15pt; color: #1e3a8a; border-left: 4px solid #2563eb; padding-left: 12px; margin: 28px 0 12px; }
+  h1 { font-size: 20pt; color: #064e3b; border-bottom: 3px solid #059669; padding-bottom: 8px; margin: 32px 0 16px; }
+  h2 { font-size: 15pt; color: #064e3b; border-left: 4px solid #059669; padding-left: 12px; margin: 28px 0 12px; }
   h3 { font-size: 12pt; color: #374151; margin: 20px 0 8px; }
   h4 { font-size: 11pt; color: #4b5563; margin: 14px 0 6px; }
   p { margin-bottom: 10px; text-align: justify; }
@@ -39,28 +39,28 @@
   .toc h2 { border-left: none; padding-left: 0; margin-top: 0; }
   .toc ol { margin-left: 20px; }
   .toc li { margin-bottom: 6px; font-size: 10.5pt; }
-  .toc a { color: #2563eb; text-decoration: none; }
+  .toc a { color: #059669; text-decoration: none; }
 
   /* Info boxes */
   .info-box { border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
-  .info-box.blue { background: #eff6ff; border-left: 4px solid #2563eb; }
+  .info-box.blue { background: #ecfdf5; border-left: 4px solid #059669; }
   .info-box.green { background: #f0fdf4; border-left: 4px solid #16a34a; }
-  .info-box.yellow { background: #fefce8; border-left: 4px solid #ca8a04; }
+  .info-box.yellow { background: #fdf8e4; border-left: 4px solid #b8941f; }
   .info-box.red { background: #fff1f2; border-left: 4px solid #e11d48; }
   .info-box p { margin: 0; font-size: 10.5pt; }
   .info-box strong { display: block; margin-bottom: 4px; }
 
   /* Tables */
   table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 10pt; }
-  th { background: #1e3a8a; color: white; padding: 8px 12px; text-align: left; font-weight: 600; }
+  th { background: #064e3b; color: white; padding: 8px 12px; text-align: left; font-weight: 600; }
   td { padding: 7px 12px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
   tr:nth-child(even) td { background: #f9fafb; }
-  tr:hover td { background: #eff6ff; }
+  tr:hover td { background: #ecfdf5; }
   td code { background: #f3f4f6; padding: 1px 5px; border-radius: 3px; font-size: 9pt; font-family: monospace; color: #dc2626; }
 
   /* Badges */
   .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 8.5pt; font-weight: 600; margin: 1px; }
-  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-blue { background: #dbeafe; color: #047857; }
   .badge-green { background: #dcfce7; color: #15803d; }
   .badge-purple { background: #f3e8ff; color: #7e22ce; }
   .badge-orange { background: #ffedd5; color: #c2410c; }
@@ -69,32 +69,32 @@
   /* Steps */
   .steps { counter-reset: step; }
   .step { display: flex; gap: 16px; margin-bottom: 16px; align-items: flex-start; }
-  .step-num { background: #2563eb; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11pt; flex-shrink: 0; margin-top: 2px; }
-  .step-content h4 { margin-top: 2px; color: #1e3a8a; }
+  .step-num { background: #059669; color: white; min-width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11pt; flex-shrink: 0; margin-top: 2px; }
+  .step-content h4 { margin-top: 2px; color: #064e3b; }
 
   /* Role cards */
   .role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
   .role-card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
-  .role-card h4 { color: #1e3a8a; margin-bottom: 6px; font-size: 11pt; }
+  .role-card h4 { color: #064e3b; margin-bottom: 6px; font-size: 11pt; }
   .role-card p { font-size: 10pt; color: #6b7280; margin: 0; }
 
   /* Separator */
   hr { border: none; border-top: 2px solid #e5e7eb; margin: 28px 0; }
 
   /* Print button */
-  .print-btn { position: fixed; bottom: 24px; right: 24px; background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-size: 12pt; font-weight: 600; box-shadow: 0 4px 12px rgba(37,99,235,0.4); z-index: 100; }
-  .print-btn:hover { background: #1d4ed8; }
+  .print-btn { position: fixed; bottom: 24px; right: 24px; background: #059669; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-size: 12pt; font-weight: 600; box-shadow: 0 4px 12px rgba(5,150,105,0.4); z-index: 100; }
+  .print-btn:hover { background: #047857; }
 
   /* Flowchart */
   .flowchart { display: flex; flex-direction: column; align-items: center; gap: 0; margin: 16px 0 24px; font-size: 9.5pt; }
   .flow-node { padding: 8px 16px; border-radius: 6px; text-align: center; min-width: 180px; max-width: 280px; font-weight: 500; }
-  .flow-start { background: #1e3a8a; color: white; border-radius: 20px; }
-  .flow-process { background: #eff6ff; border: 1.5px solid #2563eb; color: #1e3a8a; }
-  .flow-decision { background: #fefce8; border: 1.5px solid #ca8a04; color: #854d0e; transform: rotate(0deg); }
+  .flow-start { background: #064e3b; color: white; border-radius: 20px; }
+  .flow-process { background: #ecfdf5; border: 1.5px solid #059669; color: #064e3b; }
+  .flow-decision { background: #fdf8e4; border: 1.5px solid #b8941f; color: #7a5c0f; transform: rotate(0deg); }
   .flow-end { background: #dcfce7; border: 1.5px solid #16a34a; color: #166534; border-radius: 20px; }
   .flow-error { background: #fee2e2; border: 1.5px solid #dc2626; color: #991b1b; border-radius: 6px; }
   .flow-arrow { display: flex; flex-direction: column; align-items: center; color: #6b7280; font-size: 8pt; }
-  .flow-arrow::before { content: 'â†“'; font-size: 14pt; line-height: 1; }
+  .flow-arrow::before { content: '↓'; font-size: 14pt; line-height: 1; }
   .flow-arrow-label { font-size: 8pt; color: #9ca3af; margin-top: -2px; }
   .flow-branch { display: flex; gap: 12px; align-items: flex-start; justify-content: center; width: 100%; margin: 4px 0; }
   .flow-branch-item { display: flex; flex-direction: column; align-items: center; gap: 0; }
@@ -104,22 +104,22 @@
 <body>
 
 <!-- PRINT BUTTON -->
-<button class="print-btn no-print" onclick="window.print()">ðŸ–¨ï¸ Simpan sebagai PDF</button>
+<button class="print-btn no-print" onclick="window.print()">🖨️ Simpan sebagai PDF</button>
 
 <!-- COVER PAGE -->
 <div class="cover">
-  <div class="app-name">ðŸŽ“ Nurul Iman Academic Integrated System</div>
+  <div class="app-name">🎓 Nurul Iman Academic Integrated System</div>
   <h1>Panduan Pengguna</h1>
-  <div class="subtitle">User Guide â€” Sistem Informasi Akademik Terpadu</div>
+  <div class="subtitle">User Guide — Sistem Informasi Akademik Terpadu</div>
   <div class="institution">STAI NURUL IMAN</div>
-  <div class="version">Versi 1.0 Â· Agustus 2026</div>
+  <div class="version">Versi 1.2 · Agustus 2026</div>
 </div>
 
 <div class="content">
 
 <!-- TABLE OF CONTENTS -->
 <div class="toc">
-  <h2>ðŸ“‹ Daftar Isi</h2>
+  <h2>📋 Daftar Isi</h2>
   <ol>
     <li><a href="#pendahuluan">Pendahuluan & Tentang Aplikasi</a></li>
     <li><a href="#akses">Cara Mengakses & Login</a></li>
@@ -158,15 +158,15 @@
 
 <h3>1.1 Fitur Utama</h3>
 <ul>
-  <li><strong>Manajemen Akademik</strong> â€” KRS, jadwal perkuliahan, presensi, penilaian, KHS &amp; transkrip</li>
-  <li><strong>Kurikulum OBE</strong> â€” Kurikulum berbasis Outcome-Based Education, RPKPS/RPS digital</li>
-  <li><strong>PMB Online</strong> â€” Pendaftaran mahasiswa baru secara daring dengan berbagai jalur seleksi</li>
-  <li><strong>Keuangan</strong> â€” Tagihan, pembayaran, dan beasiswa mahasiswa</li>
-  <li><strong>Penelitian &amp; Pengabdian</strong> â€” Pengelolaan karya dosen, hibah penelitian, publikasi</li>
-  <li><strong>Skripsi &amp; TA</strong> â€” Manajemen tugas akhir dengan alur persetujuan digital</li>
-  <li><strong>Repository Digital</strong> â€” Perpustakaan digital karya ilmiah yang dapat diakses publik</li>
-  <li><strong>Alumni &amp; Tracer Study</strong> â€” Pengelolaan data alumni dan survey penelusuran lulusan</li>
-  <li><strong>Laporan &amp; Analitik</strong> â€” Dashboard statistik untuk pengambilan keputusan</li>
+  <li><strong>Manajemen Akademik</strong> — KRS, jadwal perkuliahan, presensi, penilaian, KHS &amp; transkrip</li>
+  <li><strong>Kurikulum OBE</strong> — Kurikulum berbasis Outcome-Based Education, RPKPS/RPS digital</li>
+  <li><strong>PMB Online</strong> — Pendaftaran mahasiswa baru secara daring dengan berbagai jalur seleksi</li>
+  <li><strong>Keuangan</strong> — Tagihan, pembayaran, dan beasiswa mahasiswa</li>
+  <li><strong>Penelitian &amp; Pengabdian</strong> — Pengelolaan karya dosen, hibah penelitian, publikasi</li>
+  <li><strong>Skripsi &amp; TA</strong> — Manajemen tugas akhir dengan alur persetujuan digital</li>
+  <li><strong>Repository Digital</strong> — Perpustakaan digital karya ilmiah yang dapat diakses publik</li>
+  <li><strong>Alumni &amp; Tracer Study</strong> — Pengelolaan data alumni dan survey penelusuran lulusan</li>
+  <li><strong>Laporan &amp; Analitik</strong> — Dashboard statistik untuk pengambilan keputusan</li>
 </ul>
 
 <h3>1.2 Persyaratan Teknis</h3>
@@ -185,7 +185,7 @@
 <p>Buka browser dan ketikkan alamat aplikasi NURIS: <strong>https://nuris.byethost31.com</strong> (lingkungan uji coba). Alamat produksi akan diinformasikan oleh administrator institusi.</p>
 <p>Akun pengguna menggunakan email berdomain <strong>@stainibandung.ac.id</strong> (contoh: <code>superadmin@stainibandung.ac.id</code>). Password awal dibagikan oleh administrator dan wajib diganti setelah login pertama.</p>
 
-<div class="info-box blue"><p><strong>ðŸ’¡ Info</strong> Halaman awal akan menampilkan logo institusi dan form login. Jika logo belum muncul, tunggu beberapa detik hingga data institusi selesai dimuat.</p></div>
+<div class="info-box blue"><p><strong>💡 Info</strong> Halaman awal akan menampilkan logo institusi dan form login. Jika logo belum muncul, tunggu beberapa detik hingga data institusi selesai dimuat.</p></div>
 
 <h3>2.2 Proses Login</h3>
 <div class="steps">
@@ -194,30 +194,30 @@
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Klik Tombol Masuk</h4><p>Klik tombol <strong>Masuk</strong> atau tekan Enter. Sistem akan memverifikasi kredensial dan mengarahkan ke Dashboard.</p></div></div>
 </div>
 
-<div class="info-box yellow"><p><strong>âš ï¸ Perhatian</strong> Jika muncul pesan "Login gagal", pastikan email dan password sudah benar. Hubungi administrator jika Anda lupa password.</p></div>
+<div class="info-box yellow"><p><strong>⚠️ Perhatian</strong> Jika muncul pesan "Login gagal", pastikan email dan password sudah benar. Hubungi administrator jika Anda lupa password.</p></div>
 
 <h3>2.3 Keamanan Sesi</h3>
 <p>Sesi login berlaku selama 120 menit sejak aktivitas terakhir. Setelah itu, sistem akan meminta login ulang secara otomatis untuk menjaga keamanan data.</p>
 
 <!-- BAB 3: PWA -->
 <h1 id="install-pwa">3. Instalasi Aplikasi (PWA)</h1>
-<p>ASC mendukung <strong>Progressive Web App (PWA)</strong> â€” aplikasi dapat diinstal di perangkat Anda layaknya aplikasi native tanpa perlu mengunduh dari App Store.</p>
+<p>ASC mendukung <strong>Progressive Web App (PWA)</strong> — aplikasi dapat diinstal di perangkat Anda layaknya aplikasi native tanpa perlu mengunduh dari App Store.</p>
 
 <h3>3.1 Instalasi di Desktop (Chrome / Edge)</h3>
 <div class="steps">
   <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka Aplikasi di Browser</h4><p>Akses URL aplikasi ASC di Chrome atau Edge.</p></div></div>
-  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Klik Ikon Install</h4><p>Perhatikan ikon <strong>Install</strong> (âŠ•) di sebelah kanan address bar, atau buka menu browser â†’ <em>Install Nurul Iman Academic Integrated System</em>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Klik Ikon Install</h4><p>Perhatikan ikon <strong>Install</strong> (⊕) di sebelah kanan address bar, atau buka menu browser → <em>Install Nurul Iman Academic Integrated System</em>.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Konfirmasi Instalasi</h4><p>Klik <strong>Install</strong> pada dialog yang muncul. Aplikasi akan terbuka di jendela tersendiri.</p></div></div>
 </div>
 
 <h3>3.2 Instalasi di Android (Chrome)</h3>
 <div class="steps">
   <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka di Chrome Android</h4><p>Akses URL aplikasi ASC menggunakan Chrome di Android.</p></div></div>
-  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Tap Banner atau Menu</h4><p>Jika muncul banner "Tambahkan ke layar utama", tap banner tersebut. Atau buka menu (â‹®) â†’ <em>Tambahkan ke layar utama</em>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Tap Banner atau Menu</h4><p>Jika muncul banner "Tambahkan ke layar utama", tap banner tersebut. Atau buka menu (⋮) → <em>Tambahkan ke layar utama</em>.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Konfirmasi</h4><p>Tap <strong>Tambahkan</strong>. Ikon ASC akan muncul di layar utama perangkat Anda.</p></div></div>
 </div>
 
-<div class="info-box green"><p><strong>âœ… Manfaat PWA</strong> Setelah diinstal, aplikasi dapat dibuka lebih cepat, memiliki tampilan fullscreen, dan tetap menampilkan halaman terakhir meski koneksi terputus sementara.</p></div>
+<div class="info-box green"><p><strong>✅ Manfaat PWA</strong> Setelah diinstal, aplikasi dapat dibuka lebih cepat, memiliki tampilan fullscreen, dan tetap menampilkan halaman terakhir meski koneksi terputus sementara.</p></div>
 
 <!-- BAB 4: NAVIGASI -->
 <h1 id="navigasi">4. Navigasi & Antarmuka</h1>
@@ -225,22 +225,22 @@
 <h3>4.1 Layout Utama</h3>
 <p>Antarmuka ASC terdiri dari beberapa bagian utama:</p>
 <ul>
-  <li><strong>Sidebar (kiri)</strong> â€” Menu navigasi utama yang berisi semua modul sesuai hak akses pengguna</li>
-  <li><strong>Header (atas)</strong> â€” Menampilkan nama pengguna, notifikasi, dan akses profil</li>
-  <li><strong>Area Konten (tengah)</strong> â€” Tempat tampilan halaman aktif</li>
+  <li><strong>Sidebar (kiri)</strong> — Menu navigasi utama yang berisi semua modul sesuai hak akses pengguna</li>
+  <li><strong>Header (atas)</strong> — Menampilkan nama pengguna, notifikasi, dan akses profil</li>
+  <li><strong>Area Konten (tengah)</strong> — Tempat tampilan halaman aktif</li>
 </ul>
 
 <h3>4.2 Navigasi Sidebar</h3>
-<p>Menu di sidebar ditampilkan berdasarkan role dan permission yang dimiliki pengguna. Klik menu yang memiliki tanda panah (â–¶) untuk memperluas sub-menu.</p>
+<p>Menu di sidebar ditampilkan berdasarkan role dan permission yang dimiliki pengguna. Klik menu yang memiliki tanda panah (▶) untuk memperluas sub-menu.</p>
 
 <h3>4.3 Tombol Aksi Umum</h3>
 <table>
   <tr><th>Tombol</th><th>Fungsi</th></tr>
   <tr><td><span class="badge badge-blue">+ Tambah</span></td><td>Menambahkan data baru</td></tr>
-  <tr><td><span class="badge badge-orange">âœï¸ Edit</span></td><td>Mengubah data yang sudah ada</td></tr>
-  <tr><td><span class="badge badge-gray">ðŸ—‘ï¸ Hapus</span></td><td>Menghapus data (biasanya meminta konfirmasi)</td></tr>
-  <tr><td><span class="badge badge-green">ðŸ“¥ Export</span></td><td>Mengunduh data dalam format Excel/PDF</td></tr>
-  <tr><td><span class="badge badge-purple">ðŸ“¤ Import</span></td><td>Mengunggah data dari file Excel</td></tr>
+  <tr><td><span class="badge badge-orange">✏️ Edit</span></td><td>Mengubah data yang sudah ada</td></tr>
+  <tr><td><span class="badge badge-gray">🗑️ Hapus</span></td><td>Menghapus data (biasanya meminta konfirmasi)</td></tr>
+  <tr><td><span class="badge badge-green">📥 Export</span></td><td>Mengunduh data dalam format Excel/PDF</td></tr>
+  <tr><td><span class="badge badge-purple">📤 Import</span></td><td>Mengunggah data dari file Excel</td></tr>
 </table>
 
 <!-- BAB 5: ROLE -->
@@ -248,18 +248,18 @@
 <p>Setiap pengguna ASC memiliki satu atau lebih peran yang menentukan fitur apa saja yang dapat diakses.</p>
 
 <div class="role-grid">
-  <div class="role-card"><h4>ðŸ‘‘ SUPER_ADMIN</h4><p>Akses penuh ke seluruh sistem. Mengelola konfigurasi, pengguna, dan semua data.</p></div>
-  <div class="role-card"><h4>ðŸ›ï¸ PIMPINAN</h4><p>Melihat semua data dan laporan analitik untuk keperluan pengambilan keputusan.</p></div>
-  <div class="role-card"><h4>ðŸ“š ADMIN_AKADEMIK</h4><p>Mengelola semua data akademik: mahasiswa, jadwal, nilai, kurikulum, wisuda.</p></div>
-  <div class="role-card"><h4>ðŸŽ“ ADMIN_PMB</h4><p>Mengelola proses penerimaan mahasiswa baru: pendaftaran, seleksi, verifikasi.</p></div>
-  <div class="role-card"><h4>ðŸ’° ADMIN_KEUANGAN</h4><p>Mengelola tagihan, pembayaran, dan beasiswa mahasiswa.</p></div>
-  <div class="role-card"><h4>ðŸ—‚ï¸ KAPRODI</h4><p>Mengelola akademik program studi: kurikulum, KRS, kelas, persetujuan RPS.</p></div>
-  <div class="role-card"><h4>ðŸ‘¨â€ðŸ« DOSEN</h4><p>Input presensi, nilai, membuat RPS, mengelola skripsi bimbingan, karya ilmiah.</p></div>
-  <div class="role-card"><h4>ðŸ¤ DOSEN_WALI</h4><p>Perwalian akademik: menyetujui KRS, bimbingan, memantau perkembangan mahasiswa.</p></div>
-  <div class="role-card"><h4>ðŸŽ’ MAHASISWA</h4><p>Mengisi KRS, melihat jadwal, nilai, KHS, mengajukan cuti, mendaftar wisuda.</p></div>
-  <div class="role-card"><h4>ðŸ… ALUMNI</h4><p>Melihat data alumni, mengisi tracer study, mengakses repository.</p></div>
-  <div class="role-card"><h4>ðŸ“Š LPM</h4><p>Lembaga Penjaminan Mutu: audit akademik dan pelaporan mutu.</p></div>
-  <div class="role-card"><h4>ðŸ”¬ LP2M</h4><p>Lembaga Penelitian: verifikasi karya dosen, publikasi repository, kelola KKN.</p></div>
+  <div class="role-card"><h4>👑 SUPER_ADMIN</h4><p>Akses penuh ke seluruh sistem. Mengelola konfigurasi, pengguna, dan semua data.</p></div>
+  <div class="role-card"><h4>🏛️ PIMPINAN</h4><p>Melihat semua data dan laporan analitik untuk keperluan pengambilan keputusan.</p></div>
+  <div class="role-card"><h4>📚 ADMIN_AKADEMIK</h4><p>Mengelola semua data akademik: mahasiswa, jadwal, nilai, kurikulum, wisuda.</p></div>
+  <div class="role-card"><h4>🎓 ADMIN_PMB</h4><p>Mengelola proses penerimaan mahasiswa baru: pendaftaran, seleksi, verifikasi.</p></div>
+  <div class="role-card"><h4>💰 ADMIN_KEUANGAN</h4><p>Mengelola tagihan, pembayaran, dan beasiswa mahasiswa.</p></div>
+  <div class="role-card"><h4>🗂️ KAPRODI</h4><p>Mengelola akademik program studi: kurikulum, KRS, kelas, persetujuan RPS.</p></div>
+  <div class="role-card"><h4>👨‍🏫 DOSEN</h4><p>Input presensi, nilai, membuat RPS, mengelola skripsi bimbingan, karya ilmiah.</p></div>
+  <div class="role-card"><h4>🤝 DOSEN_WALI</h4><p>Perwalian akademik: menyetujui KRS, bimbingan, memantau perkembangan mahasiswa.</p></div>
+  <div class="role-card"><h4>🎒 MAHASISWA</h4><p>Mengisi KRS, melihat jadwal, nilai, KHS, mengajukan cuti, mendaftar wisuda.</p></div>
+  <div class="role-card"><h4>🏅 ALUMNI</h4><p>Melihat data alumni, mengisi tracer study, mengakses repository.</p></div>
+  <div class="role-card"><h4>📊 LPM</h4><p>Lembaga Penjaminan Mutu: audit akademik dan pelaporan mutu.</p></div>
+  <div class="role-card"><h4>🔬 LP2M</h4><p>Lembaga Penelitian: verifikasi karya dosen, publikasi repository, kelola KKN.</p></div>
 </div>
 
 <!-- BAB 6: MASTER DATA -->
@@ -269,33 +269,33 @@
 <h3>6.1 Sub-modul Master Data</h3>
 <table>
   <tr><th>Sub-modul</th><th>Deskripsi</th><th>Menu</th></tr>
-  <tr><td><strong>Institusi</strong></td><td>Profil institusi, logo, kop surat, akreditasi</td><td>Master Data â†’ Institusi</td></tr>
-  <tr><td><strong>Fakultas</strong></td><td>Daftar fakultas dan nama dekan</td><td>Master Data â†’ Fakultas</td></tr>
-  <tr><td><strong>Program Studi</strong></td><td>Program studi, jenjang, akreditasi</td><td>Master Data â†’ Program Studi</td></tr>
-  <tr><td><strong>Konsentrasi</strong></td><td>Peminatan/konsentrasi dalam program studi</td><td>Master Data â†’ Konsentrasi</td></tr>
-  <tr><td><strong>Tahun Akademik</strong></td><td>Periode tahun akademik aktif</td><td>Master Data â†’ Tahun Akademik</td></tr>
-  <tr><td><strong>Semester</strong></td><td>Semester (Ganjil/Genap/Pendek) per tahun akademik</td><td>Master Data â†’ Semester</td></tr>
-  <tr><td><strong>Kalender Akademik</strong></td><td>Jadwal kegiatan akademik tahunan</td><td>Master Data â†’ Kalender Akademik</td></tr>
-  <tr><td><strong>Gedung</strong></td><td>Daftar gedung kampus</td><td>Master Data â†’ Gedung</td></tr>
-  <tr><td><strong>Ruangan</strong></td><td>Daftar ruang kuliah beserta kapasitas</td><td>Master Data â†’ Ruangan</td></tr>
-  <tr><td><strong>Mata Kuliah</strong></td><td>Katalog mata kuliah dengan SKS dan tipe</td><td>Master Data â†’ Mata Kuliah</td></tr>
+  <tr><td><strong>Institusi</strong></td><td>Profil institusi, logo, kop surat, akreditasi</td><td>Master Data → Institusi</td></tr>
+  <tr><td><strong>Fakultas</strong></td><td>Daftar fakultas dan nama dekan</td><td>Master Data → Fakultas</td></tr>
+  <tr><td><strong>Program Studi</strong></td><td>Program studi, jenjang, akreditasi</td><td>Master Data → Program Studi</td></tr>
+  <tr><td><strong>Konsentrasi</strong></td><td>Peminatan/konsentrasi dalam program studi</td><td>Master Data → Konsentrasi</td></tr>
+  <tr><td><strong>Tahun Akademik</strong></td><td>Periode tahun akademik aktif</td><td>Master Data → Tahun Akademik</td></tr>
+  <tr><td><strong>Semester</strong></td><td>Semester (Ganjil/Genap/Pendek) per tahun akademik</td><td>Master Data → Semester</td></tr>
+  <tr><td><strong>Kalender Akademik</strong></td><td>Jadwal kegiatan akademik tahunan</td><td>Master Data → Kalender Akademik</td></tr>
+  <tr><td><strong>Gedung</strong></td><td>Daftar gedung kampus</td><td>Master Data → Gedung</td></tr>
+  <tr><td><strong>Ruangan</strong></td><td>Daftar ruang kuliah beserta kapasitas</td><td>Master Data → Ruangan</td></tr>
+  <tr><td><strong>Mata Kuliah</strong></td><td>Katalog mata kuliah dengan SKS dan tipe</td><td>Master Data → Mata Kuliah</td></tr>
 </table>
 
 <h3>6.2 Mengelola Tahun Akademik</h3>
 <div class="steps">
-  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka Menu Tahun Akademik</h4><p>Klik <em>Master Data â†’ Tahun Akademik</em> di sidebar.</p></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka Menu Tahun Akademik</h4><p>Klik <em>Master Data → Tahun Akademik</em> di sidebar.</p></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Tambah Tahun Akademik Baru</h4><p>Klik tombol <strong>+ Tambah</strong>, isi nama (contoh: "Tahun Akademik 2025/2026"), tanggal mulai dan selesai.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Aktifkan Tahun Akademik</h4><p>Centang <em>Aktif</em> pada tahun akademik yang sedang berjalan. Hanya satu yang dapat aktif dalam satu waktu.</p></div></div>
 </div>
 
-<div class="info-box yellow"><p><strong>âš ï¸ Penting</strong> Pastikan selalu ada satu Tahun Akademik yang berstatus <em>Aktif</em>. Banyak fitur sistem bergantung pada data tahun akademik aktif.</p></div>
+<div class="info-box yellow"><p><strong>⚠️ Penting</strong> Pastikan selalu ada satu Tahun Akademik yang berstatus <em>Aktif</em>. Banyak fitur sistem bergantung pada data tahun akademik aktif.</p></div>
 
 <!-- BAB 7: SDM -->
 <h1 id="sdm">7. Modul SDM (Mahasiswa, Dosen, Staff)</h1>
 <p>Modul SDM digunakan untuk mengelola data seluruh civitas akademika. Diakses melalui menu <strong>SDM</strong> di sidebar.</p>
 
 <h3>7.1 Data Mahasiswa</h3>
-<p>Menu: <em>SDM â†’ Mahasiswa</em></p>
+<p>Menu: <em>SDM → Mahasiswa</em></p>
 <ul>
   <li>Menampilkan daftar mahasiswa dengan filter berdasarkan prodi, angkatan, dan status</li>
   <li>Klik nama mahasiswa untuk melihat detail (profil, alamat, orang tua, riwayat pendidikan, dokumen)</li>
@@ -304,18 +304,18 @@
 </ul>
 
 <h3>7.2 Data Dosen</h3>
-<p>Menu: <em>SDM â†’ Dosen</em></p>
+<p>Menu: <em>SDM → Dosen</em></p>
 <ul>
   <li>Daftar dosen lengkap dengan NIDN, jabatan fungsional, dan status</li>
   <li>Halaman detail dosen berisi: data pribadi, jabatan struktural, karya ilmiah</li>
-  <li><strong>Jabatan Struktural</strong> â€” di halaman detail dosen, Anda dapat menambah/menghapus jabatan (Ketua, WK, Kaprodi, Dosen Wali, dll). Jabatan menentukan hak akses tambahan</li>
+  <li><strong>Jabatan Struktural</strong> — di halaman detail dosen, Anda dapat menambah/menghapus jabatan (Ketua, WK, Kaprodi, Dosen Wali, dll). Jabatan menentukan hak akses tambahan</li>
 </ul>
 
 <h3>7.3 Tenaga Kependidikan</h3>
-<p>Menu: <em>SDM â†’ Tenaga Kependidikan</em></p>
+<p>Menu: <em>SDM → Tenaga Kependidikan</em></p>
 <p>Mengelola data staff non-dosen (admin, laboran, pustakawan, dll). Mendukung import/export Excel.</p>
 
-<div class="info-box blue"><p><strong>ðŸ’¡ Jabatan Struktural</strong> Jabatan seperti Ketua, Wakil Ketua, Kaprodi, dan Dosen Wali bukan "role" terpisah, melainkan jabatan yang melekat pada data dosen. Satu dosen bisa memiliki beberapa jabatan sekaligus, dan setiap jabatan memberikan hak akses tambahan secara otomatis.</p></div>
+<div class="info-box blue"><p><strong>💡 Jabatan Struktural</strong> Jabatan seperti Ketua, Wakil Ketua, Kaprodi, dan Dosen Wali bukan "role" terpisah, melainkan jabatan yang melekat pada data dosen. Satu dosen bisa memiliki beberapa jabatan sekaligus, dan setiap jabatan memberikan hak akses tambahan secara otomatis.</p></div>
 
 <!-- BAB 8: PMB -->
 <h1 id="pmb">8. Modul PMB (Penerimaan Mahasiswa Baru)</h1>
@@ -361,17 +361,17 @@
 <p>Modul inti yang mengelola kegiatan belajar-mengajar. Tampilan menu berbeda tergantung apakah pengguna adalah dosen/admin atau mahasiswa.</p>
 
 <h3>9.1 Kurikulum OBE</h3>
-<p>Menu: <em>Akademik â†’ Kurikulum OBE</em></p>
+<p>Menu: <em>Akademik → Kurikulum OBE</em></p>
 <p>Mengelola kurikulum berbasis Outcome-Based Education:</p>
 <ul>
-  <li><strong>CPL (Capaian Pembelajaran Lulusan)</strong> â€” tujuan akhir pendidikan</li>
-  <li><strong>CPMK</strong> â€” capaian pembelajaran per mata kuliah</li>
-  <li><strong>Matriks CPL-MK</strong> â€” pemetaan mata kuliah terhadap CPL</li>
-  <li><strong>Profil Lulusan</strong> â€” deskripsi kompetensi lulusan program studi</li>
+  <li><strong>CPL (Capaian Pembelajaran Lulusan)</strong> — tujuan akhir pendidikan</li>
+  <li><strong>CPMK</strong> — capaian pembelajaran per mata kuliah</li>
+  <li><strong>Matriks CPL-MK</strong> — pemetaan mata kuliah terhadap CPL</li>
+  <li><strong>Profil Lulusan</strong> — deskripsi kompetensi lulusan program studi</li>
 </ul>
 
 <h3>9.2 RPKPS / RPS Digital</h3>
-<p>Menu: <em>Akademik â†’ RPKPS / RPS</em></p>
+<p>Menu: <em>Akademik → RPKPS / RPS</em></p>
 <p>Rencana Pembelajaran Semester digital dengan alur persetujuan:</p>
 
 <div class="flowchart">
@@ -384,25 +384,25 @@
   <div class="flow-node flow-decision">Kaprodi keputusan</div>
   <div class="flow-arrow"></div>
   <div class="flow-branch">
-    <div class="flow-branch-item"><div class="flow-branch-label">Setuju</div><div class="flow-node flow-end">DISETUJUI â†’ DIKUNCI + QR</div></div>
+    <div class="flow-branch-item"><div class="flow-branch-label">Setuju</div><div class="flow-node flow-end">DISETUJUI → DIKUNCI + QR</div></div>
     <div class="flow-branch-item"><div class="flow-branch-label">Revisi</div><div class="flow-node flow-error">Kembali ke DRAFT</div></div>
   </div>
 </div>
 
 <ul>
-  <li>Dosen membuat RPS â†’ status <span class="badge badge-gray">DRAFT</span></li>
-  <li>Diajukan ke Kaprodi â†’ status <span class="badge badge-blue">DIAJUKAN</span></li>
-  <li>Kaprodi review dan menyetujui â†’ status <span class="badge badge-green">DISETUJUI</span></li>
-  <li>Dokumen dikunci â†’ status <span class="badge badge-green">DIKUNCI</span> (tidak bisa diubah)</li>
+  <li>Dosen membuat RPS → status <span class="badge badge-gray">DRAFT</span></li>
+  <li>Diajukan ke Kaprodi → status <span class="badge badge-blue">DIAJUKAN</span></li>
+  <li>Kaprodi review dan menyetujui → status <span class="badge badge-green">DISETUJUI</span></li>
+  <li>Dokumen dikunci → status <span class="badge badge-green">DIKUNCI</span> (tidak bisa diubah)</li>
   <li>RPS yang sudah disetujui memiliki QR code untuk verifikasi keaslian</li>
 </ul>
 
 <h3>9.3 Penawaran Kelas</h3>
-<p>Menu: <em>Akademik â†’ Penawaran Kelas</em></p>
+<p>Menu: <em>Akademik → Penawaran Kelas</em></p>
 <p>Membuat dan mengelola kelas yang ditawarkan per semester: mata kuliah, dosen pengampu, kapasitas, jadwal, dan ruangan.</p>
 
 <h3>9.4 KRS &amp; Perwalian</h3>
-<p>Menu: <em>Akademik â†’ KRS &amp; Perwalian</em> (admin/dosen) atau <em>Akademik â†’ KRS Saya</em> (mahasiswa)</p>
+<p>Menu: <em>Akademik → KRS &amp; Perwalian</em> (admin/dosen) atau <em>Akademik → KRS Saya</em> (mahasiswa)</p>
 
 <div class="flowchart">
   <div class="flow-node flow-start">Mahasiswa mengisi KRS</div>
@@ -427,11 +427,11 @@
 </ul>
 
 <h3>9.5 Input Nilai</h3>
-<p>Menu: <em>Akademik â†’ Input Nilai</em></p>
+<p>Menu: <em>Akademik → Input Nilai</em></p>
 <p>Dosen memasukkan nilai mahasiswa per komponen (tugas, UTS, UAS, dll). Mendukung import nilai dari file Excel.</p>
 
 <h3>9.6 KHS &amp; Transkrip</h3>
-<p>Menu: <em>Akademik â†’ KHS &amp; Transkrip</em> atau <em>Akademik Saya â†’ KHS / Transkrip</em></p>
+<p>Menu: <em>Akademik → KHS &amp; Transkrip</em> atau <em>Akademik Saya → KHS / Transkrip</em></p>
 <p>Menampilkan Kartu Hasil Studi per semester dan transkrip kumulatif lengkap dengan IPK.</p>
 
 <!-- BAB 10: PERKULIAHAN -->
@@ -441,17 +441,17 @@
 <h3>10.1 Kelas &amp; Pertemuan</h3>
 <p>Setiap kelas memiliki halaman detail yang berisi:</p>
 <ul>
-  <li><strong>Daftar Mahasiswa</strong> â€” anggota kelas yang terdaftar via KRS</li>
-  <li><strong>Jurnal Pertemuan</strong> â€” catatan setiap pertemuan (topik, materi, metode)</li>
-  <li><strong>Presensi</strong> â€” rekap kehadiran per pertemuan (Hadir, Izin, Sakit, Alpha)</li>
-  <li><strong>Jadwal</strong> â€” hari, jam, dan ruangan perkuliahan</li>
+  <li><strong>Daftar Mahasiswa</strong> — anggota kelas yang terdaftar via KRS</li>
+  <li><strong>Jurnal Pertemuan</strong> — catatan setiap pertemuan (topik, materi, metode)</li>
+  <li><strong>Presensi</strong> — rekap kehadiran per pertemuan (Hadir, Izin, Sakit, Alpha)</li>
+  <li><strong>Jadwal</strong> — hari, jam, dan ruangan perkuliahan</li>
 </ul>
 
 <h3>10.2 Presensi</h3>
 <p>Dosen membuka presensi untuk setiap pertemuan. Mahasiswa tercatat hadir/tidak hadir. Dosen dapat meng-edit presensi jika ada koreksi.</p>
 
 <h3>10.3 Bank Soal</h3>
-<p>Menu: <em>Akademik â†’ Bank Soal</em></p>
+<p>Menu: <em>Akademik → Bank Soal</em></p>
 <p>Dosen menyimpan soal-soal yang dapat digunakan berulang kali untuk berbagai ujian:</p>
 <ul>
   <li>Tipe soal: Pilihan Ganda, Benar/Salah, Esai, Studi Kasus, Matching, Upload File</li>
@@ -497,10 +497,10 @@
 
 <h3>12.1 Fitur Bimbingan</h3>
 <ul>
-  <li><strong>Dashboard Bimbingan</strong> â€” ringkasan mahasiswa bimbingan dan progress mereka</li>
-  <li><strong>Sesi Bimbingan</strong> â€” pencatatan pertemuan bimbingan (tanggal, topik, catatan)</li>
-  <li><strong>Catatan Akademik</strong> â€” rekam jejak akademik mahasiswa (IPK, keaktifan, masalah)</li>
-  <li><strong>Peringatan Akademik</strong> â€” mahasiswa yang IPK-nya di bawah batas atau masalah presensi</li>
+  <li><strong>Dashboard Bimbingan</strong> — ringkasan mahasiswa bimbingan dan progress mereka</li>
+  <li><strong>Sesi Bimbingan</strong> — pencatatan pertemuan bimbingan (tanggal, topik, catatan)</li>
+  <li><strong>Catatan Akademik</strong> — rekam jejak akademik mahasiswa (IPK, keaktifan, masalah)</li>
+  <li><strong>Peringatan Akademik</strong> — mahasiswa yang IPK-nya di bawah batas atau masalah presensi</li>
 </ul>
 
 <h3>12.2 Alur Bimbingan</h3>
@@ -529,7 +529,7 @@
   <div class="flow-arrow"></div>
   <div class="flow-node flow-process">Revisi & Upload Final</div>
   <div class="flow-arrow"></div>
-  <div class="flow-node flow-end">Skripsi Selesai â†’ Repository</div>
+  <div class="flow-node flow-end">Skripsi Selesai → Repository</div>
 </div>
 
 <div class="steps">
@@ -554,24 +554,24 @@
 <p>Mengelola aktivitas penelitian dan pengabdian masyarakat dosen. Diakses oleh <span class="badge badge-blue">DOSEN</span> dan <span class="badge badge-blue">LP2M</span>.</p>
 
 <h3>14.1 Karya Dosen</h3>
-<p>Menu: <em>Akademik â†’ Karya Dosen</em></p>
+<p>Menu: <em>Akademik → Karya Dosen</em></p>
 <p>Dosen dapat mendaftarkan karya ilmiah: jurnal, buku, HKI, prosiding, dll. LP2M memverifikasi dan mempublikasikan ke repository.</p>
 
 <h3>14.2 Penelitian &amp; Pengabdian</h3>
-<p>Menu: <em>Akademik â†’ Penelitian &amp; Pengabdian</em></p>
+<p>Menu: <em>Akademik → Penelitian &amp; Pengabdian</em></p>
 <ul>
   <li>Mengajukan proposal penelitian/pengabdian</li>
   <li>Mengelola anggota tim penelitian</li>
   <li>Upload laporan kemajuan dan laporan akhir</li>
-  <li>Tracking status: Draft â†’ Diajukan â†’ Review â†’ Diterima â†’ Berjalan â†’ Selesai</li>
+  <li>Tracking status: Draft → Diajukan → Review → Diterima → Berjalan → Selesai</li>
 </ul>
 
 <h3>14.3 Periode Hibah</h3>
-<p>Menu: <em>Akademik â†’ Periode Hibah</em></p>
+<p>Menu: <em>Akademik → Periode Hibah</em></p>
 <p>LP2M/Admin mengatur periode pendanaan penelitian: sumber dana, kuota, batas waktu pengajuan.</p>
 
 <h3>14.4 Praktikum / KKN / PPL</h3>
-<p>Menu: <em>Akademik â†’ Praktikum / KKN</em></p>
+<p>Menu: <em>Akademik → Praktikum / KKN</em></p>
 <p>Mengelola program praktik lapangan:</p>
 <ul>
   <li>Membuat program (KKN, PPL, Magang, Praktikum, PKL)</li>
@@ -583,7 +583,7 @@
 <h1 id="wisuda">15. Modul Wisuda & Alumni</h1>
 
 <h3>15.1 Wisuda</h3>
-<p>Menu: <em>Akademik â†’ Wisuda</em></p>
+<p>Menu: <em>Akademik → Wisuda</em></p>
 <ul>
   <li>Admin membuat periode wisuda (pendaftaran, yudisium, pelaksanaan)</li>
   <li>Mahasiswa yang memenuhi syarat mendaftar wisuda</li>
@@ -592,7 +592,7 @@
 </ul>
 
 <h3>15.2 Cuti Akademik</h3>
-<p>Menu: <em>Akademik â†’ Cuti Akademik</em></p>
+<p>Menu: <em>Akademik → Cuti Akademik</em></p>
 <p>Pengajuan cuti akademik dengan alur persetujuan bertingkat:</p>
 
 <div class="flowchart">
@@ -615,20 +615,20 @@
 </ol>
 
 <h3>15.3 Transfer Nilai</h3>
-<p>Menu: <em>Akademik â†’ Transfer Nilai</em></p>
+<p>Menu: <em>Akademik → Transfer Nilai</em></p>
 <p>Untuk mahasiswa pindahan: mengajukan pengakuan nilai dari institusi asal berdasarkan kesetaraan mata kuliah.</p>
 
 <h3>15.4 Alumni</h3>
 <p>Menu: <em>Alumni</em> (untuk admin) atau diakses langsung oleh pengguna dengan role ALUMNI.</p>
 <ul>
-  <li><strong>Dashboard Alumni</strong> â€” statistik alumni per prodi, tahun lulus, dan pekerjaan</li>
-  <li><strong>Data Alumni</strong> â€” profil lengkap alumni (data studi, pekerjaan saat ini)</li>
-  <li><strong>Tracer Study</strong> â€” survei penelusuran lulusan untuk akreditasi</li>
+  <li><strong>Dashboard Alumni</strong> — statistik alumni per prodi, tahun lulus, dan pekerjaan</li>
+  <li><strong>Data Alumni</strong> — profil lengkap alumni (data studi, pekerjaan saat ini)</li>
+  <li><strong>Tracer Study</strong> — survei penelusuran lulusan untuk akreditasi</li>
 </ul>
 
 <!-- BAB 16: LAPORAN -->
 <h1 id="laporan">16. Modul Laporan & Statistik</h1>
-<p>Menu: <em>Laporan</em> â€” diakses oleh pengguna dengan permission <code>dashboard.analytics</code> (Pimpinan, Admin Akademik, LPM).</p>
+<p>Menu: <em>Laporan</em> — diakses oleh pengguna dengan permission <code>dashboard.analytics</code> (Pimpinan, Admin Akademik, LPM).</p>
 
 <h3>16.1 Jenis Laporan</h3>
 <table>
@@ -640,14 +640,14 @@
   <tr><td>Statistik SDM</td><td>Rasio dosen-mahasiswa, jabatan fungsional, pendidikan terakhir</td></tr>
 </table>
 
-<div class="info-box blue"><p><strong>ðŸ’¡ Tips</strong> Data laporan diambil secara real-time dari database. Gunakan filter (tahun akademik, prodi, semester) untuk mempersempit data yang ditampilkan.</p></div>
+<div class="info-box blue"><p><strong>💡 Tips</strong> Data laporan diambil secara real-time dari database. Gunakan filter (tahun akademik, prodi, semester) untuk mempersempit data yang ditampilkan.</p></div>
 
 <!-- BAB 17: PENGATURAN -->
 <h1 id="pengaturan">17. Pengaturan & Manajemen Pengguna</h1>
-<p>Menu: <em>Pengaturan</em> â€” diakses oleh <span class="badge badge-blue">SUPER_ADMIN</span> dan <span class="badge badge-blue">ADMIN_AKADEMIK</span>.</p>
+<p>Menu: <em>Pengaturan</em> — diakses oleh <span class="badge badge-blue">SUPER_ADMIN</span> dan <span class="badge badge-blue">ADMIN_AKADEMIK</span>.</p>
 
 <h3>17.1 Manajemen Pengguna</h3>
-<p>Menu: <em>Pengaturan â†’ Pengguna</em></p>
+<p>Menu: <em>Pengaturan → Pengguna</em></p>
 <ul>
   <li>Melihat daftar seluruh akun pengguna sistem</li>
   <li>Membuat akun baru dan assign role</li>
@@ -656,7 +656,7 @@
 </ul>
 
 <h3>17.2 Audit Log</h3>
-<p>Menu: <em>Pengaturan â†’ Audit Log</em></p>
+<p>Menu: <em>Pengaturan → Audit Log</em></p>
 <p>Mencatat seluruh aktivitas pengguna di sistem: siapa melakukan apa, kapan, dan data apa yang berubah. Berguna untuk audit keamanan dan pelacakan masalah.</p>
 
 <h3>17.3 Repository</h3>
@@ -685,7 +685,7 @@
 
 <h3>18.2 Cara Mengisi KRS</h3>
 <div class="steps">
-  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka KRS Saya</h4><p>Klik menu <em>Akademik â†’ KRS Saya</em>. Sistem menampilkan semester aktif.</p></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka KRS Saya</h4><p>Klik menu <em>Akademik → KRS Saya</em>. Sistem menampilkan semester aktif.</p></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Pilih Mata Kuliah</h4><p>Klik <strong>+ Tambah Mata Kuliah</strong>, pilih dari daftar kelas yang ditawarkan. Perhatikan kapasitas dan jadwal agar tidak bentrok.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Periksa Total SKS</h4><p>Pastikan total SKS tidak melebihi batas yang diperbolehkan berdasarkan IPK semester sebelumnya.</p></div></div>
   <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Ajukan KRS</h4><p>Klik <strong>Ajukan</strong>. KRS Anda akan dikirim ke Dosen Wali untuk persetujuan.</p></div></div>
@@ -693,10 +693,10 @@
 </div>
 
 <h3>18.3 Melihat Jadwal &amp; Presensi</h3>
-<p>Buka <em>Akademik â†’ Kelas Saya</em>. Anda akan melihat daftar kelas semester ini beserta jadwal (hari, jam, ruangan). Klik kelas untuk melihat detail presensi Anda dan mengikuti ujian online.</p>
+<p>Buka <em>Akademik → Kelas Saya</em>. Anda akan melihat daftar kelas semester ini beserta jadwal (hari, jam, ruangan). Klik kelas untuk melihat detail presensi Anda dan mengikuti ujian online.</p>
 
 <h3>18.4 Mengajukan Skripsi</h3>
-<p>Buka <em>Akademik â†’ Skripsi / TA</em> â†’ klik <strong>Ajukan Judul Baru</strong>. Isi judul, abstrak singkat, dan latar belakang. Tunggu persetujuan dari Kaprodi.</p>
+<p>Buka <em>Akademik → Skripsi / TA</em> → klik <strong>Ajukan Judul Baru</strong>. Isi judul, abstrak singkat, dan latar belakang. Tunggu persetujuan dari Kaprodi.</p>
 
 <!-- BAB 19: PANDUAN DOSEN -->
 <h1 id="dosen-guide">19. Panduan Khusus Dosen</h1>
@@ -717,7 +717,7 @@
 
 <h3>19.2 Membuat RPS</h3>
 <div class="steps">
-  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka Menu RPS</h4><p>Klik <em>Akademik â†’ RPKPS / RPS</em>.</p></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Buka Menu RPS</h4><p>Klik <em>Akademik → RPKPS / RPS</em>.</p></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Buat RPS Baru</h4><p>Klik <strong>+ Buat RPS</strong>, pilih mata kuliah dan semester. Sistem otomatis generate kode unik.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Isi Rencana Pembelajaran</h4><p>Lengkapi: deskripsi MK, CPL/CPMK, rencana mingguan (16 pertemuan), metode, media, dan asesmen.</p></div></div>
   <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Ajukan ke Kaprodi</h4><p>Jika sudah lengkap, klik <strong>Ajukan</strong>. Status berubah menjadi "Diajukan" dan menunggu review Kaprodi.</p></div></div>
@@ -725,13 +725,13 @@
 
 <h3>19.3 Input Nilai Mahasiswa</h3>
 <div class="steps">
-  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Pilih Kelas</h4><p>Buka <em>Akademik â†’ Input Nilai</em>, pilih kelas yang ingin dinilai.</p></div></div>
+  <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Pilih Kelas</h4><p>Buka <em>Akademik → Input Nilai</em>, pilih kelas yang ingin dinilai.</p></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Isi Nilai</h4><p>Masukkan nilai per komponen (tugas, UTS, UAS) atau gunakan fitur Import Excel untuk input massal.</p></div></div>
   <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Simpan &amp; Finalisasi</h4><p>Klik <strong>Simpan</strong>. Nilai akan otomatis dihitung ke huruf mutu dan ditampilkan di KHS mahasiswa.</p></div></div>
 </div>
 
 <h3>19.4 Presensi Perkuliahan</h3>
-<p>Buka halaman detail kelas â†’ tab <strong>Jurnal Pertemuan</strong> â†’ klik <strong>+ Buat Pertemuan</strong>. Isi topik materi, lalu buka absensi dan centang kehadiran mahasiswa.</p>
+<p>Buka halaman detail kelas → tab <strong>Jurnal Pertemuan</strong> → klik <strong>+ Buat Pertemuan</strong>. Isi topik materi, lalu buka absensi dan centang kehadiran mahasiswa.</p>
 
 <h3>19.5 Fitur Tambahan jika Memiliki Jabatan</h3>
 <table>
@@ -750,13 +750,13 @@
 <h3>20.1 Pertanyaan Umum</h3>
 <table>
   <tr><th>Pertanyaan</th><th>Jawaban</th></tr>
-  <tr><td>Lupa password, bagaimana cara reset?</td><td>Hubungi administrator (SUPER_ADMIN atau ADMIN_AKADEMIK) untuk direset melalui menu Pengaturan â†’ Pengguna.</td></tr>
+  <tr><td>Lupa password, bagaimana cara reset?</td><td>Hubungi administrator (SUPER_ADMIN atau ADMIN_AKADEMIK) untuk direset melalui menu Pengaturan → Pengguna.</td></tr>
   <tr><td>Mengapa saya tidak bisa mengakses menu tertentu?</td><td>Menu ditampilkan berdasarkan role dan jabatan Anda. Hubungi admin jika merasa hak akses Anda kurang.</td></tr>
   <tr><td>KRS saya sudah diajukan tapi belum disetujui, apa yang harus dilakukan?</td><td>Hubungi Dosen Wali Anda. KRS menunggu persetujuan Dosen Wali terlebih dahulu, kemudian Kaprodi.</td></tr>
-  <tr><td>Bagaimana cara install aplikasi di HP?</td><td>Buka ASC di Chrome â†’ tap menu (â‹®) â†’ Tambahkan ke layar utama. Lihat Bab 3 untuk detail.</td></tr>
+  <tr><td>Bagaimana cara install aplikasi di HP?</td><td>Buka ASC di Chrome → tap menu (⋮) → Tambahkan ke layar utama. Lihat Bab 3 untuk detail.</td></tr>
   <tr><td>Nilai saya belum muncul di KHS, kenapa?</td><td>Dosen belum menginput atau memfinalisasi nilai. Hubungi dosen pengampu mata kuliah terkait.</td></tr>
   <tr><td>QR code di dokumen PDF tidak bisa di-scan?</td><td>Pastikan kualitas cetak cukup jelas. QR code mengarah ke halaman verifikasi online yang bisa diakses siapapun.</td></tr>
-  <tr><td>Bagaimana cara menambah jabatan struktural dosen?</td><td>Buka SDM â†’ Dosen â†’ klik nama dosen â†’ scroll ke "Jabatan Struktural" â†’ klik "+ Tambah Jabatan".</td></tr>
+  <tr><td>Bagaimana cara menambah jabatan struktural dosen?</td><td>Buka SDM → Dosen → klik nama dosen → scroll ke "Jabatan Struktural" → klik "+ Tambah Jabatan".</td></tr>
 </table>
 
 <h3>20.2 Masalah Teknis</h3>
@@ -766,13 +766,13 @@
   <tr><td>Error "Sesi berakhir"</td><td>Login ulang. Sesi otomatis berakhir setelah 120 menit tidak aktif.</td></tr>
   <tr><td>File upload gagal</td><td>Periksa ukuran file (logo maks 2MB, dokumen maks 5MB). Pastikan format file sesuai.</td></tr>
   <tr><td>Data tidak tampil setelah ditambahkan</td><td>Refresh halaman. Jika tetap tidak muncul, cek filter yang aktif atau hubungi admin.</td></tr>
-  <tr><td>PDF tidak bisa didownload</td><td>Pastikan popup tidak diblokir browser. Coba klik kanan â†’ "Save link as".</td></tr>
+  <tr><td>PDF tidak bisa didownload</td><td>Pastikan popup tidak diblokir browser. Coba klik kanan → "Save link as".</td></tr>
 </table>
 
 <hr>
 
 <div class="info-box green">
-  <p><strong>ðŸ“ž Butuh Bantuan?</strong> Hubungi tim IT atau administrator sistem melalui email atau langsung ke kantor bagian akademik kampus. Sertakan screenshot error dan langkah-langkah yang dilakukan sebelum masalah terjadi.</p>
+  <p><strong>📞 Butuh Bantuan?</strong> Hubungi tim IT atau administrator sistem melalui email atau langsung ke kantor bagian akademik kampus. Sertakan screenshot error dan langkah-langkah yang dilakukan sebelum masalah terjadi.</p>
 </div>
 
 <hr>
@@ -784,13 +784,13 @@
 <h3>21.1 Menu Persuratan per Role</h3>
 <table>
   <tr><th>Sub Menu</th><th>Admin Umum</th><th>Struktural</th><th>Dosen</th><th>Mahasiswa</th></tr>
-  <tr><td>Surat Keluar (buat/kirim)</td><td>âœ…</td><td>â€”</td><td>â€”</td><td>â€”</td></tr>
-  <tr><td>Surat Masuk (Eksternal)</td><td>âœ…</td><td>â€”</td><td>â€”</td><td>â€”</td></tr>
-  <tr><td>Template Surat</td><td>âœ…</td><td>â€”</td><td>â€”</td><td>â€”</td></tr>
-  <tr><td>Tanda Tangan Surat</td><td>â€”</td><td>âœ…</td><td>â€”</td><td>â€”</td></tr>
-  <tr><td>Surat Masuk (dari Admin)</td><td>â€”</td><td>âœ…</td><td>âœ…</td><td>âœ…</td></tr>
-  <tr><td>Disposisi</td><td>âœ…</td><td>âœ…</td><td>âœ…</td><td>â€”</td></tr>
-  <tr><td>Pengajuan Surat</td><td>âœ… (kelola)</td><td>âœ…</td><td>âœ…</td><td>âœ…</td></tr>
+  <tr><td>Surat Keluar (buat/kirim)</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
+  <tr><td>Surat Masuk (Eksternal)</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
+  <tr><td>Template Surat</td><td>✅</td><td>—</td><td>—</td><td>—</td></tr>
+  <tr><td>Tanda Tangan Surat</td><td>—</td><td>✅</td><td>—</td><td>—</td></tr>
+  <tr><td>Surat Masuk (dari Admin)</td><td>—</td><td>✅</td><td>✅</td><td>✅</td></tr>
+  <tr><td>Disposisi</td><td>✅</td><td>✅</td><td>✅</td><td>—</td></tr>
+  <tr><td>Pengajuan Surat</td><td>✅ (kelola)</td><td>✅</td><td>✅</td><td>✅</td></tr>
 </table>
 
 <h3>21.2 Alur Surat Keluar</h3>
@@ -815,7 +815,7 @@
   <div class="flow-arrow"></div>
   <div class="flow-branch">
     <div class="flow-branch-item">
-      <div class="flow-branch-label">TTD âœ“</div>
+      <div class="flow-branch-label">TTD ✓</div>
       <div class="flow-node flow-process">Nomor surat + QR</div>
     </div>
     <div class="flow-branch-item">
@@ -826,14 +826,14 @@
   <div class="flow-arrow"></div>
   <div class="flow-node flow-process">Admin distribusikan</div>
   <div class="flow-arrow"></div>
-  <div class="flow-node flow-end">TERKIRIM â†’ PDF + Notifikasi</div>
+  <div class="flow-node flow-end">TERKIRIM → PDF + Notifikasi</div>
 </div>
 
 <div class="steps">
   <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Admin buat draft surat</h4><p>Isi form: jenis surat, perihal, tujuan, isi surat (rich text editor dengan tabel, list, gambar), pilih penandatangan dan pemeriksa (opsional). Upload dokumen pendukung jika ada.</p></div></div>
   <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Kirim ke Pemeriksa (opsional)</h4><p>Jika ada pemeriksa (Kepala TU/pejabat lain), surat masuk ke antrian pemeriksaan. Pemeriksa mendapat notifikasi.</p></div></div>
-  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Pemeriksa memeriksa</h4><p>Preview PDF â†’ periksa & teruskan ke penandatangan, atau kembalikan ke admin dengan catatan revisi.</p></div></div>
-  <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Penandatangan menandatangani</h4><p>Preview PDF â†’ tanda tangan elektronik â†’ nomor surat otomatis tergenerate â†’ QR code biru dengan logo institusi aktif.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Pemeriksa memeriksa</h4><p>Preview PDF → periksa & teruskan ke penandatangan, atau kembalikan ke admin dengan catatan revisi.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Penandatangan menandatangani</h4><p>Preview PDF → tanda tangan elektronik → nomor surat otomatis tergenerate → QR code biru dengan logo institusi aktif.</p></div></div>
   <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Admin distribusikan surat</h4><p>Pilih penerima internal (filter: semua/dosen/mahasiswa/struktural/per prodi, search nama) dan/atau tulis penerima eksternal. Klik kirim.</p></div></div>
   <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Surat terkirim</h4><p>Penerima internal mendapat push notification + notifikasi in-app. PDF bisa didownload dengan kop surat, QR code, dan footer verifikasi elektronik.</p></div></div>
 </div>
@@ -853,14 +853,14 @@
   <tr><td>A.7</td><td>Surat Pengumuman</td></tr>
   <tr><td>SK</td><td>Surat Keputusan</td></tr>
   <tr><td>B.1</td><td>Surat Rutin Eksternal</td></tr>
-  <tr><td>B.2â€“B.5</td><td>Surat Eksternal (Keterangan, Rekomendasi, Tugas, Pengumuman)</td></tr>
+  <tr><td>B.2–B.5</td><td>Surat Eksternal (Keterangan, Rekomendasi, Tugas, Pengumuman)</td></tr>
 </table>
 
 <h3>21.5 Template Surat</h3>
-<p>Admin bisa menyimpan template surat yang sering dipakai (nama, jenis, perihal, isi, lampiran). Saat buat surat baru, klik "Gunakan Template" â†’ form terisi otomatis.</p>
+<p>Admin bisa menyimpan template surat yang sering dipakai (nama, jenis, perihal, isi, lampiran). Saat buat surat baru, klik "Gunakan Template" → form terisi otomatis.</p>
 
 <h3>21.6 Pengajuan Surat (Dosen & Mahasiswa)</h3>
-<p>Dosen dan mahasiswa mengajukan pembuatan surat ke bagian administrasi. Admin menerima notifikasi â†’ proses/tolak â†’ pengaju mendapat update status.</p>
+<p>Dosen dan mahasiswa mengajukan pembuatan surat ke bagian administrasi. Admin menerima notifikasi → proses/tolak → pengaju mendapat update status.</p>
 
 <h3>21.7 Disposisi Surat Masuk Eksternal</h3>
 
@@ -876,21 +876,21 @@
   <div class="flow-node flow-end">Pembuat disposisi terima jawaban</div>
 </div>
 
-<p>Admin upload surat dari pihak luar â†’ pemberi disposisi (pejabat struktural) buat instruksi â†’ penerima disposisi terima notifikasi â†’ baca & jawab tindak lanjut â†’ pemberi disposisi terima notifikasi jawaban.</p>
+<p>Admin upload surat dari pihak luar → pemberi disposisi (pejabat struktural) buat instruksi → penerima disposisi terima notifikasi → baca & jawab tindak lanjut → pemberi disposisi terima notifikasi jawaban.</p>
 
 <h3>21.8 Verifikasi Surat Digital</h3>
-<p>Setiap surat yang ditandatangani memiliki QR code biru dengan logo institusi. Scan QR atau klik link di PDF â†’ halaman verifikasi menampilkan nomor surat, perihal, tanggal, penandatangan, dan status sah.</p>
+<p>Setiap surat yang ditandatangani memiliki QR code biru dengan logo institusi. Scan QR atau klik link di PDF → halaman verifikasi menampilkan nomor surat, perihal, tanggal, penandatangan, dan status sah.</p>
 
 <!-- BAB 22: AGENDA & PRESENSI -->
 <h1 id="agenda-kegiatan">22. Modul Agenda & Presensi Kegiatan</h1>
 <p>Mengelola kegiatan kampus (rapat, seminar, workshop, dll) dengan sistem presensi digital via QR code.</p>
 
 <h3>22.1 Membuat Agenda</h3>
-<p>Menu: <em>Agenda Kegiatan â†’ Buat Agenda</em> (Admin Umum / Super Admin)</p>
+<p>Menu: <em>Agenda Kegiatan → Buat Agenda</em> (Admin Umum / Super Admin)</p>
 <ul>
   <li>Isi: nama, penyelenggara, kategori (Rapat/Seminar/Workshop/Pelatihan/Wisuda/Dies Natalis/Lainnya), tipe (Luring/Daring/Hibrid)</li>
   <li>Tanggal, waktu mulai/selesai, tempat, link meeting (untuk daring/hibrid)</li>
-  <li>Pilih peserta diundang (opsional â€” bisa pilih semua)</li>
+  <li>Pilih peserta diundang (opsional — bisa pilih semua)</li>
   <li>QR code presensi otomatis digenerate</li>
 </ul>
 
@@ -912,13 +912,13 @@
     </div>
   </div>
   <div class="flow-arrow"></div>
-  <div class="flow-node flow-end">Kehadiran tercatat âœ“</div>
+  <div class="flow-node flow-end">Kehadiran tercatat ✓</div>
 </div>
 
 <table>
   <tr><th>Metode</th><th>Siapa</th><th>Cara</th></tr>
-  <tr><td>Via Aplikasi</td><td>User login (dosen/mahasiswa/staff)</td><td>Scan QR â†’ konfirmasi hadir (1 klik)</td></tr>
-  <tr><td>Via Form Publik</td><td>Tamu tanpa akun</td><td>Scan QR â†’ isi nama, HP, instansi, jabatan â†’ kirim</td></tr>
+  <tr><td>Via Aplikasi</td><td>User login (dosen/mahasiswa/staff)</td><td>Scan QR → konfirmasi hadir (1 klik)</td></tr>
+  <tr><td>Via Form Publik</td><td>Tamu tanpa akun</td><td>Scan QR → isi nama, HP, instansi, jabatan → kirim</td></tr>
 </table>
 
 <h3>22.3 Kelola Presensi</h3>
@@ -933,20 +933,20 @@
 <p>ASC menyinkronkan data akademik ke Learning Management System (LMS) yang terpisah melalui REST API.</p>
 
 <h3>23.1 Konfigurasi</h3>
-<p>Menu: <em>Pengaturan â†’ Integrasi LMS</em> (SUPER_ADMIN / ADMIN_AKADEMIK)</p>
+<p>Menu: <em>Pengaturan → Integrasi LMS</em> (SUPER_ADMIN / ADMIN_AKADEMIK)</p>
 <ol>
   <li>Isi Base URL API LMS (contoh: <code>https://lms.stainibandung.ac.id/api</code>)</li>
   <li>Isi API Token (dari menu Integrasi API di LMS, scope: <code>sync</code>)</li>
-  <li>Klik <strong>Simpan</strong> â†’ <strong>Test Koneksi</strong></li>
+  <li>Klik <strong>Simpan</strong> → <strong>Test Koneksi</strong></li>
 </ol>
 
 <h3>23.2 Data yang Disinkronkan</h3>
 <table>
   <tr><th>Tipe</th><th>Data</th></tr>
-  <tr><td>Users</td><td>Mahasiswa aktif + Dosen aktif â†’ akun LMS</td></tr>
-  <tr><td>Courses</td><td>Mata kuliah aktif â†’ course catalog LMS</td></tr>
-  <tr><td>Classes</td><td>Kelas semester aktif â†’ kelas virtual LMS</td></tr>
-  <tr><td>Enrollments</td><td>KRS approved â†’ enrollment mahasiswa</td></tr>
+  <tr><td>Users</td><td>Mahasiswa aktif + Dosen aktif → akun LMS</td></tr>
+  <tr><td>Courses</td><td>Mata kuliah aktif → course catalog LMS</td></tr>
+  <tr><td>Classes</td><td>Kelas semester aktif → kelas virtual LMS</td></tr>
+  <tr><td>Enrollments</td><td>KRS approved → enrollment mahasiswa</td></tr>
 </table>
 
 <h3>23.3 Menjalankan Sinkronisasi</h3>
@@ -959,7 +959,7 @@
   <div class="flow-node flow-decision">LMS proses data</div>
   <div class="flow-arrow"></div>
   <div class="flow-branch">
-    <div class="flow-branch-item"><div class="flow-branch-label">Berhasil</div><div class="flow-node flow-end">Data tersinkronisasi âœ“</div></div>
+    <div class="flow-branch-item"><div class="flow-branch-label">Berhasil</div><div class="flow-node flow-end">Data tersinkronisasi ✓</div></div>
     <div class="flow-branch-item"><div class="flow-branch-label">Gagal</div><div class="flow-node flow-error">Error dicatat di log</div></div>
   </div>
 </div>
@@ -1002,7 +1002,7 @@
 </table>
 
 <h3>24.3 Menonaktifkan</h3>
-<p>Ubah pengaturan notifikasi di browser: Settings â†’ Site Settings â†’ Notifications â†’ cari URL NURIS â†’ Block.</p>
+<p>Ubah pengaturan notifikasi di browser: Settings → Site Settings → Notifications → cari URL NURIS → Block.</p>
 
 <!-- BAB 25 -->
 <h1 id="keuangan-lanjut">25. Keuangan Lanjutan (Honor, Struktur Biaya, Jurnal)</h1>
@@ -1041,13 +1041,13 @@
 <!-- BAB 28 -->
 <h1 id="konfigurasi">28. Konfigurasi Aplikasi (Administrator)</h1>
 <h3>28.1 Identitas Institusi</h3>
-<p>Menu <em>Master Data â†’ Institusi</em>: isi nama, alamat, website (<code>https://www.stainibandung.ac.id</code>), unggah <strong>logo</strong> dan <strong>kop surat</strong>. Logo tampil di halaman login, sidebar, dan dokumen cetak; kop surat dipakai pada surat dan laporan.</p>
+<p>Menu <em>Master Data → Institusi</em>: isi nama, alamat, website (<code>https://www.stainibandung.ac.id</code>), unggah <strong>logo</strong> dan <strong>kop surat</strong>. Logo tampil di halaman login, sidebar, dan dokumen cetak; kop surat dipakai pada surat dan laporan.</p>
 <h3>28.2 Identitas Visual</h3>
 <p>Tema NURIS: hijau emerald, emas, putih, dan biru slate. Favicon dan ikon PWA menggunakan logo STAINI. Bila ikon lama masih tampil, muat ulang paksa (Ctrl+F5) atau hapus data situs.</p>
 <h3>28.3 Pengguna &amp; Role</h3>
-<p>Menu <em>Pengaturan â†’ Pengguna</em>. Email pengguna baru otomatis berdomain <code>@stainibandung.ac.id</code> (mahasiswa, dosen, dan staf).</p>
+<p>Menu <em>Pengaturan → Pengguna</em>. Email pengguna baru otomatis berdomain <code>@stainibandung.ac.id</code> (mahasiswa, dosen, dan staf).</p>
 <h3>28.4 Integrasi LMS</h3>
-<p>Menu <em>Pengaturan â†’ Integrasi LMS</em> (Super Admin, Admin Akademik): isi URL LMS, token, lalu jalankan sinkronisasi.</p>
+<p>Menu <em>Pengaturan → Integrasi LMS</em> (Super Admin, Admin Akademik): isi URL LMS, token, lalu jalankan sinkronisasi.</p>
 <h3>28.5 Konfigurasi Server (Teknis)</h3>
 <table>
   <tr><th>Item</th><th>Keterangan</th></tr>
@@ -1061,8 +1061,8 @@
 <hr>
 
 <div style="text-align: center; margin-top: 40px; padding: 20px; color: #9ca3af; font-size: 10pt;">
-  <p>â€” Akhir Dokumen â€”</p>
-  <p style="margin-top: 8px;">Nurul Iman Academic Integrated System (NURIS) v1.2 Â· Panduan Pengguna Â· Agustus 2026</p>
+  <p>— Akhir Dokumen —</p>
+  <p style="margin-top: 8px;">Nurul Iman Academic Integrated System (NURIS) v1.2 · Panduan Pengguna · Agustus 2026</p>
   <p>STAI NURUL IMAN</p>
 </div>
 
