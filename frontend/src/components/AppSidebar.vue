@@ -35,6 +35,7 @@ const academicLeadership = () => auth.hasEffectiveAccess([
   'DEKAN',
   'WADEK1',
 ])
+const lp2mAccess = () => auth.hasEffectiveAccess(['SUPER_ADMIN', 'ADMIN_AKADEMIK', 'KETUA_LP2M', 'SEKRETARIS_LP2M']) || auth.hasPermission('karya.verify')
 const academicOverview = () => auth.hasEffectiveAccess([
   'SUPER_ADMIN',
   'ADMIN_AKADEMIK',
@@ -115,10 +116,10 @@ const fullNavigation = computed(() => [
       { label: 'Bank Soal', to: '/bank-soal', show: auth.hasPermission('nilai.view') },
       { label: 'KHS & Transkrip', to: '/penilaian/khs', show: academicLeadership() },
       { label: 'Praktikum / KKN', to: '/praktikum', show: auth.hasPermission('kkn.create') || auth.hasPermission('kkn.edit') || auth.hasPermission('kkn.view') },
-      { label: 'Skripsi / TA', to: '/skripsi', show: auth.hasPermission('skripsi.create') || auth.hasPermission('skripsi.approve') },
-      { label: 'Karya Dosen', to: '/karya-dosen', show: (auth.hasPermission('skripsi.view') || auth.hasPermission('karya.view')) && !auth.hasRole('MAHASISWA') },
-      { label: 'Penelitian & Pengabdian', to: '/penelitian', show: auth.hasPermission('skripsi.view') && !auth.hasRole('MAHASISWA') },
-      { label: 'Periode Hibah', to: '/penelitian/periode', show: (auth.hasPermission('karya.verify') || auth.hasRole('SUPER_ADMIN') || auth.hasRole('ADMIN_AKADEMIK')) },
+      { label: 'Skripsi / TA', to: '/skripsi', show: (auth.hasPermission('skripsi.create') || auth.hasPermission('skripsi.approve')) && !lp2mAccess() },
+      { label: 'Karya Dosen', to: '/karya-dosen', show: (auth.hasPermission('skripsi.view') || auth.hasPermission('karya.view')) && !auth.hasRole('MAHASISWA') && !lp2mAccess() },
+      { label: 'Penelitian & Pengabdian', to: '/penelitian', show: auth.hasPermission('skripsi.view') && !auth.hasRole('MAHASISWA') && !lp2mAccess() },
+      { label: 'Periode Hibah', to: '/penelitian/periode', show: (auth.hasPermission('karya.verify') || auth.hasRole('SUPER_ADMIN') || auth.hasRole('ADMIN_AKADEMIK')) && !lp2mAccess() },
       { label: 'Wisuda', to: '/wisuda', show: auth.hasPermission('wisuda.view') || auth.hasPermission('yudisium.view') },
       { label: 'Cuti Akademik', to: '/akademik/cuti', show: auth.hasPermission('krs.view') && !auth.hasRole('DOSEN') },
       { label: 'Transfer Nilai', to: '/akademik/transfer', show: auth.hasPermission('krs.view') && !auth.hasRole('DOSEN') },
@@ -155,7 +156,7 @@ const fullNavigation = computed(() => [
   {
     label: 'LP2M',
     icon: ClipboardDocumentListIcon,
-    show: auth.hasEffectiveAccess(['SUPER_ADMIN', 'ADMIN_AKADEMIK', 'KETUA_LP2M', 'SEKRETARIS_LP2M']) || auth.hasPermission('karya.verify'),
+    show: lp2mAccess(),
     children: [
       { label: 'Karya Dosen', to: '/karya-dosen' },
       { label: 'Skripsi / TA', to: '/skripsi' },
