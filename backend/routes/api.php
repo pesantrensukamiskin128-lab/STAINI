@@ -70,7 +70,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes - Al-Jawami Smart Campus (ASC)
+| API Routes - Nurul Iman Academic Integrated System (NURIS)
 |--------------------------------------------------------------------------
 */
 

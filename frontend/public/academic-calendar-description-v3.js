@@ -1,5 +1,5 @@
 (() => {
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   const rowSelectors = [
     '.flex.items-center.gap-4.p-4.bg-white.rounded-xl',
     '.flex.items-center.gap-4.px-5.py-3',

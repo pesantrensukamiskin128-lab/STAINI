@@ -54,7 +54,7 @@ class LmsSyncService
             $data[] = [
                 'external_id'      => 'SIAKAD-' . $s->nim,
                 'username'         => $s->nim,
-                'email'            => $s->user?->email ?? $s->nim . '@student.jawami.ac.id',
+                'email'            => $s->user?->email ?? $s->nim . '@student.stainibandung.ac.id',
                 'full_name'        => $s->name,
                 'identity_number'  => $s->nim,
                 'role'             => 'mahasiswa',

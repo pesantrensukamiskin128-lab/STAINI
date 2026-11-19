@@ -1,6 +1,6 @@
 (() => {
   const buttonId = 'asc-dashboard-storage-clear'
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   let clearing = false
 
   function mountButton() {

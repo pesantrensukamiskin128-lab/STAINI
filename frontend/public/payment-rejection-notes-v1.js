@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+  const API_BASE = '/api'
   let payments = []
   let loading = false
   let loaded = false

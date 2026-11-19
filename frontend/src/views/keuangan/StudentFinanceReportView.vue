@@ -195,7 +195,7 @@ onMounted(async () => {
           <span class="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-semibold text-blue-700 ring-1 ring-inset ring-blue-700/10">
             Laporan Keuangan
           </span>
-          <span class="text-xs text-gray-500">Al-Jawami Smart Campus</span>
+          <span class="text-xs text-gray-500">Nurul Iman Academic Integrated System</span>
         </div>
         <h1 class="mt-1 text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
           Laporan Keuangan Mahasiswa

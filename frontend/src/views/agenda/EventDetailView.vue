@@ -137,7 +137,7 @@ async function downloadPoster() {
     ctx.fillStyle = '#fff'
     ctx.font = 'bold 22px Arial'
     ctx.textAlign = 'center'
-    ctx.fillText('STAI YAPATA AL-JAWAMI BANDUNG', W / 2, logoY + 10)
+    ctx.fillText('STAI NURUL IMAN', W / 2, logoY + 10)
 
     // Scan Disini
     ctx.font = 'bold 42px Arial'

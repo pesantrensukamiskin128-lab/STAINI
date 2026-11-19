@@ -95,7 +95,7 @@ function docTypeLabel(type: string): string {
         </p>
         <div class="mt-6 p-4 bg-red-50 rounded-xl border border-red-100">
           <p class="text-xs text-red-600">
-            ⚠️ Dokumen ini tidak dapat diverifikasi keasliannya melalui sistem Al-Jawami Smart Campus.
+            ⚠️ Dokumen ini tidak dapat diverifikasi keasliannya melalui sistem Nurul Iman Academic Integrated System.
           </p>
         </div>
       </div>
@@ -127,7 +127,7 @@ function docTypeLabel(type: string): string {
             </div>
             <div>
               <p class="text-xs text-gray-500 mb-0.5">Diterbitkan oleh</p>
-              <p class="font-semibold text-blue-800">STAI YAPATA AL-JAWAMI BANDUNG</p>
+              <p class="font-semibold text-blue-800">STAI NURUL IMAN</p>
             </div>
           </div>
 
@@ -348,7 +348,7 @@ function docTypeLabel(type: string): string {
 
       <!-- Footer text -->
       <p class="text-center text-blue-200/70 text-xs mt-4">
-        Al-Jawami Smart Campus — STAI YAPATA AL-JAWAMI BANDUNG
+        Nurul Iman Academic Integrated System — STAI NURUL IMAN
       </p>
     </div>
   </div>

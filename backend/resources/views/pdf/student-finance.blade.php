@@ -35,7 +35,7 @@
         </div>
     @else
         <div class="institution">
-            <h1>{{ $institution?->name ?? 'Al-Jawami Smart Campus' }}</h1>
+            <h1>{{ $institution?->name ?? 'Nurul Iman Academic Integrated System' }}</h1>
             <p class="muted">Laporan Keuangan Mahasiswa</p>
         </div>
     @endif

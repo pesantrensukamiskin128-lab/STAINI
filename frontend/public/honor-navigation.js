@@ -1,5 +1,5 @@
 (() => {
-  const apiUrl = 'https://api-asc.aljawami.ac.id/api/auth/me'
+  const apiUrl = '/api/auth/me'
   const canManageRoles = ['SUPER_ADMIN', 'ADMIN_KEUANGAN']
   const canViewRoles = [
     'ADMIN_KEUANGAN',

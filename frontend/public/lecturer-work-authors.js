@@ -1,4 +1,4 @@
-const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+const API_BASE = '/api'
 const PANEL_ID = 'lecturer-work-coauthors'
 const STYLE_ID = 'lecturer-work-coauthors-style'
 const originalXhrOpen = XMLHttpRequest.prototype.open

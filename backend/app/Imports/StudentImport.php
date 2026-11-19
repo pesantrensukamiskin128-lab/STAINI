@@ -49,7 +49,7 @@ class StudentImport implements SkipsOnError, ToModel, WithBatchInserts, WithChun
             $student = Student::firstOrNew(['nim' => $nim]);
             $linkedUser = $student->user;
             $email = trim((string) ($row['email'] ?? ''));
-            $email = $email ?: ($student->email ?: $linkedUser?->email ?: "{$nim}@student.stai-aljawami.ac.id");
+            $email = $email ?: ($student->email ?: $linkedUser?->email ?: "{$nim}@student.stainibandung.ac.id");
             $user = $linkedUser ?? User::firstOrCreate(
                 ['username' => $nim],
                 ['name' => $name, 'email' => $email, 'password' => Hash::make($nim)]

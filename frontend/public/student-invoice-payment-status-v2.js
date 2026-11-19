@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+  const API_BASE = '/api'
   const invoiceStatuses = new Map()
   const paymentStatuses = new Map()
   let loading = false

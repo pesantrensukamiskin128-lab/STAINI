@@ -15,7 +15,7 @@ class LecturerSeeder extends Seeder
 
         $lecturerUsers = [
             [
-                'email'             => 'dosen@jawami.ac.id',
+                'email'             => 'dosen@stainibandung.ac.id',
                 'nidn'              => '0101019001',
                 'nip'               => null,
                 'full_name'         => 'Dosen Demo, M.Kom',
@@ -25,7 +25,7 @@ class LecturerSeeder extends Seeder
                 'employment_status' => 'Tetap',
             ],
             [
-                'email'             => 'dosen.wali@jawami.ac.id',
+                'email'             => 'dosen.wali@stainibandung.ac.id',
                 'nidn'              => '0202019002',
                 'nip'               => null,
                 'full_name'         => 'Dosen Wali Demo, M.T.',
@@ -35,7 +35,7 @@ class LecturerSeeder extends Seeder
                 'employment_status' => 'Tetap',
             ],
             [
-                'email'             => 'kaprodi.if@jawami.ac.id',
+                'email'             => 'kaprodi.if@stainibandung.ac.id',
                 'nidn'              => '0303019003',
                 'nip'               => null,
                 'full_name'         => 'Kaprodi Informatika, Dr.',

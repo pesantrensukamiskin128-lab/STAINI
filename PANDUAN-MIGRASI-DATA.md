@@ -258,7 +258,7 @@ Format Excel:
 **Yang otomatis dibuat sistem**:
 - Akun user (username = NIM, password = NIM)
 - Role MAHASISWA
-- Email default jika kosong: `{nim}@student.jawami.ac.id`
+- Email default jika kosong: `{nim}@student.stainibandung.ac.id`
 
 **Status yang valid**: `Aktif`, `Nonaktif`, `Cuti`, `Lulus`, `DO`, `Mengundurkan Diri`
 

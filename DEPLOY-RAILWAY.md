@@ -126,7 +126,7 @@ Jika backend dan frontend ada di satu repo:
 Klik service backend → **Variables** → tambahkan satu per satu:
 
 ```
-APP_NAME          = Al-Jawami Smart Campus
+APP_NAME          = Nurul Iman Academic Integrated System
 APP_ENV           = production
 APP_DEBUG         = false
 APP_KEY           = base64:HASIL_KEY_GENERATE_TADI
@@ -276,21 +276,21 @@ Harus menampilkan gambar, bukan 404.
 
 ## Langkah 7: Custom Domain (Opsional)
 
-Jika punya domain sendiri (misal `siat.stai-aljawami.ac.id`):
+Jika punya domain sendiri (misal `siat.stainibandung.ac.id`):
 
 ### Backend
 1. Service backend → **Settings** → **Networking** → **"Add Custom Domain"**
-2. Masukkan `api.siat.stai-aljawami.ac.id`
+2. Masukkan `api.siat.stainibandung.ac.id`
 3. Railway tampilkan nilai CNAME yang harus ditambahkan di DNS
 4. Update variabel:
-   - `APP_URL` → `https://api.siat.stai-aljawami.ac.id`
-   - `CORS_ALLOWED_ORIGINS` → `https://siat.stai-aljawami.ac.id`
-5. Update `VITE_API_URL` di service frontend → `https://api.siat.stai-aljawami.ac.id/api`
+   - `APP_URL` → `https://api.siat.stainibandung.ac.id`
+   - `CORS_ALLOWED_ORIGINS` → `https://siat.stainibandung.ac.id`
+5. Update `VITE_API_URL` di service frontend → `https://api.siat.stainibandung.ac.id/api`
 6. **Redeploy kedua service**
 
 ### Frontend
 1. Service frontend → **Settings** → **Networking** → **"Add Custom Domain"**
-2. Masukkan `siat.stai-aljawami.ac.id`
+2. Masukkan `siat.stainibandung.ac.id`
 3. Tambahkan CNAME di DNS sesuai instruksi Railway
 
 SSL/TLS otomatis diurus Railway (Let's Encrypt).
@@ -370,7 +370,7 @@ Log Laravel ditulis ke stderr (sesuai `LOG_CHANNEL=stderr`), langsung terlihat d
 
 | Key | Nilai |
 |---|---|
-| `APP_NAME` | SIAT Al-Jawami |
+| `APP_NAME` | NURIS |
 | `APP_ENV` | production |
 | `APP_DEBUG` | false |
 | `APP_KEY` | `base64:...` (dari `php artisan key:generate --show`) |

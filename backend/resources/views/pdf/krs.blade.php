@@ -174,7 +174,7 @@
                 <a href="{{ $verifyUrl }}"><img src="{{ $qrFooter }}" width="40" height="40" alt="QR Verifikasi"></a>
             </td>
             <td style="border:none; padding:0 0 0 5px; vertical-align:middle; font-size:8pt; color:#555; line-height:1;">
-                Dokumen ini telah ditandatangani dan distempel secara elektronik melalui aplikasi Al-Jawami Smart Campus, klik atau scan QR Code untuk verifikasi.
+                Dokumen ini telah ditandatangani dan distempel secara elektronik melalui aplikasi Nurul Iman Academic Integrated System, klik atau scan QR Code untuk verifikasi.
             </td>
         </tr>
     </table>

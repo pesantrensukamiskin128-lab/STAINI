@@ -222,7 +222,7 @@ const fullNavigation = computed(() => [
   },
   {
     label: 'Digital Library',
-    to: 'https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan',
+    to: 'https://nuris.byethost31.com/perpustakaan/#/perpustakaan',
     icon: BookOpenIcon,
     show: true,
   },
@@ -321,7 +321,7 @@ const isParentActive = (children: { to: string }[]) =>
       </div>
       <div class="min-w-0">
         <p class="text-sm font-semibold text-gray-900 truncate">{{ institution.name }}</p>
-        <p class="text-xs text-gray-500 truncate">Al-Jawami Smart Campus</p>
+        <p class="text-xs text-gray-500 truncate">Nurul Iman Academic Integrated System</p>
       </div>
     </div>
 
@@ -331,7 +331,7 @@ const isParentActive = (children: { to: string }[]) =>
         <template v-if="item.show">
           <!-- Single link -->
           <a
-            v-if="item.to === 'https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan'"
+            v-if="item.to === 'https://nuris.byethost31.com/perpustakaan/#/perpustakaan'"
             :href="item.to"
             @click="$emit('close')"
             :class="[

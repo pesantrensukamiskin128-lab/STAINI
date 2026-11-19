@@ -19,7 +19,7 @@ class RepositoryDummySeeder extends Seeder
 {
     public function run(): void
     {
-        $admin    = User::where('email', 'superadmin@jawami.ac.id')->first();
+        $admin    = User::where('email', 'superadmin@stainibandung.ac.id')->first();
         $lecturer = Lecturer::first();
         $prodi    = StudyProgram::first();
 

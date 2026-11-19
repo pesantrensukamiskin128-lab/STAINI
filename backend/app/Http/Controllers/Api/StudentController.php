@@ -429,7 +429,7 @@ class StudentController extends Controller
         ]);
 
         // Buat akun user otomatis
-        $email = $validated['email'] ?? $validated['nim'].'@student.jawami.ac.id';
+        $email = $validated['email'] ?? $validated['nim'].'@student.stainibandung.ac.id';
         $user = User::create([
             'name' => $validated['name'],
             'email' => $email,

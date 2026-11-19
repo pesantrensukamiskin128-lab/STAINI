@@ -1,5 +1,5 @@
 (() => {
-  const apiUrl = 'https://api-asc.aljawami.ac.id/api/auth/me'
+  const apiUrl = '/api/auth/me'
   const bundleUrl = '/assets/class-schedule-20261005-2114.js'
   const cssUrl = '/assets/class-schedule-20261005-2114.css'
   let access = false

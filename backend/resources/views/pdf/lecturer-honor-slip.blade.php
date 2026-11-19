@@ -137,7 +137,7 @@
 
     <div class="verify-footer"><table><tr>
         <td class="qr-cell"><a href="{{ $publicVerifyUrl }}"><img src="{{ $qrVerification }}" alt="QR verifikasi slip honor"></a></td>
-        <td><div class="verify-text"><strong>Verifikasi dokumen:</strong> pindai atau klik QR Code untuk memeriksa nomor, periode, dan keaslian slip honor melalui Al-Jawami Smart Campus.<br>Dicetak pada {{ $printedAt->format('d/m/Y H:i') }}</div></td>
+        <td><div class="verify-text"><strong>Verifikasi dokumen:</strong> pindai atau klik QR Code untuk memeriksa nomor, periode, dan keaslian slip honor melalui Nurul Iman Academic Integrated System.<br>Dicetak pada {{ $printedAt->format('d/m/Y H:i') }}</div></td>
     </tr></table></div>
 </body>
 </html>

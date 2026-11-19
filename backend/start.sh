@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "=== Al-Jawami Smart Campus (ASC) Backend — Railway Start Script ==="
+echo "=== Nurul Iman Academic Integrated System (NURIS) Backend — Railway Start Script ==="
 echo "→ PORT=${PORT:-8080}"
 echo "→ APP_ENV=${APP_ENV:-unknown}"
 echo "→ DB_CONNECTION=${DB_CONNECTION:-unknown}"

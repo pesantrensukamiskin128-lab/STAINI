@@ -45,7 +45,7 @@ class InstitutionController extends Controller
         if (!$institution) {
             return response()->json([
                 'id'                => null,
-                'name'              => 'Al-Jawami Smart Campus',
+                'name'              => 'Nurul Iman Academic Integrated System',
                 'short_name'        => 'NURIS',
                 'legal_entity_name' => null,
                 'logo_path'         => null,

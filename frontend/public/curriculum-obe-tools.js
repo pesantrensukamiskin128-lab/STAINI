@@ -1,5 +1,5 @@
 (() => {
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   const toolbarId = 'asc-curriculum-obe-tools'
   const allowedAccess = [
     'SUPER_ADMIN',

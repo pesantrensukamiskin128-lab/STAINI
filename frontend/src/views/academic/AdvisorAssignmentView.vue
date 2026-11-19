@@ -16,7 +16,7 @@ interface Student {
   advisor?: { id?: number; name?: string; full_name?: string } | null
 }
 
-const apiBase = 'https://api-asc.aljawami.ac.id/api'
+const apiBase = '/api'
 const token = localStorage.getItem('auth_token')
 const lecturers = ref<Lecturer[]>([])
 const selected = ref<Student | null>(null)

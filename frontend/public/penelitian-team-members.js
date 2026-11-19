@@ -1,4 +1,4 @@
-const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+const API_BASE = '/api'
 const PANEL_ID = 'penelitian-team-members-picker'
 const STYLE_ID = 'penelitian-team-members-style'
 const originalXhrOpen = XMLHttpRequest.prototype.open

@@ -11,7 +11,7 @@ return new class extends Migration
         // Konfigurasi integrasi LMS
         Schema::create('lms_config', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('base_url');              // https://lms.stai-aljawami.ac.id/api
+            $table->string('base_url');              // https://lms.stainibandung.ac.id/api
             $table->text('api_token');               // Bearer token (encrypted)
             $table->boolean('is_active')->default(true);
             $table->timestamp('last_sync_at')->nullable();

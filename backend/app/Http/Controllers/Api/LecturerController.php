@@ -78,7 +78,7 @@ class LecturerController extends Controller
 
         // Buat akun user otomatis jika NIDN tersedia
         if (! empty($validated['nidn'])) {
-            $email = $validated['email'] ?? $validated['nidn'].'@dosen.jawami.ac.id';
+            $email = $validated['email'] ?? $validated['nidn'].'@dosen.stainibandung.ac.id';
             $user = User::firstOrCreate(
                 ['username' => $validated['nidn']],
                 ['name' => $validated['full_name'], 'email' => $email, 'password' => Hash::make($validated['nidn'])]

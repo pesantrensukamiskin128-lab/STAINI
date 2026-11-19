@@ -44,7 +44,7 @@ Hasil build ada di folder `frontend/dist/`.
 Buat file `frontend/.env.production`:
 ```env
 VITE_API_URL=https://api.siakad.domain.ac.id/api
-VITE_APP_NAME="SIAT Al-Jawami"
+VITE_APP_NAME="NURIS"
 ```
 
 Lalu build ulang:
@@ -63,7 +63,7 @@ cp .env .env.production
 
 Edit `.env.production`:
 ```env
-APP_NAME="SIAT Al-Jawami"
+APP_NAME="NURIS"
 APP_ENV=production
 APP_DEBUG=false
 APP_URL=https://api.siakad.domain.ac.id

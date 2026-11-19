@@ -254,7 +254,7 @@ class MigrateSiakadData extends Command
             $accountId = $nidn ?: (trim($r['nip'] ?? '') ?: "dosen-{$legacyId}");
             $email = $this->normalizeEmail(
                 $r['email'] ?? null,
-                "dosen-{$accountId}@stai-aljawami.ac.id"
+                "dosen-{$accountId}@stainibandung.ac.id"
             );
             $prodiCode = trim($r['kode_jur'] ?? '');
             $prodiId = $prodiCode ? StudyProgram::where('code', $prodiCode)->value('id') : null;
@@ -344,7 +344,7 @@ class MigrateSiakadData extends Command
                 continue;
             }
 
-            $email = $this->normalizeEmail($r['email'] ?? null, "{$nim}@student.stai-aljawami.ac.id");
+            $email = $this->normalizeEmail($r['email'] ?? null, "{$nim}@student.stainibandung.ac.id");
             $prodiCode = trim($r['jur_kode'] ?? '');
             $prodiId = $prodiCode ? StudyProgram::where('code', $prodiCode)->value('id') : null;
             if (! $prodiId) {
@@ -500,7 +500,7 @@ class MigrateSiakadData extends Command
         if (! $user) {
             $userEmail = $email;
             if (User::where('email', $userEmail)->exists()) {
-                $userEmail = 'migration-'.sha1($username).'@stai-aljawami.ac.id';
+                $userEmail = 'migration-'.sha1($username).'@stainibandung.ac.id';
             }
 
             $user = User::create([

@@ -1,5 +1,5 @@
 (() => {
-  const apiUrl = 'https://api-asc.aljawami.ac.id/api/auth/me'
+  const apiUrl = '/api/auth/me'
   const linkId = 'asc-student-biodata-link'
   const positionKey = 'asc-student-biodata-button-position'
   let checkedToken = null

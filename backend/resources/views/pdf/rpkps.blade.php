@@ -544,7 +544,7 @@
             </td>
             <td style="border:none; padding:0 0 0 8px; vertical-align:middle; font-size:10pt; color:#555; line-height:1.3;">
                 @if($isElectronicallyApproved)
-                    Dokumen ini telah disetujui secara elektronik melalui aplikasi Al-Jawami Smart Campus. Klik atau scan QR Code untuk memeriksa keaslian dan status dokumen.
+                    Dokumen ini telah disetujui secara elektronik melalui aplikasi Nurul Iman Academic Integrated System. Klik atau scan QR Code untuk memeriksa keaslian dan status dokumen.
                 @else
                     Dokumen ini berstatus {{ str_replace('_', ' ', $rpkps->status) }}. QR Code digunakan untuk memeriksa keaslian dan status dokumen dan belum merupakan tanda persetujuan elektronik.
                 @endif

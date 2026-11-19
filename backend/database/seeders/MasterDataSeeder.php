@@ -15,13 +15,13 @@ class MasterDataSeeder extends Seeder
     {
         // Institution
         $institution = Institution::firstOrCreate(['code' => 'YAPATA'], [
-            'name'              => 'Universitas Al-Jawami',
-            'short_name'        => 'Al-Jawami',
-            'legal_entity_name' => 'YAPATA Al-Jawami Bandung',
+            'name'              => 'STAI Nurul Iman',
+            'short_name'        => 'NURIS',
+            'legal_entity_name' => 'Yayasan Nurul Iman',
             'address'           => 'Jl. Cisempur No.1, Jatinangor, Sumedang, Jawa Barat',
             'phone'             => '022-7798108',
-            'email'             => 'info@jawami.ac.id',
-            'website'           => 'https://www.jawami.ac.id',
+            'email'             => 'info@stainibandung.ac.id',
+            'website'           => 'https://www.stainibandung.ac.id',
             'accreditation'     => 'B',
         ]);
 

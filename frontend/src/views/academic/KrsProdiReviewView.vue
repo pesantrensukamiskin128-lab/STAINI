@@ -8,7 +8,7 @@ interface ReviewKrs {
   semester?: { name?: string }
 }
 
-const apiBase = 'https://api-asc.aljawami.ac.id/api'
+const apiBase = '/api'
 const token = localStorage.getItem('auth_token')
 const rejectTarget = ref<ReviewKrs | null>(null)
 const rejectRow = ref<HTMLTableRowElement | null>(null)

@@ -1,5 +1,5 @@
 (() => {
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   const photoUploadUrl = `${apiBase}/auth/profile/photo`
   const maxPhotoBytes = 2 * 1024 * 1024
   let activeToken = null

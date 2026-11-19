@@ -1,5 +1,5 @@
 (() => {
-  const apiUrl = 'https://api-asc.aljawami.ac.id/api/auth/me'
+  const apiUrl = '/api/auth/me'
   const styleId = 'asc-student-profile-menu-style'
   const navId = 'asc-student-profile-menu-nav'
   const menuId = 'asc-student-profile-biodata-menu'

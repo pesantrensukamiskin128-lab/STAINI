@@ -74,7 +74,7 @@ td.center { text-align: center; }
 
 <div class="verify-footer"><table><tr>
     <td class="qr-cell"><a href="{{ $verifyUrl }}"><img src="{{ $qrVerification }}" alt="QR verifikasi"></a></td>
-    <td><div class="verify-text"><strong>Verifikasi dokumen:</strong> scan atau klik QR Code untuk memeriksa keaslian daftar hadir melalui Al-Jawami Smart Campus.<br>Dicetak pada {{ now()->format('d/m/Y H:i') }}</div></td>
+    <td><div class="verify-text"><strong>Verifikasi dokumen:</strong> scan atau klik QR Code untuk memeriksa keaslian daftar hadir melalui Nurul Iman Academic Integrated System.<br>Dicetak pada {{ now()->format('d/m/Y H:i') }}</div></td>
 </tr></table>
 </div>
 </body>

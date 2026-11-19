@@ -1,5 +1,5 @@
 (() => {
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   const statusLabels = {
     DRAFT: 'Draf',
     SUBMITTED: 'Diajukan',

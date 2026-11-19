@@ -1,5 +1,5 @@
 (() => {
-  const apiBase = 'https://api-asc.aljawami.ac.id/api'
+  const apiBase = '/api'
   const path = '/akademik/krs-saya'
   let scheduled = false
   let loading = false

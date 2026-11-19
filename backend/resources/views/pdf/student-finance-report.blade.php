@@ -26,7 +26,7 @@
     @if($letterheadPath && file_exists($letterheadPath))
         <div class="letterhead"><img src="{{ $letterheadPath }}" alt="Kop Surat"></div>
     @else
-        <div class="institution">{{ $institution?->name ?? 'Al-Jawami Smart Campus' }}</div>
+        <div class="institution">{{ $institution?->name ?? 'Nurul Iman Academic Integrated System' }}</div>
     @endif
     <h1>LAPORAN KEUANGAN MAHASISWA</h1>
     <p class="muted"><strong>{{ $report['group_label'] }}</strong></p>

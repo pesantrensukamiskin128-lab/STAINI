@@ -7,7 +7,7 @@ import StudentSelfProfileView from './StudentSelfProfileView.vue'
     <div class="mx-auto max-w-4xl">
       <header class="mb-6 flex items-center justify-between gap-4">
         <div>
-          <p class="text-sm font-medium text-blue-700">Al-Jawami Smart Campus</p>
+          <p class="text-sm font-medium text-blue-700">Nurul Iman Academic Integrated System</p>
           <h1 class="mt-1 text-2xl font-bold text-gray-900">Biodata Mahasiswa</h1>
         </div>
         <a

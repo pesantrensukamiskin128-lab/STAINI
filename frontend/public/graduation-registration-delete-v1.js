@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+  const API_BASE = '/api'
   const BUTTON_ATTRIBUTE = 'data-asc-graduation-delete'
   let scheduled = false
   let activeSignature = ''

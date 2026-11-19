@@ -8,7 +8,7 @@ $repositoryRoot = Split-Path -Parent $PSScriptRoot
 $frontendRoot = Join-Path $repositoryRoot 'frontend'
 $frontendDist = Join-Path $frontendRoot 'dist'
 $releaseRoot = Join-Path $PSScriptRoot 'hostinger-frontend-dist'
-$hostingerApiUrl = 'https://api-asc.aljawami.ac.id/api'
+$hostingerApiUrl = 'https://nuris.byethost31.com/api'
 
 if (-not (Test-Path -LiteralPath (Join-Path $frontendRoot 'package.json'))) {
     throw 'Folder frontend tidak valid.'
@@ -66,7 +66,7 @@ if (-not $hostingerReferences) {
     throw 'URL API Hostinger tidak ditemukan dalam release frontend.'
 }
 
-$rumahwebReferences = Select-String -Path $releaseFiles.FullName -Pattern 'https://api-asc.stai-aljawami.ac.id/api' -SimpleMatch -List -ErrorAction SilentlyContinue
+$rumahwebReferences = Select-String -Path $releaseFiles.FullName -Pattern 'https://api-asc.stainibandung.ac.id/api' -SimpleMatch -List -ErrorAction SilentlyContinue
 if ($rumahwebReferences) {
     throw 'URL API Rumahweb masih ditemukan dalam release Hostinger.'
 }

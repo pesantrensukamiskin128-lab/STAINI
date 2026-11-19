@@ -268,7 +268,7 @@ function formatCalendarDate(date: string) {
             </div>
             <span class="text-[11px] font-medium text-gray-600 text-center leading-tight">Persuratan</span>
           </button>
-          <a href="https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
+          <a href="https://nuris.byethost31.com/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
             <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
               <BuildingLibraryIcon class="w-5 h-5 text-blue-600" />
             </div>
@@ -689,7 +689,7 @@ function formatCalendarDate(date: string) {
             </div>
             <span class="text-[11px] font-medium text-gray-600 text-center leading-tight">{{ l.label }}</span>
           </button>
-          <a href="https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all">
+          <a href="https://nuris.byethost31.com/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all">
             <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
               <BuildingLibraryIcon class="w-5 h-5 text-blue-600" />
             </div>
@@ -727,7 +727,7 @@ function formatCalendarDate(date: string) {
             </div>
             <span class="text-[11px] font-medium text-gray-600 text-center leading-tight">Surat Masuk</span>
           </button>
-          <a href="https://asc.aljawami.ac.id/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
+          <a href="https://nuris.byethost31.com/perpustakaan/#/perpustakaan" class="flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition-all group">
             <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
               <BuildingLibraryIcon class="w-5 h-5 text-blue-600" />
             </div>

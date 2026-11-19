@@ -3,7 +3,7 @@ import hashlib
 import re
 
 root = Path("/home/u273554645/asc-backend")
-public = Path("/home/u273554645/domains/aljawami.ac.id/public_html/asc")
+public = Path("/home/u273554645/domains/stainibandung.ac.id/public_html/asc")
 changes = {}
 
 

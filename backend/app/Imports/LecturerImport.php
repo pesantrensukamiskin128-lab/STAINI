@@ -33,7 +33,7 @@ class LecturerImport implements ToModel, WithHeadingRow, WithValidation, SkipsOn
         if ($nidn) {
             $email = !empty(trim($row['email'] ?? ''))
                 ? trim($row['email'])
-                : "{$nidn}@dosen.stai-aljawami.ac.id";
+                : "{$nidn}@dosen.stainibandung.ac.id";
 
             $user = User::firstOrCreate(
                 ['username' => $nidn],

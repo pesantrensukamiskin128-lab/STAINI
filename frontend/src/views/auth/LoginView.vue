@@ -77,7 +77,7 @@ function categoryColor(cat: string): string {
               <AcademicCapIcon v-else class="w-7 h-7 text-white/80" />
             </div>
             <div>
-              <h1 class="text-2xl font-bold text-white tracking-tight">Al-Jawami Smart Campus</h1>
+              <h1 class="text-2xl font-bold text-white tracking-tight">Nurul Iman Academic Integrated System</h1>
               <p class="text-blue-200 text-sm">{{ institution.institution?.name || 'NURIS - Nurul Iman Academic Integrated System' }}</p>
             </div>
           </div>
@@ -132,7 +132,7 @@ function categoryColor(cat: string): string {
 
         <!-- Bottom — Footer -->
         <div class="text-blue-300/60 text-xs">
-          © {{ new Date().getFullYear() }} {{ institution.institution?.legal_entity_name || 'Al-Jawami Smart Campus' }}
+          © {{ new Date().getFullYear() }} {{ institution.institution?.legal_entity_name || 'Nurul Iman Academic Integrated System' }}
         </div>
       </div>
     </div>
@@ -148,7 +148,7 @@ function categoryColor(cat: string): string {
             <img v-if="institution.logoUrl" :src="institution.logoUrl" :alt="institution.name" class="w-full h-full object-contain p-1" />
             <span v-else class="text-white font-bold text-xl">A</span>
           </div>
-          <h1 class="text-xl font-bold text-gray-900">Al-Jawami Smart Campus</h1>
+          <h1 class="text-xl font-bold text-gray-900">Nurul Iman Academic Integrated System</h1>
           <p class="text-xs text-gray-500 mt-0.5">{{ institution.institution?.name || '' }}</p>
         </div>
 
@@ -233,7 +233,7 @@ function categoryColor(cat: string): string {
 
         <!-- Footer -->
         <p class="text-center text-xs text-gray-400 mt-8">
-          © {{ new Date().getFullYear() }} Al-Jawami Smart Campus
+          © {{ new Date().getFullYear() }} Nurul Iman Academic Integrated System
         </p>
       </div>
     </div>

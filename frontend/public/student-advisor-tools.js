@@ -1,4 +1,4 @@
-const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+const API_BASE = '/api'
 const TOOL_ID = 'student-advisor-tools'
 
 function formatErrors(errors) {

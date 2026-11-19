@@ -24,9 +24,9 @@ param(
     [string]$Key = "$HOME\.ssh\id_ed25519_railway_asc",
     [string]$Server = 'u273554645@31.97.104.148',
     [int]$Port = 65002,
-    [string]$Root = '/home/u273554645/domains/aljawami.ac.id/public_html/asc',
+    [string]$Root = '/home/u273554645/domains/stainibandung.ac.id/public_html/asc',
     [string]$BackupRoot = '/home/u273554645/asc-backups',
-    [string]$Site = 'https://asc.aljawami.ac.id'
+    [string]$Site = 'https://nuris.byethost31.com'
 )
 $ErrorActionPreference = 'Stop'
 $repo = (git rev-parse --show-toplevel).Trim()
@@ -88,7 +88,7 @@ if ($SkipBuild) {
     } finally { Pop-Location }
 }
 if (-not (Test-Path "$out\index.html")) { throw "Hasil build tidak ditemukan di $out" }
-$api = Select-String -Path "$out\assets\*.js" -Pattern 'api-asc.aljawami.ac.id' -List
+$api = Select-String -Path "$out\assets\*.js" -Pattern 'nuris.byethost31.com' -List
 if (-not $api) { throw 'URL API produksi tidak ada di hasil build. Periksa frontend/.env.production.' }
 
 # ---------- Susun index.html: build baru + overlay produksi ----------

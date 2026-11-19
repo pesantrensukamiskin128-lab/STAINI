@@ -42,7 +42,7 @@ class StaffController extends Controller
         ]);
 
         if (!empty($validated['nip'])) {
-            $email = $validated['email'] ?? $validated['nip'] . '@staff.jawami.ac.id';
+            $email = $validated['email'] ?? $validated['nip'] . '@staff.stainibandung.ac.id';
             $user  = User::create([
                 'name'     => $validated['name'],
                 'email'    => $email,

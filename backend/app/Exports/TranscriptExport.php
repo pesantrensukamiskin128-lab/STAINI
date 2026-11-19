@@ -129,7 +129,7 @@ class TranscriptExport implements FromArray, ShouldAutoSize, WithEvents, WithTit
                 }
                 $sheet->getPageSetup()->setOrientation('landscape')->setFitToWidth(1)->setFitToHeight(0);
                 $sheet->getPageMargins()->setTop(0.4)->setRight(0.3)->setBottom(0.4)->setLeft(0.3);
-                $sheet->getHeaderFooter()->setOddFooter('&LAl-Jawami Smart Campus&RHalaman &P dari &N');
+                $sheet->getHeaderFooter()->setOddFooter('&LNurul Iman Academic Integrated System&RHalaman &P dari &N');
                 $sheet->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(8, 8);
             },
         ];

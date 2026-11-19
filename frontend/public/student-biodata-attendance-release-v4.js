@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE = 'https://api-asc.aljawami.ac.id/api'
+  const API_BASE = '/api'
   const STYLE_ID = 'asc-student-biodata-attendance-v4'
   const BUTTON_ATTRIBUTE = 'data-asc-student-biodata-v4'
   let scheduled = false

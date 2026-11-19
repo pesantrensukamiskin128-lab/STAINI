@@ -183,7 +183,7 @@
                 </td>
                 <td>
                     <div class="verify-text">
-                        Dokumen ini ditandatangani dan distempel secara elektronik melalui aplikasi Al-Jawami Smart Campus. Untuk verifikasi, kunjungi <a href="{{ $verifyUrl }}" style="color: #1d4ed8; text-decoration: underline;">{{ preg_replace('#/[^/]+$#', '', $verifyUrl) }}</a> atau scan QR Code di samping.
+                        Dokumen ini ditandatangani dan distempel secara elektronik melalui aplikasi Nurul Iman Academic Integrated System. Untuk verifikasi, kunjungi <a href="{{ $verifyUrl }}" style="color: #1d4ed8; text-decoration: underline;">{{ preg_replace('#/[^/]+$#', '', $verifyUrl) }}</a> atau scan QR Code di samping.
                     </div>
                 </td>
             </tr>
@@ -226,7 +226,7 @@
         </ol>
         <p style="font-size: 10pt; color: #666; margin-top: 12px;">
             Dokumen di atas merupakan bagian yang tidak terpisahkan dari surat ini.
-            File asli dapat diakses melalui aplikasi Al-Jawami Smart Campus.
+            File asli dapat diakses melalui aplikasi Nurul Iman Academic Integrated System.
         </p>
     </div>
     @endif

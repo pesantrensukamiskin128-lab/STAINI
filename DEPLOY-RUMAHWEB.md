@@ -2,16 +2,16 @@
 
 Target produksi:
 
-- Frontend: `https://smartcampus.stai-aljawami.ac.id`
-- Backend API: `https://api-asc.stai-aljawami.ac.id`
+- Frontend: `https://smartcampus.stainibandung.ac.id`
+- Backend API: `https://api-asc.stainibandung.ac.id`
 - Platform: Shared/Cloud Hosting cPanel Unlimited L
 
 ## 1. Persiapan cPanel
 
 1. Buat kedua subdomain melalui menu **Domains**.
 2. Atur document root:
-   - `smartcampus.stai-aljawami.ac.id` → `public_html/smartcampus`
-   - `api-asc.stai-aljawami.ac.id` → `public_html/api-asc`
+   - `smartcampus.stainibandung.ac.id` → `public_html/smartcampus`
+   - `api-asc.stainibandung.ac.id` → `public_html/api-asc`
 3. Aktifkan AutoSSL/Let's Encrypt untuk kedua subdomain dan paksa HTTPS.
 4. Pilih PHP 8.3 atau 8.4 untuk subdomain API melalui **MultiPHP Manager** atau **Select PHP Version**.
 5. Aktifkan ekstensi PHP: `bcmath`, `ctype`, `curl`, `dom`, `exif`, `fileinfo`, `gd`, `intl`, `mbstring`, `openssl`, `pdo_mysql`, `tokenizer`, `xml`, dan `zip`.
@@ -36,8 +36,8 @@ Jangan membuat `APP_KEY` baru. Mengganti kunci dapat merusak pembacaan data tere
 Konfigurasi `frontend/.env.production` sudah disiapkan. Pastikan isinya:
 
 ```env
-VITE_API_URL=https://api-asc.stai-aljawami.ac.id/api
-VITE_APP_NAME="Al-Jawami Smart Campus"
+VITE_API_URL=https://api-asc.stainibandung.ac.id/api
+VITE_APP_NAME="Nurul Iman Academic Integrated System"
 ```
 
 Build frontend:
@@ -186,14 +186,14 @@ php artisan queue:failed
 
 Periksa melalui browser:
 
-1. `https://api-asc.stai-aljawami.ac.id/api/institution/public` menghasilkan JSON.
-2. `https://smartcampus.stai-aljawami.ac.id/login` menampilkan halaman login.
+1. `https://api-asc.stainibandung.ac.id/api/institution/public` menghasilkan JSON.
+2. `https://smartcampus.stainibandung.ac.id/login` menampilkan halaman login.
 3. Login admin, dosen, dan mahasiswa berhasil.
 4. Unggah foto/dokumen berhasil dan dapat dibuka kembali.
 5. Cetak KHS serta transkrip berhasil.
 6. QR dokumen mengarah ke domain baru dan terverifikasi.
 7. Email, push notification, scheduler, dan queue berjalan.
-8. URL `https://api-asc.stai-aljawami.ac.id/api/migration/status` menghasilkan `404` karena endpoint migrasi harus nonaktif.
+8. URL `https://api-asc.stainibandung.ac.id/api/migration/status` menghasilkan `404` karena endpoint migrasi harus nonaktif.
 
 ## 10. Update aplikasi berikutnya
 

@@ -1,7 +1,7 @@
 # Persiapan ASC untuk Hostinger
 
-Frontend: `https://asc.aljawami.ac.id`  
-Backend: `https://api-asc.aljawami.ac.id`
+Frontend: `https://nuris.byethost31.com`  
+Backend: `https://nuris.byethost31.com`
 
 Repository private di-clone ke `/home/u273554645/repositories/ASC`, **bukan** ke
 `public_html`. Release frontend Hostinger terpisah dari release Rumahweb.
@@ -13,7 +13,7 @@ Build dari PowerShell lokal:
 ```
 
 Hasil build ada di `deployment/hostinger-frontend-dist`. Skrip menetapkan
-`VITE_API_URL=https://api-asc.aljawami.ac.id/api` hanya selama proses build; file
+`VITE_API_URL=https://nuris.byethost31.com/api` hanya selama proses build; file
 `frontend/.env.production` Rumahweb tetap tidak berubah.
 
 Contoh backend di `backend/.env.hostinger.example` harus diisi menjadi `.env` hanya
@@ -22,7 +22,7 @@ private key. Salin APP_KEY dan VAPID dari server aktif agar verifikasi dokumen d
 identitas yang bergantung pada key tetap konsisten.
 
 Source Laravel berada di `/home/u273554645/asc-backend`. Document root API
-`/home/u273554645/domains/aljawami.ac.id/public_html/api-asc` hanya boleh berisi
+`/home/u273554645/domains/stainibandung.ac.id/public_html/api-asc` hanya boleh berisi
 berkas dari `backend/public`; salin `deployment/hostinger-api-index.php` sebagai
 `index.php` dan `deployment/hostinger-api-htaccess` sebagai `.htaccess` di sana
 agar bootstrap Laravel mengarah ke source di luar folder publik dan index API

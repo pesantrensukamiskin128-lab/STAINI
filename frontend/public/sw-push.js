@@ -2,7 +2,7 @@
 self.addEventListener('push', function (event) {
   const data = event.data ? event.data.json() : {}
 
-  const title = data.title || 'Al-Jawami Smart Campus'
+  const title = data.title || 'Nurul Iman Academic Integrated System'
   const options = {
     body: data.body || '',
     icon: data.icon || '/icons/pwa-192x192.png',

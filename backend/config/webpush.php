@@ -3,5 +3,5 @@
 return [
     'public_key'  => env('VAPID_PUBLIC_KEY', ''),
     'private_key' => env('VAPID_PRIVATE_KEY', ''),
-    'subject'     => env('VAPID_SUBJECT', 'mailto:admin@jawami.ac.id'),
+    'subject'     => env('VAPID_SUBJECT', 'mailto:admin@stainibandung.ac.id'),
 ];
